@@ -1,4 +1,5 @@
 *.swp
+.idea
 coverage
 node_modules
 browser/tests.js
