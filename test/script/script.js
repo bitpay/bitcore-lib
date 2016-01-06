@@ -372,8 +372,7 @@ describe('Script', function() {
     it('should identify this problematic non-scripthashin scripts', function() {
       var s = new Script('71 0x3044022017053dad84aa06213749df50a03330cfd24d6' +
         'b8e7ddbb6de66c03697b78a752a022053bc0faca8b4049fb3944a05fcf7c93b2861' +
-        '734d39a89b73108f605f70f5ed3401 33 0x0225386e988b84248dc9c30f784b06e' +
-        '02fdec57bbdbd443768eb5744a75ce44a4c');
+        '734d39a89b73108f605f70f5ed3401');
       var s2 = new Script('OP_RETURN 32 0x19fdb20634911b6459e6086658b3a6ad2dc6576bd6826c73ee86a5f9aec14ed9');
       s.isScriptHashIn().should.equal(false);
       s2.isScriptHashIn().should.equal(false);
