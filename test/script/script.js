@@ -386,6 +386,14 @@ describe('Script', function() {
       var s = Script.fromBuffer(new Buffer('00024d33', 'hex'));
       s.isScriptHashIn().should.equal(false);
     });
+    it('should propagate errors that are unrelated to script validation', function() {
+      var fails = function() {
+        var s = Script.fromBuffer(new Buffer('00024d33', 'hex'));
+        s.chunks[1] = {buf: 1};
+        return s.isScriptHashIn();
+      };
+      fails.should.throw(TypeError);
+    });
   });
 
   describe('#isScripthashOut', function() {
