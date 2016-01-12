@@ -10,6 +10,7 @@ var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var PublicKey = bitcore.PublicKey;
 var Address = bitcore.Address;
+var errors = bitcore.errors;
 
 describe('Script', function() {
 
@@ -379,6 +380,10 @@ describe('Script', function() {
     });
     it('identifies this other problematic non-p2sh in', function() {
       var s = Script.fromString('73 0x3046022100dc7a0a812de14acc479d98ae209402cc9b5e0692bc74b9fe0a2f083e2f9964b002210087caf04a711bebe5339fd7554c4f7940dc37be216a3ae082424a5e164faf549401');
+      s.isScriptHashIn().should.equal(false);
+    });
+    it('should return false for a script whose redeemscript cannot be deserialized', function() {
+      var s = Script.fromBuffer(new Buffer('00024d33', 'hex'));
       s.isScriptHashIn().should.equal(false);
     });
   });
