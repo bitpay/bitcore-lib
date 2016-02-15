@@ -1,5 +1,5 @@
 {
-  "name": "bitcore",
+  "name": "bitcore-lib-dash",
   "version": "0.13.13",
   "dependencies": {
     "bn.js": {
@@ -48,6 +48,18 @@
       "version": "0.0.1",
       "from": "sha512@=0.0.1",
       "resolved": "https://registry.npmjs.org/sha512/-/sha512-0.0.1.tgz"
+    },
+    "x11-hash": {
+      "version": "0.0.2",
+      "from": "x11-hash@=0.0.2",
+      "resolved": "https://registry.npmjs.org/x11-hash/-/x11-hash-0.0.2.tgz",
+      "dependencies": {
+        "bindings": {
+          "version": "1.2.1",
+          "from": "bindings@*",
+          "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz"
+        }
+      }
     }
   }
 }
