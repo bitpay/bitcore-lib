@@ -1,7 +1,7 @@
 {
-  "name": "bitcore-lib",
-  "version": "0.14.0",
-  "description": "A pure and powerful JavaScript Bitcoin library.",
+  "name": "bitcore-lib-dash",
+  "version": "0.13.13",
+  "description": "A pure and powerful JavaScript Dash library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
   "scripts": {
@@ -54,10 +54,14 @@
     {
       "name": "Wei Lu",
       "email": "luwei.here@gmail.com"
+    },
+    {
+      "name": "UdjinM6",
+      "email": "UdjinM6@gmail.com"
     }
   ],
   "keywords": [
-    "bitcoin",
+    "dash",
     "transaction",
     "address",
     "p2p",
@@ -74,7 +78,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitpay/bitcore-lib.git"
+    "url": "https://github.com/UdjinM6/bitcore-lib-dash.git"
   },
   "browser": {
     "request": "browser-request"
@@ -85,7 +89,9 @@
     "buffer-compare": "=1.0.0",
     "elliptic": "=3.0.3",
     "inherits": "=2.0.1",
-    "lodash": "=3.10.1"
+    "lodash": "=3.10.1",
+    "sha512": "=0.0.1",
+    "x11-hash": "=0.0.2"
   },
   "devDependencies": {
     "bitcore-build": "bitpay/bitcore-build",
