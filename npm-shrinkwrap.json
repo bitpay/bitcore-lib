@@ -50,16 +50,9 @@
       "resolved": "https://registry.npmjs.org/sha512/-/sha512-0.0.1.tgz"
     },
     "x11-hash": {
-      "version": "0.0.2",
-      "from": "x11-hash@=0.0.2",
-      "resolved": "https://registry.npmjs.org/x11-hash/-/x11-hash-0.0.2.tgz",
-      "dependencies": {
-        "bindings": {
-          "version": "1.2.1",
-          "from": "bindings@*",
-          "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz"
-        }
-      }
+      "version": "0.0.3",
+      "from": "git://github.com/zone117x/node-x11-hash.git#c7b65aa08ea44861d5739e2d5404cfc939ede55b",
+      "resolved": "git://github.com/zone117x/node-x11-hash.git#c7b65aa08ea44861d5739e2d5404cfc939ede55b"
     }
   }
 }
