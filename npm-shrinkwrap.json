@@ -17,6 +17,28 @@
       "from": "buffer-compare@=1.0.0",
       "resolved": "https://registry.npmjs.org/buffer-compare/-/buffer-compare-1.0.0.tgz"
     },
+    "create-hash": {
+      "version": "1.1.2",
+      "from": "create-hash@=1.1.2",
+      "resolved": "https://registry.npmjs.org/create-hash/-/create-hash-1.1.2.tgz",
+      "dependencies": {
+        "cipher-base": {
+          "version": "1.0.2",
+          "from": "cipher-base@=1.0.2",
+          "resolved": "https://registry.npmjs.org/cipher-base/-/cipher-base-1.0.2.tgz"
+        },
+        "ripemd160": {
+          "version": "1.0.1",
+          "from": "ripemd160@=1.0.1",
+          "resolved": "https://registry.npmjs.org/ripemd160/-/ripemd160-1.0.1.tgz"
+        },
+        "sha.js": {
+          "version": "2.4.4",
+          "from": "sha.js@=2.4.4",
+          "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.4.4.tgz"
+        }
+      }
+    },
     "elliptic": {
       "version": "3.0.3",
       "from": "elliptic@=3.0.3",
@@ -24,7 +46,7 @@
       "dependencies": {
         "brorand": {
           "version": "1.0.5",
-          "from": "brorand@^1.0.1",
+          "from": "brorand@=1.0.1",
           "resolved": "https://registry.npmjs.org/brorand/-/brorand-1.0.5.tgz"
         },
         "hash.js": {
@@ -43,6 +65,11 @@
       "version": "3.10.1",
       "from": "lodash@=3.10.1",
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+    },
+    "randombytes": {
+      "version": "2.0.2",
+      "from": "randombytes@=2.0.2",
+      "resolved": "https://registry.npmjs.org/randombytes/-/randombytes-2.0.2.tgz"
     },
     "sha512": {
       "version": "0.0.1",
