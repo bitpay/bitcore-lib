@@ -90,6 +90,7 @@
   "devDependencies": {
     "bitcore-build": "braydonf/bitcore-build#abeaa87ad3b1707cf1f2bcded5126a6d0b07658c",
     "brfs": "^1.2.0",
+    "browserify": "^13.0.1",
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "sinon": "^1.13.0"
