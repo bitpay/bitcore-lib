@@ -93,9 +93,11 @@
     "browserify": "^13.0.1",
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
+    "istanbul": "^0.4.3",
     "karma": "^0.13.22",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.0.1",
+    "mocha": "^2.5.3",
     "sinon": "^1.13.0"
   },
   "license": "MIT"
