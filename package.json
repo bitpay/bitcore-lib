@@ -94,6 +94,8 @@
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "karma": "^0.13.22",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.0.1",
     "sinon": "^1.13.0"
   },
   "license": "MIT"
