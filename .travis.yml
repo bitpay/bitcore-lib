@@ -5,6 +5,7 @@ node_js:
 - '0.12'
 - '2.0.0'
 - '4'
+- '6'
 before_install:
   - npm install -g bower
   - export DISPLAY=:99.0
