@@ -94,7 +94,7 @@
     "x11-hash": "git://github.com/zone117x/node-x11-hash.git#c7b65aa08ea44861d5739e2d5404cfc939ede55b"
   },
   "devDependencies": {
-    "bitcore-build-dash": "dashpay/bitcore-build",
+    "bitcore-build-dash": "dashpay/bitcore-build-dash",
     "browserify": "latest",
     "brfs": "^1.2.0",
     "chai": "^1.10.0",
