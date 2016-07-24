@@ -1,6 +1,6 @@
 {
   "name": "bitcore-lib-dash",
-  "version": "0.13.16",
+  "version": "0.13.17",
   "dependencies": {
     "bn.js": {
       "version": "2.0.4",
@@ -49,10 +49,10 @@
       "from": "sha512@=0.0.1",
       "resolved": "https://registry.npmjs.org/sha512/-/sha512-0.0.1.tgz"
     },
-    "x11-hash": {
-      "version": "0.0.3",
-      "from": "git://github.com/zone117x/node-x11-hash.git#c7b65aa08ea44861d5739e2d5404cfc939ede55b",
-      "resolved": "git://github.com/zone117x/node-x11-hash.git#c7b65aa08ea44861d5739e2d5404cfc939ede55b"
+    "x11-hash-js": {
+      "version": "1.0.0",
+      "from": "x11-hash-js@*",
+      "resolved": "https://registry.npmjs.org/x11-hash-js/-/x11-hash-js-1.0.0.tgz"
     }
   }
 }
