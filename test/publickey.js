@@ -231,6 +231,18 @@ describe('PublicKey', function() {
       pk.point.getY().toString(16).should.equal('7baad41d04514751e6851f5304fd243751703bed21b914f6be218c0fa354a341');
     });
 
+    it('should parse this uncompressed public key buffer with additional data at the end of the buffer', function() {
+      var buf = new Buffer('041ff0fe0f7b15ffaa85ff9f4744d539139c252a49710fb053bb9f2b933173ff9a7baad41d04514751e6851f5304fd243751703bed21b914f6be218c0fa354a34126221e5b4e948b99ff08', 'hex');
+      var pk = PublicKey.fromDER(buf);
+      pk.toDER().toString('hex').should.equal('041ff0fe0f7b15ffaa85ff9f4744d539139c252a49710fb053bb9f2b933173ff9a7baad41d04514751e6851f5304fd243751703bed21b914f6be218c0fa354a341');
+    });
+
+    it('should parse this compressed public key buffer with additional data at the end of the buffer', function() {
+      var buf = new Buffer('0333f66380de6fffb380322d3f687feef412cecc388b98cd34083548f18720a6cfbfbc1999136518c531759db7', 'hex');
+      var pk = PublicKey.fromDER(buf);
+      pk.toDER().toString('hex').should.equal('0333f66380de6fffb380322d3f687feef412cecc388b98cd34083548f18720a6cf');
+    });
+
     it('should throw an error on this invalid public key', function() {
       (function() {
         PublicKey.fromBuffer(new Buffer('091ff0fe0f7b15ffaa85ff9f4744d539139c252a49710fb053bb9f2b933173ff9a', 'hex'));
@@ -243,10 +255,10 @@ describe('PublicKey', function() {
       }).should.throw('Must be a hex buffer of DER encoded public key');
     });
 
-    it('should throw error because buffer is the incorrect length', function() {
+    it('should throw error because point not on curve (and with longer buffer)', function() {
       (function() {
-        PublicKey.fromBuffer(new Buffer('041ff0fe0f7b15ffaa85ff9f4744d539139c252a49710fb053bb9f2b933173ff9a7baad41d04514751e6851f5304fd243751703bed21b914f6be218c0fa354a34112', 'hex'));
-      }).should.throw('Length of x and y must be 32 bytes');
+        PublicKey.fromBuffer(new Buffer('041ff0fe0f7b15ffaa85ff9f4744d539139c252a49710fb053bb9f2b933173ff9a7baad41d04514751e6851f5304fd243751703bed21b914f6be218c0fa354a342000000101010', 'hex'));
+      }).should.throw('Invalid y value for curve.');
     });
 
   });
