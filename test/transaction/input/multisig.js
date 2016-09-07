@@ -15,13 +15,13 @@ var MultiSigInput = bitcore.Transaction.Input.MultiSig;
 
 describe('MultiSigInput', function() {
 
-  var privateKey1 = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4');
-  var privateKey2 = new PrivateKey('L4PqnaPTCkYhAqH3YQmefjxQP6zRcF4EJbdGqR8v6adtG9XSsadY');
-  var privateKey3 = new PrivateKey('L4CTX79zFeksZTyyoFuPQAySfmP7fL3R41gWKTuepuN7hxuNuJwV');
+  var privateKey1 = new PrivateKey('XBK4nzpDtLX1xZjoAFq7LJEAu2JgnJgqA7ZPK1eCLHd9AXSx1M6L');
+  var privateKey2 = new PrivateKey('XJTmEqmpWSB9EAHRaAmXAy9RJ8G143fUgAyBMwU7QwuyfJdx2tPY');
+  var privateKey3 = new PrivateKey('XJGNyNYMZLPKcnzMq1uFuQATaneh78efRb2QqzEr9GeD77wn2KwS');
   var public1 = privateKey1.publicKey;
   var public2 = privateKey2.publicKey;
   var public3 = privateKey3.publicKey;
-  var address = new Address('33zbk2aSZYdNbRsMPPt6jgy6Kq1kQreqeb');
+  var address = new Address('7UiEaDrcNXj1bCQJf1Yc54xkFNr8Ef4sTV');
 
   var output = {
     txId: '66e64ef8a3b384164b78453fa8c8194de9a473ba14f89485a0e433699daec140',
