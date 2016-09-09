@@ -1,15 +1,15 @@
-Bitcore Library
+Bitcore-Dash Library
 =======
 
 [![NPM Package](https://img.shields.io/npm/v/bitcore-lib-dash.svg?style=flat-square)](https://www.npmjs.org/package/bitcore-lib-dash)
 [![Build Status](https://img.shields.io/travis/dashpay/bitcore-lib-dash.svg?branch=master&style=flat-square)](https://travis-ci.org/dashpay/bitcore-lib-dash)
 [![Coverage Status](https://img.shields.io/coveralls/dashpay/bitcore-lib-dash.svg?style=flat-square)](https://coveralls.io/github/dashpay/bitcore-lib-dash?branch=master)
 
-A pure and powerful JavaScript Bitcoin library.
+A pure and powerful JavaScript Dash library.
 
 ## Principles
 
-Bitcoin is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Bitcoin network allows for highly resilient bitcoin infrastructure, and the developer community needs reliable, open-source tools to implement bitcoin apps and services.
+Dash is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Dash network allows for highly resilient dash infrastructure, and the developer community needs reliable, open-source tools to implement dash apps and services.
 
 ## Get Started
 
@@ -36,8 +36,8 @@ To get community assistance and ask for help with implementation questions, plea
 * [Generate a address from a SHA256 hash](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
 * [Import an address via WIF](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#import-an-address-via-wif)
 * [Create a Transaction](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#create-a-transaction)
-* [Sign a Bitcoin message](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#sign-a-bitcoin-message)
-* [Verify a Bitcoin message](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#verify-a-bitcoin-message)
+* [Sign a Dash message](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#sign-a-bitcoin-message)
+* [Verify a Dash message](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#verify-a-bitcoin-message)
 * [Create an OP RETURN transaction](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#create-an-op-return-transaction)
 * [Create a 2-of-3 multisig P2SH address](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
 * [Spend from a 2-of-2 multisig P2SH address](https://github.com/dashpay/bitcore-lib-dash/blob/master/docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
