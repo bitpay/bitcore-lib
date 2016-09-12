@@ -82,6 +82,13 @@ describe('PrivateKey', function() {
     should.exist(a.bn);
   });
 
+  it('should create a private key from buffer and set as compressed', function() {
+    var a = new PrivateKey(new Buffer('ff51c873a0aa6e46b1bf7bf2b01999f31dc17b2e8e4f0f3ea7328a476ded7bfc', 'hex'));
+    should.exist(a);
+    should.exist(a.bn);
+    a.compressed.should.equal(true);
+  });
+
   it('should create a private key from WIF buffer', function() {
     var a = new PrivateKey(Base58Check.decode('L3T1s1TYP9oyhHpXgkyLoJFGniEgkv2Jhi138d7R2yJ9F4QdDU2m'));
     should.exist(a);
