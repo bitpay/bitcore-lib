@@ -1,6 +1,6 @@
 {
   "name": "litecore-lib",
-  "version": "0.13.19",
+  "version": "0.13.21",
   "description": "A pure and powerful JavaScript Litecoin library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
@@ -90,7 +90,8 @@
     "buffer-compare": "=1.0.0",
     "elliptic": "=3.0.3",
     "inherits": "=2.0.1",
-    "lodash": "=3.10.1"
+    "lodash": "=3.10.1",
+    "scryptsy": "=2.0.0"
   },
   "devDependencies": {
     "litecore-build": "litecoin-project/litecore-build",
