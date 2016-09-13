@@ -94,5 +94,8 @@
     "gulp": "^3.8.10",
     "sinon": "^1.13.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "optionalDependencies": {
+    "secp256k1": "^3.2.0"
+  }
 }
