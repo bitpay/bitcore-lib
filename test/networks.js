@@ -92,6 +92,33 @@ describe('Networks', function() {
     networks.remove(custom);
   });
 
+  it('should be able to remove network by name', function() {
+    var net = {
+      name: 'quicknet',
+      alias: 'quicknet',
+      pubkeyhash: 0x2f,
+      privatekey: 0x3f,
+      scripthash: 0xd4,
+      xpubkey: 0x043587df,
+      xprivkey: 0x04358364,
+      networkMagic: 0x000ba11a,
+      port: 18333,
+      dnsSeeds: [
+        'quick-seed.bitcoin.petertodd.org',
+        'quick-seed.bluematt.me',
+        'quick-seed.alexykot.me',
+        'quick-seed.bitcoin.schildbach.de'
+      ]
+    };
+    networks.add(net);
+    var quicknet = networks.get('quicknet');
+    should.exist(quicknet);
+    quicknet.name.should.equal('quicknet');
+    networks.remove('quicknet');
+    var quicknet2 = networks.get('quicknet');
+    should.not.exist(quicknet2);
+  });
+
   var constants = ['name', 'alias', 'pubkeyhash', 'scripthash', 'xpubkey', 'xprivkey'];
 
   constants.forEach(function(key){
