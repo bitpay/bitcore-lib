@@ -15,6 +15,9 @@ To get started, just `npm install bitcore` or `bower install bitcore`.
 * [Private Keys](privatekey.md) and [Public Keys](publickey.md)
 * [Hierarchically-derived Private and Public Keys](hierarchical.md)
 
+## DASH Governance Objects
+* [Governance Object / Proposal](govobject/govobject.md)
+
 ## Payment Handling
 * [Using Different Units](unit.md)
 * [Acknowledging and Requesting Payments: Bitcoin URIs](uri.md)

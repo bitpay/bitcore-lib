@@ -1,6 +1,6 @@
 {
   "name": "bitcore-lib-dash",
-  "version": "0.13.18",
+  "version": "0.13.20",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
@@ -58,6 +58,14 @@
     {
       "name": "UdjinM6",
       "email": "UdjinM6@gmail.com"
+    },
+    {
+      "name": "Jon Kindel",
+      "email": "jon@dash.org"
+    },
+    {
+      "name": "Alex Werner",
+      "email": "alex@werner.fr"
     }
   ],
   "keywords": [
