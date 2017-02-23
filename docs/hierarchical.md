@@ -15,9 +15,9 @@ var HDPrivateKey = bitcore.HDPrivateKey;
 
 var hdPrivateKey = new HDPrivateKey();
 var retrieved = new HDPrivateKey('xpriv...');
-var derived = hdPrivateKey.derive("m/0'");
-var derivedByNumber = hdPrivateKey.derive(1).derive(2, true);
-var derivedByArgument = hdPrivateKey.derive("m/1/2'");
+var derived = hdPrivateKey.getChild("m/0'");
+var derivedByNumber = hdPrivateKey.getChild(1).getChild(2, true);
+var derivedByArgument = hdPrivateKey.getChild("m/1/2'");
 assert(derivedByNumber.xprivkey === derivedByArgument.xprivkey);
 
 var address = derived.privateKey.toAddress();
@@ -39,5 +39,5 @@ try {
 }
 
 var address = new Address(hdPublicKey.publicKey, Networks.livenet);
-var derivedAddress = new Address(hdPublicKey.derive(100).publicKey, Networks.testnet);
+var derivedAddress = new Address(hdPublicKey.getChild(100).publicKey, Networks.testnet);
 ```
