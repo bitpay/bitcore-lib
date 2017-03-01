@@ -13,6 +13,7 @@
 var _ = require('lodash');
 var should = require('chai').should();
 var expect = require('chai').expect;
+var sinon = require('sinon');
 var bitcore = require('..');
 var Networks = bitcore.Networks;
 var HDPrivateKey = bitcore.HDPrivateKey;
@@ -80,69 +81,79 @@ describe('BIP32 compliance', function() {
   });
 
   it("should get m/0' ext. private key from test vector 1", function() {
-    var privateKey = new HDPrivateKey(vector1_m_private).derive("m/0'");
+    var privateKey = new HDPrivateKey(vector1_m_private).deriveChild("m/0'");
     privateKey.xprivkey.should.equal(vector1_m0h_private);
   });
 
   it("should get m/0' ext. public key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'")
       .xpubkey.should.equal(vector1_m0h_public);
   });
 
+  it("should get m/0' ext. private key from test vector 3", function() {
+    var privateKey = new HDPrivateKey(vector3_m_private).deriveChild("m/0'");
+    privateKey.xprivkey.should.equal(vector3_m0h_private);
+  });
+
+  it("should get m/0' ext. public key from test vector 3", function() {
+    HDPrivateKey(vector3_m_private).deriveChild("m/0'")
+      .xpubkey.should.equal(vector3_m0h_public);
+  });
+
   it("should get m/0'/1 ext. private key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1")
       .xprivkey.should.equal(vector1_m0h1_private);
   });
 
   it("should get m/0'/1 ext. public key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1")
       .xpubkey.should.equal(vector1_m0h1_public);
   });
 
   it("should get m/0'/1 ext. public key from m/0' public key from test vector 1", function() {
-    var derivedPublic = HDPrivateKey(vector1_m_private).derive("m/0'").hdPublicKey.derive("m/1");
+    var derivedPublic = HDPrivateKey(vector1_m_private).deriveChild("m/0'").hdPublicKey.deriveChild("m/1");
     derivedPublic.xpubkey.should.equal(vector1_m0h1_public);
   });
 
   it("should get m/0'/1/2' ext. private key from test vector 1", function() {
     var privateKey = new HDPrivateKey(vector1_m_private);
-    var derived = privateKey.derive("m/0'/1/2'");
+    var derived = privateKey.deriveChild("m/0'/1/2'");
     derived.xprivkey.should.equal(vector1_m0h12h_private);
   });
 
   it("should get m/0'/1/2' ext. public key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1/2'")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'")
       .xpubkey.should.equal(vector1_m0h12h_public);
   });
 
   it("should get m/0'/1/2'/2 ext. private key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1/2'/2")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'/2")
       .xprivkey.should.equal(vector1_m0h12h2_private);
   });
 
   it("should get m/0'/1/2'/2 ext. public key from m/0'/1/2' public key from test vector 1", function() {
-    var derived = HDPrivateKey(vector1_m_private).derive("m/0'/1/2'").hdPublicKey;
-    derived.derive("m/2").xpubkey.should.equal(vector1_m0h12h2_public);
+    var derived = HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'").hdPublicKey;
+    derived.deriveChild("m/2").xpubkey.should.equal(vector1_m0h12h2_public);
   });
 
   it("should get m/0'/1/2h/2 ext. public key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1/2'/2")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'/2")
       .xpubkey.should.equal(vector1_m0h12h2_public);
   });
 
   it("should get m/0'/1/2h/2/1000000000 ext. private key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1/2'/2/1000000000")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'/2/1000000000")
       .xprivkey.should.equal(vector1_m0h12h21000000000_private);
   });
 
   it("should get m/0'/1/2h/2/1000000000 ext. public key from test vector 1", function() {
-    HDPrivateKey(vector1_m_private).derive("m/0'/1/2'/2/1000000000")
+    HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'/2/1000000000")
       .xpubkey.should.equal(vector1_m0h12h21000000000_public);
   });
 
   it("should get m/0'/1/2'/2/1000000000 ext. public key from m/0'/1/2'/2 public key from test vector 1", function() {
-    var derived = HDPrivateKey(vector1_m_private).derive("m/0'/1/2'/2").hdPublicKey;
-    derived.derive("m/1000000000").xpubkey.should.equal(vector1_m0h12h21000000000_public);
+    var derived = HDPrivateKey(vector1_m_private).deriveChild("m/0'/1/2'/2").hdPublicKey;
+    derived.deriveChild("m/1000000000").xpubkey.should.equal(vector1_m0h12h21000000000_public);
   });
 
   it('should initialize test vector 2 from the extended public key', function() {
@@ -158,67 +169,172 @@ describe('BIP32 compliance', function() {
   });
 
   it("should get m/0 ext. private key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive(0).xprivkey.should.equal(vector2_m0_private);
+    HDPrivateKey(vector2_m_private).deriveChild(0).xprivkey.should.equal(vector2_m0_private);
   });
 
   it("should get m/0 ext. public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive(0).xpubkey.should.equal(vector2_m0_public);
+    HDPrivateKey(vector2_m_private).deriveChild(0).xpubkey.should.equal(vector2_m0_public);
   });
 
   it("should get m/0 ext. public key from m public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).hdPublicKey.derive(0).xpubkey.should.equal(vector2_m0_public);
+    HDPrivateKey(vector2_m_private).hdPublicKey.deriveChild(0).xpubkey.should.equal(vector2_m0_public);
   });
 
   it("should get m/0/2147483647h ext. private key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'")
       .xprivkey.should.equal(vector2_m02147483647h_private);
   });
 
   it("should get m/0/2147483647h ext. public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'")
       .xpubkey.should.equal(vector2_m02147483647h_public);
   });
 
   it("should get m/0/2147483647h/1 ext. private key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1")
       .xprivkey.should.equal(vector2_m02147483647h1_private);
   });
 
   it("should get m/0/2147483647h/1 ext. public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1")
       .xpubkey.should.equal(vector2_m02147483647h1_public);
   });
 
   it("should get m/0/2147483647h/1 ext. public key from m/0/2147483647h public key from test vector 2", function() {
-    var derived = HDPrivateKey(vector2_m_private).derive("m/0/2147483647'").hdPublicKey;
-    derived.derive(1).xpubkey.should.equal(vector2_m02147483647h1_public);
+    var derived = HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'").hdPublicKey;
+    derived.deriveChild(1).xpubkey.should.equal(vector2_m02147483647h1_public);
   });
 
   it("should get m/0/2147483647h/1/2147483646h ext. private key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1/2147483646'")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1/2147483646'")
       .xprivkey.should.equal(vector2_m02147483647h12147483646h_private);
   });
 
   it("should get m/0/2147483647h/1/2147483646h ext. public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1/2147483646'")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1/2147483646'")
       .xpubkey.should.equal(vector2_m02147483647h12147483646h_public);
   });
 
   it("should get m/0/2147483647h/1/2147483646h/2 ext. private key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1/2147483646'/2")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1/2147483646'/2")
       .xprivkey.should.equal(vector2_m02147483647h12147483646h2_private);
   });
 
   it("should get m/0/2147483647h/1/2147483646h/2 ext. public key from test vector 2", function() {
-    HDPrivateKey(vector2_m_private).derive("m/0/2147483647'/1/2147483646'/2")
+    HDPrivateKey(vector2_m_private).deriveChild("m/0/2147483647'/1/2147483646'/2")
       .xpubkey.should.equal(vector2_m02147483647h12147483646h2_public);
   });
 
   it("should get m/0/2147483647h/1/2147483646h/2 ext. public key from m/0/2147483647h/2147483646h public key from test vector 2", function() {
     var derivedPublic = HDPrivateKey(vector2_m_private)
-      .derive("m/0/2147483647'/1/2147483646'").hdPublicKey;
-    derivedPublic.derive("m/2")
+      .deriveChild("m/0/2147483647'/1/2147483646'").hdPublicKey;
+    derivedPublic.deriveChild("m/2")
       .xpubkey.should.equal(vector2_m02147483647h12147483646h2_public);
+  });
+
+  it('should use full 32 bytes for private key data that is hashed (as per bip32)', function() {
+    // https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+    var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
+    var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
+    var key = HDPrivateKey.fromObject({
+      network: 'testnet',
+      depth: 0,
+      parentFingerPrint: 0,
+      childIndex: 0,
+      privateKey: privateKeyBuffer,
+      chainCode: chainCodeBuffer
+    });
+    var derived = key.deriveChild("m/44'/0'/0'/0/0'");
+    derived.privateKey.toString().should.equal('3348069561d2a0fb925e74bf198762acc47dce7db27372257d2d959a9e6f8aeb');
+  });
+
+  it('should NOT use full 32 bytes for private key data that is hashed with nonCompliant flag', function() {
+    // This is to test compatibility with the previous `derive` method that was non-compliant to BIP32
+    // and was affected by a leading zero bug.
+    var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
+    var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
+    var key = HDPrivateKey.fromObject({
+      network: 'testnet',
+      depth: 0,
+      parentFingerPrint: 0,
+      childIndex: 0,
+      privateKey: privateKeyBuffer,
+      chainCode: chainCodeBuffer
+    });
+    var derived = key.deriveNonCompliantChild("m/44'/0'/0'/0/0'");
+    derived.privateKey.toString().should.equal('4811a079bab267bfdca855b3bddff20231ff7044e648514fa099158472df2836');
+  });
+
+  it('hdprivatekey will throw deprecation message', function() {
+    expect(function() {
+      var key = new HDPrivateKey();
+      key.derive();
+    }).to.throw('Method has been deprecated');
+  });
+
+  it('hdpublickey will throw deprecation message', function() {
+    expect(function() {
+      var key = new HDPrivateKey();
+      var pubkey = key.hdPublicKey;
+      pubkey.derive();
+    }).to.throw('Method has been deprecated');
+  });
+
+  describe('edge cases', function() {
+    var sandbox = sinon.sandbox.create();
+    afterEach(function() {
+      sandbox.restore();
+    });
+    it('will handle edge case that derived private key is invalid', function() {
+      var invalid = new Buffer('0000000000000000000000000000000000000000000000000000000000000000', 'hex');
+      var privateKeyBuffer = new Buffer('5f72914c48581fc7ddeb944a9616389200a9560177d24f458258e5b04527bcd1', 'hex');
+      var chainCodeBuffer = new Buffer('39816057bba9d952fe87fe998b7fd4d690a1bb58c2ff69141469e4d1dffb4b91', 'hex');
+      var unstubbed = bitcore.crypto.BN.prototype.toBuffer;
+      var count = 0;
+      var stub = sandbox.stub(bitcore.crypto.BN.prototype, 'toBuffer', function(args) {
+        // On the fourth call to the function give back an invalid private key
+        // otherwise use the normal behavior.
+        count++;
+        if (count === 4) {
+          return invalid;
+        }
+        var ret = unstubbed.apply(this, arguments);
+        return ret;
+      });
+      sandbox.spy(bitcore.PrivateKey, 'isValid');
+      var key = HDPrivateKey.fromObject({
+        network: 'testnet',
+        depth: 0,
+        parentFingerPrint: 0,
+        childIndex: 0,
+        privateKey: privateKeyBuffer,
+        chainCode: chainCodeBuffer
+      });
+      var derived = key.deriveChild("m/44'");
+      derived.privateKey.toString().should.equal('b15bce3608d607ee3a49069197732c656bca942ee59f3e29b4d56914c1de6825');
+      bitcore.PrivateKey.isValid.callCount.should.equal(2);
+    });
+    it('will handle edge case that a derive public key is invalid', function() {
+      var publicKeyBuffer = new Buffer('029e58b241790284ef56502667b15157b3fc58c567f044ddc35653860f9455d099', 'hex');
+      var chainCodeBuffer = new Buffer('39816057bba9d952fe87fe998b7fd4d690a1bb58c2ff69141469e4d1dffb4b91', 'hex');
+      var key = new HDPublicKey({
+        network: 'testnet',
+        depth: 0,
+        parentFingerPrint: 0,
+        childIndex: 0,
+        chainCode: chainCodeBuffer,
+        publicKey: publicKeyBuffer
+      });
+      var unstubbed = bitcore.PublicKey.fromPoint;
+      bitcore.PublicKey.fromPoint = function() {
+        bitcore.PublicKey.fromPoint = unstubbed;
+        throw new Error('Point cannot be equal to Infinity');
+      };
+      sandbox.spy(key, '_deriveWithNumber');
+      var derived = key.deriveChild("m/44");
+      key._deriveWithNumber.callCount.should.equal(2);
+      key.publicKey.toString().should.equal('029e58b241790284ef56502667b15157b3fc58c567f044ddc35653860f9455d099');
+    });
   });
 
   describe('seed', function() {
@@ -234,6 +350,13 @@ describe('BIP32 compliance', function() {
       seededKey.xprivkey.should.equal(vector2_m_private);
       seededKey.xpubkey.should.equal(vector2_m_public);
     });
+
+    it('should initialize a new BIP32 correctly from test vector 3 seed', function() {
+      var seededKey = HDPrivateKey.fromSeed(vector3_master, Networks.livenet);
+      seededKey.xprivkey.should.equal(vector3_m_private);
+      seededKey.xpubkey.should.equal(vector3_m_public);
+    });
+
   });
 });
 
@@ -264,3 +387,10 @@ var vector2_m02147483647h12147483646h_public = 'xpub6ERApfZwUNrhLCkDtcHTcxd75Rbz
 var vector2_m02147483647h12147483646h_private = 'xprvA1RpRA33e1JQ7ifknakTFpgNXPmW2YvmhqLQYMmrj4xJXXWYpDPS3xz7iAxn8L39njGVyuoseXzU6rcxFLJ8HFsTjSyQbLYnMpCqE2VbFWc';
 var vector2_m02147483647h12147483646h2_public = 'xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt';
 var vector2_m02147483647h12147483646h2_private = 'xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j';
+
+// leading zero test vectors
+var vector3_master = '4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be';
+var vector3_m_public = 'xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13';
+var vector3_m_private = 'xprv9s21ZrQH143K25QhxbucbDDuQ4naNntJRi4KUfWT7xo4EKsHt2QJDu7KXp1A3u7Bi1j8ph3EGsZ9Xvz9dGuVrtHHs7pXeTzjuxBrCmmhgC6';
+var vector3_m0h_public = 'xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y';
+var vector3_m0h_private = 'xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L';
