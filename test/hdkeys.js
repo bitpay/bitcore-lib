@@ -90,6 +90,16 @@ describe('BIP32 compliance', function() {
       .xpubkey.should.equal(vector1_m0h_public);
   });
 
+  it("should get m/0' ext. private key from test vector 3", function() {
+    var privateKey = new HDPrivateKey(vector3_m_private).deriveChild("m/0'");
+    privateKey.xprivkey.should.equal(vector3_m0h_private);
+  });
+
+  it("should get m/0' ext. public key from test vector 3", function() {
+    HDPrivateKey(vector3_m_private).deriveChild("m/0'")
+      .xpubkey.should.equal(vector3_m0h_public);
+  });
+
   it("should get m/0'/1 ext. private key from test vector 1", function() {
     HDPrivateKey(vector1_m_private).deriveChild("m/0'/1")
       .xprivkey.should.equal(vector1_m0h1_private);
@@ -340,6 +350,13 @@ describe('BIP32 compliance', function() {
       seededKey.xprivkey.should.equal(vector2_m_private);
       seededKey.xpubkey.should.equal(vector2_m_public);
     });
+
+    it('should initialize a new BIP32 correctly from test vector 3 seed', function() {
+      var seededKey = HDPrivateKey.fromSeed(vector3_master, Networks.livenet);
+      seededKey.xprivkey.should.equal(vector3_m_private);
+      seededKey.xpubkey.should.equal(vector3_m_public);
+    });
+
   });
 });
 
@@ -370,3 +387,10 @@ var vector2_m02147483647h12147483646h_public = 'xpub6ERApfZwUNrhLCkDtcHTcxd75Rbz
 var vector2_m02147483647h12147483646h_private = 'xprvA1RpRA33e1JQ7ifknakTFpgNXPmW2YvmhqLQYMmrj4xJXXWYpDPS3xz7iAxn8L39njGVyuoseXzU6rcxFLJ8HFsTjSyQbLYnMpCqE2VbFWc';
 var vector2_m02147483647h12147483646h2_public = 'xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt';
 var vector2_m02147483647h12147483646h2_private = 'xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j';
+
+// leading zero test vectors
+var vector3_master = '4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be';
+var vector3_m_public = 'xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13';
+var vector3_m_private = 'xprv9s21ZrQH143K25QhxbucbDDuQ4naNntJRi4KUfWT7xo4EKsHt2QJDu7KXp1A3u7Bi1j8ph3EGsZ9Xvz9dGuVrtHHs7pXeTzjuxBrCmmhgC6';
+var vector3_m0h_public = 'xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y';
+var vector3_m0h_private = 'xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L';
