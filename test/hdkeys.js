@@ -239,7 +239,8 @@ describe('BIP32 compliance', function() {
   });
 
   it('should NOT use full 32 bytes for private key data that is hashed with nonCompliant flag', function() {
-    // This is to test that the previously implemented non-compliant to BIP32
+    // This is to test compatibility with the previous `derive` method that was non-compliant to BIP32
+    // and was affected by a leading zero bug.
     var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
     var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
     var key = HDPrivateKey.fromObject({
