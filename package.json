@@ -88,10 +88,16 @@
     "lodash": "=3.10.1"
   },
   "devDependencies": {
-    "bitcore-build": "bitpay/bitcore-build",
+    "bitcore-build": "braydonf/bitcore-build#abeaa87ad3b1707cf1f2bcded5126a6d0b07658c",
     "brfs": "^1.2.0",
+    "browserify": "^13.0.1",
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
+    "istanbul": "^0.4.3",
+    "karma": "^0.13.22",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "mocha": "^2.5.3",
     "sinon": "^1.13.0"
   },
   "license": "MIT"
