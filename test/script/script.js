@@ -10,6 +10,7 @@ var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var PublicKey = bitcore.PublicKey;
 var Address = bitcore.Address;
+var errors = bitcore.errors;
 
 describe('Script', function() {
 
@@ -372,8 +373,7 @@ describe('Script', function() {
     it('should identify this problematic non-scripthashin scripts', function() {
       var s = new Script('71 0x3044022017053dad84aa06213749df50a03330cfd24d6' +
         'b8e7ddbb6de66c03697b78a752a022053bc0faca8b4049fb3944a05fcf7c93b2861' +
-        '734d39a89b73108f605f70f5ed3401 33 0x0225386e988b84248dc9c30f784b06e' +
-        '02fdec57bbdbd443768eb5744a75ce44a4c');
+        '734d39a89b73108f605f70f5ed3401');
       var s2 = new Script('OP_RETURN 32 0x19fdb20634911b6459e6086658b3a6ad2dc6576bd6826c73ee86a5f9aec14ed9');
       s.isScriptHashIn().should.equal(false);
       s2.isScriptHashIn().should.equal(false);
@@ -381,6 +381,18 @@ describe('Script', function() {
     it('identifies this other problematic non-p2sh in', function() {
       var s = Script.fromString('73 0x3046022100dc7a0a812de14acc479d98ae209402cc9b5e0692bc74b9fe0a2f083e2f9964b002210087caf04a711bebe5339fd7554c4f7940dc37be216a3ae082424a5e164faf549401');
       s.isScriptHashIn().should.equal(false);
+    });
+    it('should return false for a script whose redeemscript cannot be deserialized', function() {
+      var s = Script.fromBuffer(new Buffer('00024d33', 'hex'));
+      s.isScriptHashIn().should.equal(false);
+    });
+    it('should propagate errors that are unrelated to script validation', function() {
+      var fails = function() {
+        var s = Script.fromBuffer(new Buffer('00024d33', 'hex'));
+        s.chunks[1] = {buf: 1};
+        return s.isScriptHashIn();
+      };
+      fails.should.throw(TypeError);
     });
   });
 
