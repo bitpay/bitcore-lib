@@ -8,6 +8,7 @@ var bitcore = require('../../');
 var Script = bitcore.Script;
 var Transaction = bitcore.Transaction;
 var sighash = Transaction.sighash;
+var BufferUtils = bitcore.util.buffer;
 
 var vectors_sighash = require('../data/sighash.json');
 
@@ -28,10 +29,10 @@ describe('sighash', function() {
       var tx = new Transaction(txbuf);
 
       //make sure transacion to/from buffer is isomorphic
-      tx.uncheckedSerialize().should.equal(txbuf.toString('hex'));
+      tx.uncheckedSerialize().should.equal(vector[0]);
 
       //sighash ought to be correct
-      sighash.sighash(tx, nhashtype, nin, subscript).toString('hex').should.equal(sighashbuf.toString('hex'));
+      BufferUtils.equal(sighash.sighash(tx, nhashtype, nin, subscript), sighashbuf).should.be.true;
     });
   });
 });
