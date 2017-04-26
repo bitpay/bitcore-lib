@@ -345,9 +345,9 @@ describe('Address', function() {
       var pubkey = new PublicKey('0485e9737a74c30a873f74df05124f2aa6f53042c2fc0a130d6cbd7d16b944b00' +
         '4833fef26c8be4c4823754869ff4e46755b85d851077771c220e2610496a29d98');
       var a = Address.fromPublicKey(pubkey, 'livenet');
-      a.toString().should.equal('DKpaaKdg92mKjWPMR7kf5ku9FahL65Wmgi');
+      a.toString().should.equal('DASdKxuNbtcFCz8fhgGdR1nZjpcS8oVhM4');
       var b = new Address(pubkey, 'livenet', 'pubkeyhash');
-      b.toString().should.equal('DKpaaKdg92mKjWPMR7kf5ku9FahL65Wmgi');
+      b.toString().should.equal('DASdKxuNbtcFCz8fhgGdR1nZjpcS8oVhM4');
     });
 
     it('should classify from a custom network', function() {
@@ -438,7 +438,7 @@ describe('Address', function() {
 
   describe('#toBuffer', function() {
 
-    it('3c3fa3d4adcaf8f52d5b1843975e122548269937 corresponds to hash DKpaaKdg92mKjWPMR7kf5ku9FahL65Wmgi', function() {
+    it('a10962eb81f44e8065d83b007b09b99f2db3379c corresponds to hash DKpaaKdg92mKjWPMR7kf5ku9FahL65Wmgi', function() {
       var address = new Address(str);
       address.toBuffer().slice(1).toString('hex').should.equal(pubkeyhash.toString('hex'));
     });
@@ -544,6 +544,11 @@ describe('Address', function() {
     it('works on testnet also', function() {
       var address = Address.createMultisig(publics, 2, Networks.testnet);
       address.toString().should.equal('2N7T3TAetJrSCruQ39aNrJvYLhG1LJosujf');
+    });
+
+    it('can create an address from a set of public keys with a nested witness program', function() {
+      var address = Address.createMultisig(publics, 2, Networks.livenet, true);
+      address.toString().should.equal('3PpK1bBqUmPK3Q6QPSUK7BQSZ1DMWL6aes');
     });
 
     it('can also be created by Address.createMultisig', function() {
