@@ -1,11 +1,11 @@
 'use strict';
 
-var bitcore = require('../..');
+var digibyte = require('../..');
 var BN = require('../../lib/crypto/bn');
-var BufferReader = bitcore.encoding.BufferReader;
-var BufferWriter = bitcore.encoding.BufferWriter;
+var BufferReader = digibyte.encoding.BufferReader;
+var BufferWriter = digibyte.encoding.BufferWriter;
 
-var BlockHeader = bitcore.BlockHeader;
+var BlockHeader = digibyte.BlockHeader;
 var fs = require('fs');
 var should = require('chai').should();
 

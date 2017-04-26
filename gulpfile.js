@@ -1,5 +1,5 @@
 
 
-var bitcoreTasks = require('bitcore-build');
+var digibyteTasks = require('digibyte-build');
 
-bitcoreTasks('lib');
+digibyteTasks('');

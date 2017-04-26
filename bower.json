@@ -1,8 +1,8 @@
 {
-  "name": "bitcore-lib",
-  "main": "./bitcore-lib.min.js",
+  "name": "digibyte",
+  "main": "./digibyte.min.js",
   "version": "0.13.19",
-  "homepage": "http://bitcore.io",
+  "homepage": "http://digibyte.co",
   "authors": [
     "BitPay, Inc."
   ],
@@ -12,9 +12,8 @@
   ],
   "keywords": [
     "bitcoin",
-    "bitcore",
-    "btc",
-    "satoshi"
+    "digibyte",
+    "digibyte",
   ],
   "license": "MIT",
   "ignore": [

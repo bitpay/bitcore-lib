@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "bcoin": "0.15.0",
-    "bitcoinjs-lib": "^1.5.7",
+    "digibyte": "^1.5.7",
     "fullnode": "^0.9.0",
     "benchmark": "^1.0.0"
   }

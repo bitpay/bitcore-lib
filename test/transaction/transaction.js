@@ -7,17 +7,17 @@ var expect = require('chai').expect;
 var _ = require('lodash');
 var sinon = require('sinon');
 
-var bitcore = require('../..');
-var BN = bitcore.crypto.BN;
-var Transaction = bitcore.Transaction;
-var Input = bitcore.Transaction.Input;
-var Output = bitcore.Transaction.Output;
-var PrivateKey = bitcore.PrivateKey;
-var Script = bitcore.Script;
-var Address = bitcore.Address;
-var Networks = bitcore.Networks;
-var Opcode = bitcore.Opcode;
-var errors = bitcore.errors;
+var digibyte = require('../..');
+var BN = digibyte.crypto.BN;
+var Transaction = digibyte.Transaction;
+var Input = digibyte.Transaction.Input;
+var Output = digibyte.Transaction.Output;
+var PrivateKey = digibyte.PrivateKey;
+var Script = digibyte.Script;
+var Address = digibyte.Address;
+var Networks = digibyte.Networks;
+var Opcode = digibyte.Opcode;
+var errors = digibyte.errors;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -115,7 +115,7 @@ describe('Transaction', function() {
   });
 
   it('fromObject with pay-to-public-key previous outputs', function() {
-    var tx = bitcore.Transaction({
+    var tx = digibyte.Transaction({
       hash: '132856bf03d6415562a556437d22ac63c37a4595fd986c796eb8e02dc031aa25',
       version: 1,
       inputs: [
@@ -143,7 +143,7 @@ describe('Transaction', function() {
       ],
       nLockTime: 139
     });
-    tx.inputs[0].should.be.instanceof(bitcore.Transaction.Input.PublicKey);
+    tx.inputs[0].should.be.instanceof(digibyte.Transaction.Input.PublicKey);
     tx.inputs[0].output.satoshis.should.equal(5000000000);
     tx.inputs[0].output.script.toHex().should.equal('2103b1c65d65f1ff3fe145a4ede692460ae0606671d04e8449e99dd11c66ab55a7feac');
   });
@@ -765,7 +765,7 @@ describe('Transaction', function() {
         outputIndex: 0,
         script: new Script()
       }), outputScriptString, 10000);
-      transaction.inputs[0].output.script.should.be.instanceof(bitcore.Script);
+      transaction.inputs[0].output.script.should.be.instanceof(digibyte.Script);
       transaction.inputs[0].output.script.toString().should.equal(outputScriptString);
     });
   });

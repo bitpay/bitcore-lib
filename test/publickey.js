@@ -3,13 +3,13 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var bitcore = require('..');
-var Point = bitcore.crypto.Point;
-var BN = bitcore.crypto.BN;
-var PublicKey = bitcore.PublicKey;
-var PrivateKey = bitcore.PrivateKey;
-var Address = bitcore.Address;
-var Networks = bitcore.Networks;
+var digibyte = require('..');
+var Point = digibyte.crypto.Point;
+var BN = digibyte.crypto.BN;
+var PublicKey = digibyte.PublicKey;
+var PrivateKey = digibyte.PrivateKey;
+var Address = digibyte.Address;
+var Networks = digibyte.Networks;
 
 /* jshint maxlen: 200 */
 
@@ -337,7 +337,7 @@ describe('PublicKey', function() {
     it('should output this known mainnet address correctly', function() {
       var pk = new PublicKey('03c87bd0e162f26969da8509cafcb7b8c8d202af30b928c582e263dd13ee9a9781');
       var address = pk.toAddress('livenet');
-      address.toString().should.equal('1A6ut1tWnUq1SEQLMr4ttDh24wcbJ5o9TT');
+      address.toString().should.equal('DEF1RGqA5tjHyEaw6S4TRyrcx5LthFoxqM');
     });
 
     it('should output this known testnet address correctly', function() {
@@ -353,10 +353,10 @@ describe('PublicKey', function() {
     // wif private key, address
     // see: https://github.com/bitcoin/bitcoin/blob/master/src/test/key_tests.cpp#L20
     var data = [
-      ['5HxWvvfubhXpYYpS3tJkw6fq9jE9j18THftkZjHHfmFiWtmAbrj', '1QFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ'],
-      ['5KC4ejrDjv152FGwP386VD1i2NYc5KkfSMyv1nGy1VGDxGHqVY3', '1F5y5E5FMc5YzdJtB9hLaUe43GDxEKXENJ'],
-      ['Kwr371tjA9u2rFSMZjTNun2PXXP3WPZu2afRHTcta6KxEUdm1vEw', '1NoJrossxPBKfCHuJXT4HadJrXRE9Fxiqs'],
-      ['L3Hq7a8FEQwJkW1M2GNKDW28546Vp5miewcCzSqUD9kCAXrJdS3g', '1CRj2HyM1CXWzHAXLQtiGLyggNT9WQqsDs']
+      ['190e042a66404d8036a80236b9f7cc1cad1e916ae72f774147eb6b6ddcbb066a', 'D5ahwxsiqrXRZtp8w4ffQQKFuKQfqLoUkZ'],
+      ['b49af185f7f78950333fe44a0cb55333a7b453155580703683138e4a4ee9136d', 'DDMbj4U8TKyGK7MGQZwBAygJSQUCFtRYQD'],
+      ['8539df77ac02af59c65211bfec4cb69866f828d0fe1dca7a62c8a024175613b9', 'DDG5T2Ee2aCwPshBejdTUuj41bURpM49LU'],
+      ['c6e4abee1cf1ecb24e7a97e2421aebdb15be0c9b6b8236bd8ad0479212ab8649', 'D9TGg4ZZjMcMafvkF6pSBuGpzeecU7eYZr']
     ];
     
     data.forEach(function(d){

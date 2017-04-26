@@ -1,5 +1,5 @@
 {
-  "name": "bitcore",
+  "name": "digibyte",
   "version": "0.13.19",
   "dependencies": {
     "bn.js": {

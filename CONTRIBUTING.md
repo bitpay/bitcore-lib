@@ -1,7 +1,7 @@
 Contributing to Bitcore
 =======
 
-We're working hard to make *bitcore* the most powerful JavaScript library for working with bitcoin. Our goal is to have *bitcore* be a library that can be used by anyone interested in bitcoin, and to level expertise differences with great design and documentation.
+We're working hard to make *bitcore* the most powerful JavaScript library for working with digibyte. Our goal is to have *digibyte* be a library that can be used by anyone interested in bitcoin, and to level expertise differences with great design and documentation.
 
 ## Community
 
