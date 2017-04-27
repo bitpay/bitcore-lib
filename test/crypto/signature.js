@@ -251,7 +251,7 @@ describe('Signature', function() {
     });
 
 
-    describe('bitcoind fixtures', function() {
+    describe('digibyted fixtures', function() {
       var test_sigs = function(set, expected) {
         var i = 0;
         set.forEach(function(vector) {

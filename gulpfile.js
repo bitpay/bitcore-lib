@@ -2,4 +2,4 @@
 
 var digibyteTasks = require('digibyte-build');
 
-digibyteTasks('');
+digibyteTasks('lib');

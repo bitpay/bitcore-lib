@@ -190,7 +190,7 @@ describe('BufferReader', function() {
       br.readUInt64LEBN().toNumber().should.equal(1);
     });
 
-    it('should return 10BTC', function() {
+    it('should return 10DGB', function() {
       var tenbtc = 10 * 1e8;
       var tenbtcBuffer = new Buffer('00ca9a3b00000000', 'hex');
       var br = new BufferReader(tenbtcBuffer);

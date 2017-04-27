@@ -41,7 +41,7 @@ digibyte.util.preconditions = require('./lib/util/preconditions');
 // errors thrown by the library
 digibyte.errors = require('./lib/errors');
 
-// main bitcoin library
+// main digibyte library
 digibyte.Address = require('./lib/address');
 digibyte.Block = require('./lib/block');
 digibyte.MerkleBlock = require('./lib/block/merkleblock');

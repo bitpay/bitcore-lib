@@ -88,7 +88,7 @@ describe('PrivateKey', function() {
     should.exist(a.bn);
   });
 
-  describe('bitcoind compliance', function() {
+  describe('digibyted compliance', function() {
     validbase58.map(function(d){
       if (d[2].isPrivkey) {
         it('should instantiate WIF private key ' + d[0] + ' with correct properties', function() {

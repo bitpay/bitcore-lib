@@ -34,7 +34,7 @@ var p2shAddress = new Address([publicKey1, publicKey2, publicKey3], 2);
 ```
 
 ## Validating an Address
-The main use that we expect you'll have for the `Address` class in Bitcore is validating that an address is a valid one, what type of address it is (you may be interested on knowing if the address is a simple "pay to public key hash" address or a "pay to script hash" address) and what network does the address belong to.
+The main use that we expect you'll have for the `Address` class in DigiByte.JS is validating that an address is a valid one, what type of address it is (you may be interested on knowing if the address is a simple "pay to public key hash" address or a "pay to script hash" address) and what network does the address belong to.
 
 The code to do these validations looks like this:
 

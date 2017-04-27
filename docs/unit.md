@@ -1,24 +1,24 @@
 # Unit
-Unit is a utility for handling and converting bitcoin units. We strongly recommend to always use satoshis to represent amount inside your application and only convert them to other units in the front-end.
+Unit is a utility for handling and converting digibyte units. We strongly recommend to always use satoshis to represent amount inside your application and only convert them to other units in the front-end.
 
 To understand the need of using the `Unit` class when dealing with unit conversions, see this example:
 
 ```
 > 81.99 * 100000 // wrong
 8198999.999999999
-> var bitcore = require('bitcore');
-> var Unit = bitcore.Unit;
+> var digibyte = require('digibyte');
+> var Unit = digibyte.Unit;
 > Unit.fromMilis(81.99).toSatoshis() // correct
 8199000
 ```
 
 ## Supported units
-The supported units are BTC, mBTC, bits (micro BTCs, uBTC) and satoshis. The codes for each unit can be found as members of the Unit class.
+The supported units are DGB, mDGB, bits (micro DGBs, uDGB) and satoshis. The codes for each unit can be found as members of the Unit class.
 
 ```javascript
-var btcCode = Unit.BTC;
-var mbtcCode = Unit.mBTC;
-var ubtcCode = Unit.uBTC;
+var dgbCode = Unit.DGB;
+var mdgbCode = Unit.mDGB;
+var udgbCode = Unit.uDGB;
 var bitsCode = Unit.bits;
 var satsCode = Unit.satoshis;
 ```
@@ -31,11 +31,11 @@ var unit;
 var amount = 100;
 
 // using a unit code
-var unitPreference = Unit.BTC;
+var unitPreference = Unit.DGB;
 unit = new Unit(amount, unitPreference);
 
 // using a known unit
-unit = Unit.fromBTC(amount);
+unit = Unit.fromDGB(amount);
 unit = Unit.fromMilis(amount);
 unit = Unit.fromBits(amount);
 unit = Unit.fromSatoshis(amount);
@@ -48,24 +48,24 @@ Once you have a unit instance, you can check its representation in all the avail
 var unit;
 
 // using a unit code
-var unitPreference = Unit.BTC;
+var unitPreference = Unit.DGB;
 value = Unit.fromSatoshis(amount).to(unitPreference);
 
 // using a known unit
-value = Unit.fromBTC(amount).toBTC();
-value = Unit.fromBTC(amount).toMilis();
-value = Unit.fromBTC(amount).toBits();
-value = Unit.fromBTC(amount).toSatoshis();
+value = Unit.fromDGB(amount).toDGB();
+value = Unit.fromDGB(amount).toMilis();
+value = Unit.fromDGB(amount).toBits();
+value = Unit.fromDGB(amount).toSatoshis();
 
 // using accessors
-value = Unit.fromBTC(amount).BTC;
-value = Unit.fromBTC(amount).mBTC;
-value = Unit.fromBTC(amount).bits;
-value = Unit.fromBTC(amount).satoshis;
+value = Unit.fromDGB(amount).DGB;
+value = Unit.fromDGB(amount).mDGB;
+value = Unit.fromDGB(amount).bits;
+value = Unit.fromDGB(amount).satoshis;
 ```
 
 ## Using a fiat currency
-The unit class also provides a convenient alternative to create an instance from a fiat amount and the corresponding BTC/fiat exchange rate. Any unit instance can be converted to a fiat amount by providing the current exchange rate. Check the example below:
+The unit class also provides a convenient alternative to create an instance from a fiat amount and the corresponding DGB/fiat exchange rate. Any unit instance can be converted to a fiat amount by providing the current exchange rate. Check the example below:
 
 ```javascript
 var unit, fiat;

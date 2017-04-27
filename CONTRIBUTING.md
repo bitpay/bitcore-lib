@@ -1,7 +1,7 @@
 Contributing to Bitcore
 =======
 
-We're working hard to make *bitcore* the most powerful JavaScript library for working with digibyte. Our goal is to have *digibyte* be a library that can be used by anyone interested in bitcoin, and to level expertise differences with great design and documentation.
+We're working hard to make *bitcore* the most powerful JavaScript library for working with digibyte. Our goal is to have *digibyte* be a library that can be used by anyone interested in digibyte, and to level expertise differences with great design and documentation.
 
 ## Community
 
@@ -40,7 +40,7 @@ Write a test for all your code. We encourage Test Driven Development so we know 
 
 Interfaces should accept as many types of arguments as possible, so there's no mental tax on using them: we want to avoid questions such as "should I use a string here or a buffer?", "what happens if I'm not sure if the type of this variable is an Address instance or a string with it encoded in base-58?" or "what kind of object will I receive after calling this function?".
 
-Accept a wide variety of use cases and arguments, always return an internal form of an object. For example, the class `PublicKey` can accept strings or buffers with a DER encoded public key (either compressed or uncompressed), another PublicKey, a PrivateKey, or a Point, an instance of the `elliptic.js` library with the point in bitcoin's elliptic curve that represents the public key.
+Accept a wide variety of use cases and arguments, always return an internal form of an object. For example, the class `PublicKey` can accept strings or buffers with a DER encoded public key (either compressed or uncompressed), another PublicKey, a PrivateKey, or a Point, an instance of the `elliptic.js` library with the point in digibyte's elliptic curve that represents the public key.
 
 ### D4 - Consistency Everywhere
 

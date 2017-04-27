@@ -39,7 +39,7 @@ describe('Address', function() {
     }).should.throw('Third argument must be "pubkeyhash" or "scripthash"');
   });
 
-  describe('bitcoind compliance', function() {
+  describe('digibyted compliance', function() {
     validbase58.map(function(d) {
       if (!d[2].isPrivkey) {
         it('should describe address ' + d[0] + ' as valid', function() {

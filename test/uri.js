@@ -73,7 +73,7 @@ describe('URI', function() {
     uri.should.be.instanceof(URI);
   });
 
-  describe('instantiation from bitcoin uri', function() {
+  describe('instantiation from digibyte uri', function() {
     /* jshint maxstatements: 25 */
     var uri;
 
