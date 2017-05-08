@@ -41,6 +41,20 @@ describe('GovObject', function(){
       expect(govObjRes).to.not.throw('Unhandled GovObject type');
       govObject.serialize().should.equal(expectedHex);
     })
+    it('should validate address', function(){
+      var govObject = new GovObject;
+      govObject._verifyAddress('yXGeNPQXYFXhLAN1ZKrAjxzzBnZ2JZNKnh','testnet').should.equal(true);
+      govObject._verifyAddress('XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B6','livenet').should.equal(true);
+      govObject._verifyAddress('XuYDEzZzKxn&&knPDiVKe91sJasfajkshfjD1nQnnn5B6','livenet').should.equal(false);
+      govObject._verifyAddress('knPDiVKe91sJasfajkshfjD1nQnnn5B6','testnet').should.equal(false);
+      govObject._verifyAddress('XuYDEzZzKxn&&knPDiVKe91sJa/sfajkshfjD1nQnnn5B6','livenet').should.equal(false);
+      govObject._verifyAddress('XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B','livenet').should.equal(false);
+      govObject._verifyAddress(' XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B','livenet').should.equal(false);
+      govObject._verifyAddress('XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B ','livenet').should.equal(false);
+      govObject._verifyAddress('$XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B','livenet').should.equal(false);
+      govObject._verifyAddress('yXGeNPQXYFXhLAN1ZKrAjxzzBnZ2JZNKnh','livenet').should.equal(false);
+      govObject._verifyAddress('XuYDEzZzKxnknPDiVKe91sJaD1nQnnn5B6','testnet').should.equal(false);
+    })
     it('should cast a stringified JSON Proposal into a Proposal Object', function(){
       var govObject = new GovObject;
       var jsonProposal = {
