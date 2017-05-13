@@ -52148,9 +52148,9 @@ if (typeof Object.create === 'function') {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],299:[function(require,module,exports){
 module.exports={
-  "name": "bitcore-lib",
+  "name": "particl-bitcore-lib",
   "version": "0.13.19",
-  "description": "A pure and powerful JavaScript Bitcoin library.",
+  "description": "A pure and powerful JavaScript Particl library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
   "scripts": {
@@ -52223,7 +52223,7 @@ module.exports={
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitpay/bitcore-lib.git"
+    "url": "https://github.com/particl/particl-bitcore-lib.git"
   },
   "browser": {
     "request": "browser-request"
