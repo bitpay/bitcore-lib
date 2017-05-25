@@ -1,6 +1,6 @@
 {
   "name": "particl-bitcore-lib",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "A pure and powerful JavaScript Particl library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
