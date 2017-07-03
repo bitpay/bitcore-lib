@@ -1,6 +1,6 @@
 {
   "name": "bitcore-lib-dash",
-  "version": "0.13.21",
+  "version": "0.14.0",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
