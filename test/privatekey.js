@@ -153,6 +153,13 @@ describe('PrivateKey', function() {
       privkey.publicKey.toString().should.equal(pubhex);
     });
 
+    it('can be instantiated from a single-character hex string', function() {
+      var privhex = '1';
+      var pubhex = '0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798';
+      var privkey = new PrivateKey(privhex);
+      privkey.publicKey.toString().should.equal(pubhex);
+    });
+
     it('should not be able to instantiate because of unrecognized data', function() {
       expect(function() {
         return new PrivateKey(new Error());
