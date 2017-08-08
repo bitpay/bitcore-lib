@@ -62105,7 +62105,7 @@ function block(c, tweak, b, off) {
 },{"./helper":248,"./op":252}],256:[function(require,module,exports){
 module.exports={
   "name": "bitcore-lib-dash",
-  "version": "0.14.0",
+  "version": "0.14.3",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
@@ -62193,6 +62193,10 @@ module.exports={
     "type": "git",
     "url": "https://github.com/dashevo/bitcore-lib-dash.git"
   },
+  "bugs": {
+    "url": "https://github.com/dashevo/bitcore-lib-dash/issues"
+  },
+  "homepage": "https://github.com/dashevo/bitcore-lib-dash",
   "browser": {
     "request": "browser-request"
   },
