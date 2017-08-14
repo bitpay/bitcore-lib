@@ -18,6 +18,7 @@ var Address = bitcore.Address;
 var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
+var Constants = require('../../lib/common/constants');
 
 var transactionVector = require('../data/tx_creation');
 
@@ -248,7 +249,7 @@ describe('Transaction', function() {
     p2shPublicKey1,
     p2shPublicKey2,
     p2shPublicKey3
-  ], 2, 'testnet');
+  ], 2, Constants.TESTNET);
   var p2shUtxoWith1BTC = {
     address: p2shAddress.toString(),
     txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',

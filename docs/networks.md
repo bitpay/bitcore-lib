@@ -31,8 +31,8 @@ Take a look at this modified snippet from [networks.js](https://github.com/bitpa
 ```javascript
 var livenet = new Network();
 _.extend(livenet, {
-  name: 'livenet',
-  alias: 'mainnet',
+  name: 'livenet/btc',
+  alias: 'mainnet/btc',
   pubkeyhash: 0x00,
   privatekey: 0x80,
   scripthash: 0x05,
@@ -43,8 +43,8 @@ _.extend(livenet, {
 
 var testnet = new Network();
 _.extend(testnet, {
-  name: 'testnet',
-  alias: 'testnet',
+  name: 'testnet/btc',
+  alias: 'testnet/btc',
   pubkeyhash: 0x6f,
   privatekey: 0xef,
   scripthash: 0xc4,

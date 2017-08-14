@@ -18,7 +18,7 @@ The code for validating URIs looks like this:
 var uriString = 'bitcoin:12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu?amount=1.2';
 var valid = URI.isValid(uriString);
 var uri = new URI(uriString);
-console.log(uri.address.network, uri.amount); // 'livenet', 120000000
+console.log(uri.address.network, uri.amount); // 'livenet/btc, 120000000
 ```
 
 ## URI Parameters

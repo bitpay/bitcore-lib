@@ -4,6 +4,7 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var bitcore = require('..');
 var networks = bitcore.Networks;
+var Constants = require('../lib/common/constants');
 
 describe('Networks', function() {
 
@@ -33,8 +34,8 @@ describe('Networks', function() {
     ]);
   });
 
-  it('will get network based on string "regtest" value', function() {
-    var network = networks.get('regtest');
+  it('will get network based on string "regtest/btc" value', function() {
+    var network = networks.get(Constants.TESTNET_ALIAS);
     network.should.equal(networks.testnet);
   });
 
@@ -113,12 +114,12 @@ describe('Networks', function() {
   });
 
   it('converts to string using the "name" property', function() {
-    networks.livenet.toString().should.equal('livenet');
+    networks.livenet.toString().should.equal(Constants.LIVENET);
   });
 
   it('network object should be immutable', function() {
-    expect(networks.testnet.name).to.equal('testnet')
-    var fn = function() { networks.testnet.name = 'livenet' }
+    expect(networks.testnet.name).to.equal(Constants.TESTNET)
+    var fn = function() { networks.testnet.name = Constants.LIVENET }
     expect(fn).to.throw(TypeError)
   });
 

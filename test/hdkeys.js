@@ -18,6 +18,7 @@ var bitcore = require('..');
 var Networks = bitcore.Networks;
 var HDPrivateKey = bitcore.HDPrivateKey;
 var HDPublicKey = bitcore.HDPublicKey;
+var Constants = require('../lib/common/constants');
 
 describe('HDKeys building with static methods', function() {
   var classes = [HDPublicKey, HDPrivateKey];
@@ -227,7 +228,7 @@ describe('BIP32 compliance', function() {
     var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
     var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
     var key = HDPrivateKey.fromObject({
-      network: 'testnet',
+      network: Constants.TESTNET,
       depth: 0,
       parentFingerPrint: 0,
       childIndex: 0,
@@ -243,7 +244,7 @@ describe('BIP32 compliance', function() {
     var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
     var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
     var key = HDPrivateKey.fromObject({
-      network: 'testnet',
+      network: Constants.TESTNET,
       depth: 0,
       parentFingerPrint: 0,
       childIndex: 0,
@@ -259,7 +260,7 @@ describe('BIP32 compliance', function() {
     var privateKeyBuffer = new Buffer('00000055378cf5fafb56c711c674143f9b0ee82ab0ba2924f19b64f5ae7cdbfd', 'hex');
     var chainCodeBuffer = new Buffer('9c8a5c863e5941f3d99453e6ba66b328bb17cf0b8dec89ed4fc5ace397a1c089', 'hex');
     var key = HDPrivateKey.fromObject({
-      network: 'testnet',
+      network: Constants.TESTNET,
       depth: 0,
       parentFingerPrint: 0,
       childIndex: 0,
@@ -293,7 +294,7 @@ describe('BIP32 compliance', function() {
       });
       sandbox.spy(bitcore.PrivateKey, 'isValid');
       var key = HDPrivateKey.fromObject({
-        network: 'testnet',
+        network: Constants.TESTNET,
         depth: 0,
         parentFingerPrint: 0,
         childIndex: 0,
@@ -308,7 +309,7 @@ describe('BIP32 compliance', function() {
       var publicKeyBuffer = new Buffer('029e58b241790284ef56502667b15157b3fc58c567f044ddc35653860f9455d099', 'hex');
       var chainCodeBuffer = new Buffer('39816057bba9d952fe87fe998b7fd4d690a1bb58c2ff69141469e4d1dffb4b91', 'hex');
       var key = new HDPublicKey({
-        network: 'testnet',
+        network: Constants.TESTNET,
         depth: 0,
         parentFingerPrint: 0,
         childIndex: 0,
