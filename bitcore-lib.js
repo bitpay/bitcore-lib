@@ -5081,7 +5081,7 @@ function PrivateKey(data, network) {
     throw new TypeError('Number must be less than N');
   }
   if (typeof(info.network) === 'undefined') {
-    throw new TypeError('Must specify the network ("livenet" or "testnet")');
+    throw new TypeError('Must specify the network ("livenet/btc" or "testnet/btc")');
   }
 
   JSUtil.defineImmutable(this, {

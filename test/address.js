@@ -430,7 +430,7 @@ describe('Address', function() {
     });
 
     it('should derive from this known address string testnet scripthash', function() {
-      var address = new Address(P2SHTestnet[0], 'testnet', 'scripthash');
+      var address = new Address(P2SHTestnet[0], Constants.TESTNET, 'scripthash');
       address = new Address(address.toString());
       address.toString().should.equal(P2SHTestnet[0]);
     });

@@ -309,7 +309,7 @@ describe('ECDSA', function() {
       vectors.deterministicK.forEach(function(obj, i) {
         it('should validate deterministicK vector ' + i, function() {
           var hashbuf = Hash.sha256(new Buffer(obj.message));
-          var privkey = Privkey(BN.fromBuffer(new Buffer(obj.privkey, 'hex')), 'mainnet');
+          var privkey = Privkey(BN.fromBuffer(new Buffer(obj.privkey, 'hex')), Constants.LIVENET_ALIAS);
           var ecdsa = ECDSA({
             privkey: privkey,
             hashbuf: hashbuf
