@@ -9,6 +9,7 @@ var BN = require('../../lib/crypto/bn');
 var point = require('../../lib/crypto/point');
 var should = require('chai').should();
 var vectors = require('../data/ecdsa');
+var Constants = require('../../lib/common/constants');
 
 describe('ECDSA', function() {
 
