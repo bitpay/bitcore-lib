@@ -28,6 +28,12 @@ describe('Transaction', function() {
     transaction.uncheckedSerialize().should.equal(tx_1_hex);
   });
 
+  it('should parse the version as a signed integer', function () {
+    var transaction = Transaction('ffffffff0000ffffffff')
+    transaction.version.should.equal(-1);
+    transaction.nLockTime.should.equal(0xffffffff);
+  });
+
   it('fails if an invalid parameter is passed to constructor', function() {
     expect(function() {
       return new Transaction(1);
@@ -200,6 +206,14 @@ describe('Transaction', function() {
     script: Script.buildPublicKeyHashOut(fromAddress).toString(),
     satoshis: 100000
   };
+
+  var simpleUtxoWith1000000Satoshis = {
+    address: fromAddress,
+    txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',
+    outputIndex: 0,
+    script: Script.buildPublicKeyHashOut(fromAddress).toString(),
+    satoshis: 1000000
+  };
   var anyoneCanSpendUTXO = JSON.parse(JSON.stringify(simpleUtxoWith100000Satoshis));
   anyoneCanSpendUTXO.script = new Script().add('OP_TRUE');
   var toAddress = 'yXGeNPQXYFXhLAN1ZKrAjxzzBnZ2JZNKnh';
@@ -218,6 +232,7 @@ describe('Transaction', function() {
     script: Script.buildPublicKeyHashOut(fromAddress).toString(),
     satoshis: 1e8
   };
+
   var tenth = 1e7;
   var fourth = 25e6;
   var half = 5e7;
@@ -303,8 +318,8 @@ describe('Transaction', function() {
     });
     it('accepts a P2SH address for change', function() {
       var transaction = new Transaction()
-        .from(simpleUtxoWith100000Satoshis)
-        .to(toAddress, 50000)
+        .from(simpleUtxoWith1000000Satoshis)
+        .to(toAddress, 500000)
         .change(changeAddressP2SH)
         .sign(privateKey);
       transaction.outputs.length.should.equal(2);

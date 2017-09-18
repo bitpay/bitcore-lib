@@ -93,5 +93,5 @@ or create a test coverage report (you can open `coverage/lcov-report/index.html`
 
 Code released under [the MIT license](https://github.com/dashpay/bitcore-lib-dash/blob/master/LICENSE).
 
-Copyright 2013-2015 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
-Copyright 2016 The Dash Foundation, Inc.
+Copyright 2013-2017 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
+Copyright 2016-2017 The Dash Foundation, Inc.
