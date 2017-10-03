@@ -12,7 +12,7 @@ examples.html
 npm-debug.log
 
 apiref
-bower_components
+bower_components'
 report
 .DS_Store
 
@@ -22,3 +22,5 @@ bitcore.min.js
 bitcore.js.sig
 bitcore.min.js.sig
 tests.js
+
+launch.json
