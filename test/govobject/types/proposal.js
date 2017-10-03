@@ -134,6 +134,24 @@ describe('Proposal', function() {
 
   });
 
+  it('should throw error if payment address is P2SH', function() {
+    var proposal = new Proposal();
+
+    proposal.network = 'testnet';
+    proposal.end_epoch = endDate;
+    proposal.name = 'TestProposal';
+    proposal.payment_address = '8tS9fgiv8XAmTXxWqJBv7zbeS4jzrGGwxT';
+    proposal.payment_amount = 10;
+    proposal.start_epoch = startDate;
+    proposal.type = 1;
+    proposal.url = "http://www.dash.org";
+
+    expect(function() {
+      return proposal.serialize();
+    }).to.throw(errors.GovObject.Proposal.invalidP2SHAddress);
+
+  });
+
   it('should throw error if amount <= 0', function() {
     var proposal = new Proposal();
 
