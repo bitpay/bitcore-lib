@@ -27034,7 +27034,7 @@ Base58.validCharacters = function validCharacters(chars) {
   if (buffer.Buffer.isBuffer(chars)) {
     chars = chars.toString();
   }
-  return _.all(_.map(chars, function(char) { return _.contains(ALPHABET, char); }));
+  return _.every(_.map(chars, function(char) { return _.includes(ALPHABET, char); }));
 };
 
 Base58.prototype.set = function(obj) {
@@ -28330,7 +28330,7 @@ function HDPrivateKey(arg) {
 HDPrivateKey.isValidPath = function(arg, hardened) {
   if (_.isString(arg)) {
     var indexes = HDPrivateKey._getDerivationIndexes(arg);
-    return indexes !== null && _.all(indexes, HDPrivateKey.isValidPath);
+    return indexes !== null && _.every(indexes, HDPrivateKey.isValidPath);
   }
 
   if (_.isNumber(arg)) {
@@ -28355,11 +28355,11 @@ HDPrivateKey._getDerivationIndexes = function(path) {
   var steps = path.split('/');
 
   // Special cases:
-  if (_.contains(HDPrivateKey.RootElementAlias, path)) {
+  if (_.includes(HDPrivateKey.RootElementAlias, path)) {
     return [];
   }
 
-  if (!_.contains(HDPrivateKey.RootElementAlias, steps[0])) {
+  if (!_.includes(HDPrivateKey.RootElementAlias, steps[0])) {
     return null;
   }
 
@@ -28379,7 +28379,7 @@ HDPrivateKey._getDerivationIndexes = function(path) {
     return index;
   });
 
-  return _.any(indexes, isNaN) ? null : indexes;
+  return _.some(indexes, isNaN) ? null : indexes;
 };
 
 /**
@@ -28981,7 +28981,7 @@ function HDPublicKey(arg) {
 HDPublicKey.isValidPath = function(arg) {
   if (_.isString(arg)) {
     var indexes = HDPrivateKey._getDerivationIndexes(arg);
-    return indexes !== null && _.all(indexes, HDPublicKey.isValidPath);
+    return indexes !== null && _.every(indexes, HDPublicKey.isValidPath);
   }
 
   if (_.isNumber(arg)) {
@@ -29090,7 +29090,7 @@ HDPublicKey.prototype._deriveWithNumber = function(index, hardened) {
 
 HDPublicKey.prototype._deriveFromString = function(path) {
   /* jshint maxcomplexity: 8 */
-  if (_.contains(path, "'")) {
+  if (_.includes(path, "'")) {
     throw new hdErrors.InvalidIndexCantDeriveHardened();
   } else if (!HDPublicKey.isValidPath(path)) {
     throw new hdErrors.InvalidPath(path);
@@ -29443,7 +29443,7 @@ function get(arg, keys) {
       return networks[index][key] === arg;
     };
     for (var index in networks) {
-      if (_.any(keys, containsArg)) {
+      if (_.some(keys, containsArg)) {
         return networks[index];
       }
     }
@@ -34817,7 +34817,7 @@ Transaction.prototype.from = function(utxo, pubkeys, threshold) {
     });
     return this;
   }
-  var exists = _.any(this.inputs, function(input) {
+  var exists = _.some(this.inputs, function(input) {
     // TODO: Maybe prevTxId should be a string? Or defined as read only property?
     return input.prevTxId.toString('hex') === utxo.txId && input.outputIndex === utxo.outputIndex;
   });
@@ -34923,7 +34923,7 @@ Transaction.prototype.uncheckedAddInput = function(input) {
  * @return {boolean}
  */
 Transaction.prototype.hasAllUtxoInfo = function() {
-  return _.all(this.inputs.map(function(input) {
+  return _.every(this.inputs.map(function(input) {
     return !!input.output;
   }));
 };
@@ -35378,7 +35378,7 @@ Transaction.prototype.isFullySigned = function() {
       );
     }
   });
-  return _.all(_.map(this.inputs, function(input) {
+  return _.every(_.map(this.inputs, function(input) {
     return input.isFullySigned();
   }));
 };
