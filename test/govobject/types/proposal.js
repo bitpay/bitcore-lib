@@ -412,7 +412,7 @@ describe('Proposal', function() {
     };
 
     expect(proposalRes).to.throw(Error);
-    expect(proposalRes).to.throw('Must be a valid JSON - Expected property start_epoch to be a number received:string');
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property start_epoch to be not NaN');
   });
   it('should return error if property end_epoch is bad typed', function() {
     //Cloning obj
@@ -438,7 +438,7 @@ describe('Proposal', function() {
     };
 
     expect(proposalRes).to.throw(Error);
-    expect(proposalRes).to.throw('Must be a valid JSON - Expected property end_epoch to be a number received:string');
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property end_epoch to be not NaN');
   });
   it('should return error if property payment_address is bad typed', function() {
     //Cloning obj
@@ -477,7 +477,7 @@ describe('Proposal', function() {
     };
 
     expect(proposalRes).to.throw(Error);
-    expect(proposalRes).to.throw('Must be a valid JSON - Expected property payment_amount to be a number received:string');
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property payment_amount to be not NaN');
   });
   it('should return error if property type is bad typed', function() {
     //Cloning obj
