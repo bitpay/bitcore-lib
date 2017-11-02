@@ -401,6 +401,19 @@ describe('Proposal', function() {
     expect(proposalRes).to.throw(Error);
     expect(proposalRes).to.throw('Must be a valid JSON - Expected property start_epoch to be a number received:string');
   });
+  it('should return error if property start_epoch is NaN', function() {
+    //Cloning obj
+    var jsonProposal = JSON.parse(JSON.stringify(validJSONProposal));
+    jsonProposal.start_epoch = NaN;
+
+    var proposal = new Proposal();
+    var proposalRes = function() {
+      return proposal.fromObject(jsonProposal);
+    };
+
+    expect(proposalRes).to.throw(Error);
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property start_epoch to be a number');
+  });
   it('should return error if property end_epoch is bad typed', function() {
     //Cloning obj
     var jsonProposal = JSON.parse(JSON.stringify(validJSONProposal));
@@ -413,6 +426,19 @@ describe('Proposal', function() {
 
     expect(proposalRes).to.throw(Error);
     expect(proposalRes).to.throw('Must be a valid JSON - Expected property end_epoch to be a number received:string');
+  });
+  it('should return error if property end_epoch is NaN', function() {
+    //Cloning obj
+    var jsonProposal = JSON.parse(JSON.stringify(validJSONProposal));
+    jsonProposal.end_epoch = NaN;
+
+    var proposal = new Proposal();
+    var proposalRes = function() {
+      return proposal.fromObject(jsonProposal);
+    };
+
+    expect(proposalRes).to.throw(Error);
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property end_epoch to be a number');
   });
   it('should return error if property payment_address is bad typed', function() {
     //Cloning obj
@@ -439,6 +465,19 @@ describe('Proposal', function() {
 
     expect(proposalRes).to.throw(Error);
     expect(proposalRes).to.throw('Must be a valid JSON - Expected property payment_amount to be a number received:string');
+  });
+  it('should return error if property payment_amount is NaN', function() {
+    //Cloning obj
+    var jsonProposal = JSON.parse(JSON.stringify(validJSONProposal));
+    jsonProposal.payment_amount = NaN;
+
+    var proposal = new Proposal();
+    var proposalRes = function() {
+      return proposal.fromObject(jsonProposal);
+    };
+
+    expect(proposalRes).to.throw(Error);
+    expect(proposalRes).to.throw('Must be a valid JSON - Expected property payment_amount to be a number');
   });
   it('should return error if property type is bad typed', function() {
     //Cloning obj
