@@ -96,6 +96,13 @@ describe('BlockHeader', function() {
       should.exist(bh.time);
       should.exist(bh.bits);
       should.exist(bh.nonce);
+      var expectedPrevHash = '000000003c35b5e70b13d5b938fef4e998a977c17bea978390273b7c50a9aa4b';
+      bh.prevHash.toString('hex').should.equal(expectedPrevHash);
+      var expectedMerkleRoot = '58e6d52d1eb00470ae1ab4d5a3375c0f51382c6f249fff84e9888286974cfc97';
+      bh.merkleRoot.toString('hex').should.equal(expectedMerkleRoot);
+      bh.timestamp.should.equal(1371410638);
+      bh.bits.should.equal(473956288);
+      bh.version.should.equal(2);
     });
 
   });
@@ -110,6 +117,15 @@ describe('BlockHeader', function() {
       should.exist(json.time);
       should.exist(json.bits);
       should.exist(json.nonce);
+      json.should.deep.equal({
+        hash: '000000000b99b16390660d79fcc138d2ad0c89a0d044c4201a02bdf1f61ffa11',
+        version: 2,
+        prevHash: '000000003c35b5e70b13d5b938fef4e998a977c17bea978390273b7c50a9aa4b',
+        merkleRoot: '58e6d52d1eb00470ae1ab4d5a3375c0f51382c6f249fff84e9888286974cfc97',
+        time: 1371410638,
+        bits: 473956288,
+        nonce: 3594009557
+      });
     });
 
   });
@@ -150,7 +166,15 @@ describe('BlockHeader', function() {
   describe('#fromBuffer', function() {
 
     it('should parse this known buffer', function() {
-      BlockHeader.fromBuffer(bhbuf).toBuffer().toString('hex').should.equal(bhhex);
+      var blockHeader = BlockHeader.fromBuffer(bhbuf);
+      var expectedPrevHash = '000000003c35b5e70b13d5b938fef4e998a977c17bea978390273b7c50a9aa4b';
+      blockHeader.prevHash.toString('hex').should.equal(expectedPrevHash);
+      var expectedMerkleRoot = '58e6d52d1eb00470ae1ab4d5a3375c0f51382c6f249fff84e9888286974cfc97';
+      blockHeader.merkleRoot.toString('hex').should.equal(expectedMerkleRoot);
+      blockHeader.timestamp.should.equal(1371410638);
+      blockHeader.bits.should.equal(473956288);
+      blockHeader.version.should.equal(2);
+      blockHeader.toBuffer().toString('hex').should.equal(bhhex);
     });
 
   });
