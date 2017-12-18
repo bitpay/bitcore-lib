@@ -1,7 +1,7 @@
 {
   "name": "bitcore-lib-dash",
-  "main": "./bitcore-lib.min.js",
-  "version": "0.14.3",
+  "main": "./bitcore-lib-dash.min.js",
+  "version": "0.15.2",
   "homepage": "https://github.com/dashevo/bitcore-lib-dash",
   "authors": [
     "Dash", "BitPay, Inc."
