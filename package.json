@@ -1,6 +1,6 @@
 {
   "name": "digibyte",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "A pure and powerful JavaScript DigiByte library.",
   "author": "DigiByte <dev@digibyte.co>",
   "main": "index.js",
@@ -58,7 +58,7 @@
   ],
   "keywords": [
     "bitcoin",
-		"digibyte",
+    "digibyte",
     "transaction",
     "address",
     "p2p",
