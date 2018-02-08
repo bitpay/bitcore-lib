@@ -1265,7 +1265,7 @@ describe('Transaction', function() {
         ],
         nLockTime: 139
       });
-      const copiedTransaction = bitcore.Transaction().fromObject(tx);
+      var copiedTransaction = bitcore.Transaction().fromObject(tx);
       expect(copiedTransaction).to.be.an.instanceof(bitcore.Transaction);
     });
   });
