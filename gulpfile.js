@@ -2,4 +2,4 @@
 
 var bitcoreTasks = require('bitcore-build-dash');
 
-bitcoreTasks('lib');
+bitcoreTasks('lib-dash');
