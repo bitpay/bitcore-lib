@@ -5,10 +5,10 @@
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
   "scripts": {
-    "lint": "gulp lint",
     "test": "gulp test",
     "coverage": "gulp coverage",
     "build": "gulp"
+    "lint": "jshint . || true",
   },
   "contributors": [
     {
@@ -112,6 +112,7 @@
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "sinon": "^1.13.0"
+    "jshint": "^2.9.5",
   },
   "license": "MIT"
 }
