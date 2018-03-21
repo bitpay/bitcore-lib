@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
-    "coverage": "gulp coverage",
     "build": "gulp"
     "lint": "jshint . || true",
+    "coverage": "nyc mocha --recursive",
   },
   "contributors": [
     {
@@ -113,6 +113,8 @@
     "gulp": "^3.8.10",
     "sinon": "^1.13.0"
     "jshint": "^2.9.5",
+    "mocha": "^5.0.4",
+    "nyc": "^11.6.0",
   },
   "license": "MIT"
 }

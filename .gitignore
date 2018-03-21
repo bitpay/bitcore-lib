@@ -24,3 +24,5 @@ bitcore.min.js.sig
 tests.js
 
 launch.json
+
+.nyc_output/
