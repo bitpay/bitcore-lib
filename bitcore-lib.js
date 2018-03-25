@@ -54086,8 +54086,6 @@ if (global._bitcore !== undefind) {
   return;
 }
 
-global._bitcore = bitcore;
-
 // crypto
 bitcore.crypto = {};
 bitcore.crypto.BN = require('./lib/crypto/bn');
@@ -54141,5 +54139,6 @@ bitcore.deps._ = require('lodash');
 // Internal usage, exposed for testing/advanced tweaking
 bitcore.Transaction.sighash = require('./lib/transaction/sighash');
 
+global._bitcore = bitcore;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
 },{"./lib/address":1,"./lib/block":4,"./lib/block/blockheader":3,"./lib/block/merkleblock":5,"./lib/crypto/bn":6,"./lib/crypto/ecdsa":7,"./lib/crypto/hash":8,"./lib/crypto/point":9,"./lib/crypto/random":10,"./lib/crypto/signature":11,"./lib/encoding/base58":12,"./lib/encoding/base58check":13,"./lib/encoding/bufferreader":14,"./lib/encoding/bufferwriter":15,"./lib/encoding/varint":16,"./lib/errors":17,"./lib/hdprivatekey.js":19,"./lib/hdpublickey.js":20,"./lib/networks":21,"./lib/opcode":22,"./lib/privatekey":23,"./lib/publickey":24,"./lib/script":25,"./lib/transaction":28,"./lib/transaction/sighash":36,"./lib/unit":40,"./lib/uri":41,"./lib/util/buffer":42,"./lib/util/js":43,"./lib/util/preconditions":44,"./package.json":320,"bn.js":280,"bs58":281,"buffer":47,"elliptic":285,"lodash":319}]},{},[]);

@@ -10,8 +10,6 @@ if (global._bitcore !== undefined) {
   return;
 }
 
-global._bitcore = bitcore;
-
 // crypto
 bitcore.crypto = {};
 bitcore.crypto.BN = require('./lib/crypto/bn');
@@ -64,3 +62,5 @@ bitcore.deps._ = require('lodash');
 
 // Internal usage, exposed for testing/advanced tweaking
 bitcore.Transaction.sighash = require('./lib/transaction/sighash');
+
+global._bitcore = bitcore;
