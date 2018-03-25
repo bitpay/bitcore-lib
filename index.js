@@ -6,6 +6,10 @@ var bitcore = module.exports;
 bitcore.version = 'v' + require('./package.json').version;
 
 if (global._bitcore !== undefined) {
+  if (typeof global._bitcore !== 'object' || global._bitcore.version !== bitcore.version) {
+    throw new Error('Outdated version of bitcore-lib found, ' +
+        'please make sure all dependencies have the same version.');
+  }
   module.exports = global._bitcore;
   return;
 }
