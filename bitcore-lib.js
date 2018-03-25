@@ -54086,7 +54086,7 @@ if (global._bitcore !== undefind) {
   return;
 }
 
-global._bitcore = bitcore.version;
+global._bitcore = bitcore;
 
 // crypto
 bitcore.crypto = {};

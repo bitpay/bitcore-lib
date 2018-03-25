@@ -10,7 +10,7 @@ if (global._bitcore !== undefined) {
   return;
 }
 
-global._bitcore = bitcore.version;
+global._bitcore = bitcore;
 
 // crypto
 bitcore.crypto = {};
