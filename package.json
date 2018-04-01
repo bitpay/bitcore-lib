@@ -109,7 +109,6 @@
   },
   "devDependencies": {
     "brfs": "^1.2.0",
-    "browserify": "latest",
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "jshint": "^2.9.5",
