@@ -1,0 +1,5 @@
+./node_modules/*
+bitcore-lib-dash.js
+bitcore-lib-dash.min.js
+./test/*
+./dist/*

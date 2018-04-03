@@ -5,10 +5,12 @@
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
   "scripts": {
-    "lint": "gulp lint",
-    "test": "gulp test",
-    "coverage": "gulp coverage",
-    "build": "gulp"
+    "lint": "jshint . || true",
+    "test": "npm run build && npm run test:node && npm run test:browser && npm run lint",
+    "test:node": "mocha --no-timeouts --recursive",
+    "test:browser": "karma start ./karma.conf.js --single-run",
+    "coverage": "nyc mocha --recursive",
+    "build": "webpack --display-error-details"
   },
   "contributors": [
     {
@@ -106,12 +108,25 @@
     "x11-hash-js": "^1.0.0"
   },
   "devDependencies": {
-    "bitcore-build-dash": "dashevo/bitcore-build-dash",
-    "browserify": "latest",
     "brfs": "^1.2.0",
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
-    "sinon": "^1.13.0"
+    "jshint": "^2.9.5",
+    "karma": "^2.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-detect-browsers": "^2.2.6",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-webpack": "^3.0.0",
+    "mocha": "^5.0.4",
+    "nyc": "^11.6.0",
+    "raw-loader": "^0.5.1",
+    "sinon": "^4.2.2",
+    "transform-loader": "^0.2.4",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^3.10.0"
   },
   "license": "MIT"
 }

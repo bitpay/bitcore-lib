@@ -1,5 +1,7 @@
 language: node_js
-sudo: false
+sudo: required
+addons:
+ chrome: stable
 node_js:
 - '6'
 - '7'

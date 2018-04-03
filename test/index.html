@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Mocha</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../node_modules/bitcore-build/node_modules/mocha/mocha.css" />
-  </head>
-  <body>
-    <div id="mocha"></div>
-    <script src="../node_modules/bitcore-build/node_modules/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script src="../tests.js"></script>
-    <script>
-      mocha.run();
-    </script>
-  </body>
+    <link href="https://unpkg.com/mocha@5.0.4/mocha.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="mocha"></div>
+<script src="https://unpkg.com/mocha@5.0.4/mocha.js"></script>
+<script>mocha.setup('bdd')</script>
+<script  src="../dist/mocha-test.js"></script>
+<script>
+  mocha.run();
+</script>
+<script src="../dist/bitcore-lib-dash.min.js"></script>
+<script type="text/javascript">
+  var privateKey = new bitcore.PrivateKey();
+  console.log(privateKey)
+
+  var address = privateKey.toAddress();
+  console.log(address)
+</script>
+</body>
 </html>
