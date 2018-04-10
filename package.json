@@ -1,5 +1,5 @@
 {
-  "name": "bitcore-lib-dash",
+  "name": "@dashevo/dashcore-lib",
   "version": "0.15.3",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "BitPay <dev@bitpay.com>",
@@ -82,16 +82,17 @@
     "bip37",
     "bip69",
     "bip70",
-    "multisig"
+    "multisig",
+    "dashcore"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dashevo/bitcore-lib-dash.git"
+    "url": "https://github.com/dashevo/dashcore-lib.git"
   },
   "bugs": {
-    "url": "https://github.com/dashevo/bitcore-lib-dash/issues"
+    "url": "https://github.com/dashevo/dashcore-lib/issues"
   },
-  "homepage": "https://github.com/dashevo/bitcore-lib-dash",
+  "homepage": "https://github.com/dashevo/dashcore-lib",
   "browser": {
     "request": "browser-request"
   },
