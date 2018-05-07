@@ -1,9 +1,9 @@
 # Transaction
-Bitcore provides a very simple API for creating transactions. We expect this API to be accessible for developers without knowing the working internals of bitcoin in deep detail. What follows is a small introduction to transactions with some basic knowledge required to use this API.
+Dashcore provides a very simple API for creating transactions. We expect this API to be accessible for developers without knowing the working internals of dash in deep detail. What follows is a small introduction to transactions with some basic knowledge required to use this API.
 
 A Transaction contains a set of inputs and a set of outputs. Each input contains a reference to another transaction's output, and a signature that allows the value referenced in that output to be used in this transaction.
 
-Note also that an output can be used only once. That's why there's a concept of "change address" in the bitcoin ecosystem: if an output of 10 BTC is available for me to spend, but I only need to transmit 1 BTC, I'll create a transaction with two outputs, one with 1 BTC that I want to spend, and the other with 9 BTC to a change address, so I can spend this 9 BTC with another private key that I own.
+Note also that an output can be used only once. That's why there's a concept of "change address" in the bitcoin ecosystem: if an output of 10 DASH is available for me to spend, but I only need to transmit 1 DASH, I'll create a transaction with two outputs, one with 1 DASH that I want to spend, and the other with 9 DASH to a change address, so I can spend this 9 DASH with another private key that I own.
 
 So, in order to transmit a valid transaction, you must know what other transactions on the network store outputs that have not been spent and that are available for you to spend (meaning that you have the set of keys that can validate you own those funds). The unspent outputs are usually referred to as "utxo"s.
 
@@ -12,7 +12,7 @@ Let's take a look at some very simple transactions:
 ```javascript
 var transaction = new Transaction()
     .from(utxos)          // Feed information about what unspent outputs one can use
-    .to(address, amount)  // Add an output with the given amount of satoshis
+    .to(address, amount)  // Add an output with the given amount of duff
     .change(address)      // Sets up a change address where the rest of the funds will go
     .sign(privkeySet)     // Signs all the inputs it can
 ```
@@ -22,14 +22,14 @@ You can obtain the input and output total amounts of the transaction in satoshis
 Now, this could just be serialized to hexadecimal ASCII values (`transaction.serialize()`) and sent over to the bitcoind reference client.
 
 ```bash
-bitcoin-cli sendrawtransaction <serialized transaction>
+dash-cli sendrawtransaction <serialized transaction>
 ```
 
-You can also override the fee estimation with another amount, specified in satoshis:
+You can also override the fee estimation with another amount, specified in duffs:
 
 ```javascript
 var transaction = new Transaction().fee(5430); // Minimum non-dust amount
-var transaction = new Transaction().fee(1e8);  // Generous fee of 1 BTC
+var transaction = new Transaction().fee(1e8);  // Generous fee of 1 DASH
 ```
 
 ## Multisig Transactions
@@ -75,9 +75,9 @@ transaction.applySignature(receivedSig);
 ```
 
 ## Adding inputs
-Transaction inputs are instances of either [Input](https://github.com/bitpay/bitcore/tree/master/lib/transaction/input) or its subclasses. `Input` has some abstract methods, as there is no actual concept of a "signed input" in the bitcoin scripting system (just valid signatures for <tt>OP_CHECKSIG</tt> and similar opcodes). They are stored in the `input` property of `Transaction` instances.
+Transaction inputs are instances of either [Input](lib/transaction/input) or its subclasses. `Input` has some abstract methods, as there is no actual concept of a "signed input" in the bitcoin scripting system (just valid signatures for <tt>OP_CHECKSIG</tt> and similar opcodes). They are stored in the `input` property of `Transaction` instances.
 
-Bitcore contains two implementations of `Input`, one for spending _Pay to Public Key Hash_ outputs (called `PublicKeyHashInput`) and another to spend _Pay to Script Hash_ outputs for which the redeem script is a Multisig script (called `MultisigScriptHashInput`).
+Dashcore contains two implementations of `Input`, one for spending _Pay to Public Key Hash_ outputs (called `PublicKeyHashInput`) and another to spend _Pay to Script Hash_ outputs for which the redeem script is a Multisig script (called `MultisigScriptHashInput`).
 
 All inputs have the following five properties:
 - `prevTxId`: a `Buffer` with the id of the transaction with the output this input is spending
@@ -144,9 +144,9 @@ When serializing, the bitcore library performs a series of checks. These can be 
 - `disableMoreOutputThanInput` avoids checking that the sum of the output amounts is less than or equal to the sum of the amounts for the outputs being spent in the transaction
 
 These are the current default values in the bitcore library involved on these checks:
-- `Transaction.FEE_PER_KB`: `10000` (satoshis per kilobyte)
+- `Transaction.FEE_PER_KB`: `10000` (duffs per kilobyte)
 - `Transaction.FEE_SECURITY_MARGIN`: `15`
-- `Transaction.DUST_AMOUNT`: `546` (satoshis)
+- `Transaction.DUST_AMOUNT`: `546` (duffs)
 
 ## Fee calculation
 When outputs' value don't sum up to the same amount that inputs, the difference in bitcoins goes to the miner of the block that includes this transaction. The concept of a "change address" usually is associated with this: an output with an address that can be spent by the creator of the transaction.
