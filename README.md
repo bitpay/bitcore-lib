@@ -19,6 +19,10 @@ npm install dashcore-lib
 
 ## Docs
 
+* [PrivateKey](docs/privatekey.md)
+* [PublicKey](docs/publickey.md)
+* [Script](docs/script.md)
+* [Transaction](docs/transaction.md)
 * [Unspent Output](docs/upspentoutput.md)
 * [URI](docs/uri.md)
 
