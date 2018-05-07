@@ -1,5 +1,5 @@
 # UnspentOutput
-`bitcore.Transaction.UnspentOutput` is a class with stateless instances that provides information about an unspent output:
+`dashcore.Transaction.UnspentOutput` is a class with stateless instances that provides information about an unspent output:
 - Transaction ID and output index
 - The "scriptPubKey", the script included in the output
 - Amount of satoshis associated
@@ -16,17 +16,17 @@ The constructor is quite permissive with the input arguments. It can take output
 
 ```javascript
 var utxo = new UnspentOutput({
-  "txid" : "a0a08e397203df68392ee95b3f08b0b3b3e2401410a38d46ae0874f74846f2e9",
+  "txid" : "3912bd2b0c78706db809fff3ab51ac81ef20e0a53f61e4a2369cff0c4084c55c",
   "vout" : 0,
-  "address" : "mgJT8iegL4f9NCgQFeFyfvnSw1Yj4M5Woi",
-  "scriptPubKey" : "76a914089acaba6af8b2b4fb4bed3b747ab1e4e60b496588ac",
-  "amount" : 0.00070000
+  "address" : "XuUGDZHrKLo841CyamDbG5W7n59epA71h2",
+  "scriptPubKey" : "76a914fd1a0216dc01bc90b68b39bbe755de834be5dddd88ac",
+  "amount" : 4.22900307
 });
 var utxo = new UnspentOutput({
-  "txId" : "a0a08e397203df68392ee95b3f08b0b3b3e2401410a38d46ae0874f74846f2e9",
+  "txId" : "3912bd2b0c78706db809fff3ab51ac81ef20e0a53f61e4a2369cff0c4084c55c",
   "outputIndex" : 0,
-  "address" : "mgJT8iegL4f9NCgQFeFyfvnSw1Yj4M5Woi",
-  "script" : "76a914089acaba6af8b2b4fb4bed3b747ab1e4e60b496588ac",
-  "satoshis" : 70000
+  "address" : "XuUGDZHrKLo841CyamDbG5W7n59epA71h2",
+  "script" : "76a914fd1a0216dc01bc90b68b39bbe755de834be5dddd88ac",
+  "satoshis" : 422900307
 });
 ```
