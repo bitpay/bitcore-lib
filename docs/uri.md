@@ -1,21 +1,21 @@
-# Bitcoin URIs
-Represents a bitcoin payment URI. Bitcoin URI strings became the most popular way to share payment request, sometimes as a bitcoin link and others using a QR code.
+# Dash URIs
+Represents a dash payment URI. Dash URI strings is a good standard to share payment request, sometimes as a dash link or using a QR code.
 
 URI Examples:
 
 ```
-bitcoin:12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu
-bitcoin:12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu?amount=1.2
-bitcoin:12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu?amount=1.2&message=Payment&label=Satoshi&extra=other-param
+dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2
+dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2
+dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2&message=Payment&label=Satoshi&extra=other-param
 ```
 
 ## URI Validation
-The main use that we expect you'll have for the `URI` class in bitcore is validating and parsing bitcoin URIs. A `URI` instance exposes the address as a bitcore `Address` object and the amount in Satoshis, if present.
+The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in Duffs, if present.
 
 The code for validating URIs looks like this:
 
 ```javascript
-var uriString = 'bitcoin:12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu?amount=1.2';
+var uriString = 'dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2';
 var valid = URI.isValid(uriString);
 var uri = new URI(uriString);
 console.log(uri.address.network, uri.amount); // 'livenet', 120000000
@@ -32,10 +32,28 @@ Another important use case for the `URI` class is creating a bitcoin URI for sha
 The code for creating an URI from an Object looks like this:
 
 ```javascript
-var uriString = new URI({
-  address: '12A1MyfXbW6RhdRAZEqofac5jCQQjwEPBu',
-  amount : 10000, // in satoshis
+var uri = new URI({
+  address: 'XuUGDZHrKLo841CyamDbG5W7n59epA71h2',
+  amount : 10000, // in duffs
   message: 'My payment request'
 });
-var uriString = uri.toString();
+console.log(uri.toString()) //dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=0.0001&message=My%20payment%20request
+```
+
+Methods `toObject`, `toJSON` and `inspect` remain available.
+
+## fromString
+
+```
+var uri = new URI("dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=0.0001&message=My%20payment%20request>")
+```
+
+
+## fromObject
+```
+var uri = new URI({
+          address:"XuUGDZHrKLo841CyamDbG5W7n59epA71h2",
+          amount:"10000",
+          message:"My payment request"
+          })
 ```
