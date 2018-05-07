@@ -1,5 +1,5 @@
-Bitcore-Dash Library
-=======
+Dashcore Library
+================
 
 [![NPM Package](https://img.shields.io/npm/v/@dashevo/dashcore-lib.svg?style=flat-square)](https://www.npmjs.org/package/@dashevo/dashcore-lib)
 [![Build Status](https://img.shields.io/travis/dashevo/dashcore-lib.svg?branch=master&style=flat-square)](https://travis-ci.org/dashevo/dashcore-lib)
@@ -17,16 +17,12 @@ Dash is a powerful new peer-to-peer platform for the next generation of financia
 npm install dashcore-lib
 ```
 
-## Documentation
+## Docs
 
-The complete docs are hosted here: [bitcore documentation](http://bitcore.io/guide/). There's also a [bitcore API reference](http://bitcore.io/api/) available generated from the JSDocs of the project, where you'll find low-level details on each bitcore utility.
+* [UnSpent Output]()
+* [URI](docs/uri.md)
 
-- [Read the Developer Guide](http://bitcore.io/guide/)
-- [Read the API Reference](http://bitcore.io/api/)
-
-To get community assistance and ask for help with implementation questions, please use our [community forums](https://forum.bitcore.io/).
-
-## Examples
+## Exemples
 
 * [Generate a random address](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#generate-a-random-address)
 * [Generate a address from a SHA256 hash](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
@@ -54,19 +50,21 @@ Please send pull requests for bug fixes, code optimization, and ideas for improv
 To build a bitcore-lib-dash full bundle for the browser:
 
 ```sh
-gulp browser
+npm run build
 ```
 
-This will generate files named `bitcore-lib-dash.js` and `bitcore-lib-dash.min.js`.
+This will generate files named `dashcore-lib.js` and `dashcore-lib.min.js` in the `dist/` folder.
 
-You can also use our pre-generated files, provided for each release along with a PGP signature by one of the project's maintainers. To get them, checkout a release commit (for example, https://github.com/dashpay/bitcore-lib-dash/commit/e33b6e3ba6a1e5830a079e02d949fce69ea33546 for v0.12.6).
+## Usage on Browser
 
-To verify signatures, use the following PGP keys:
-- @braydonf: https://pgp.mit.edu/pks/lookup?op=get&search=0x9BBF07CAC07A276D `D909 EFE6 70B5 F6CC 89A3 607A 9BBF 07CA C07A 276D`
-- @gabegattis: https://pgp.mit.edu/pks/lookup?op=get&search=0x441430987182732C `F3EA 8E28 29B4 EC93 88CB  B0AA 4414 3098 7182 732C`
-- @kleetus: https://pgp.mit.edu/pks/lookup?op=get&search=0x33195D27EF6BDB7F `F8B0 891C C459 C197 65C2 5043 3319 5D27 EF6B DB7F`
-- @matiu: https://pgp.mit.edu/pks/lookup?op=get&search=0x9EDE6DE4DE531FAC `25CE ED88 A1B1 0CD1 12CD  4121 9EDE 6DE4 DE53 1FAC`
-
+```
+<script src='./dist/dashcore-lib.min.js' type="text/javascript"></script>
+<script>
+  const PrivateKey = dashcore.PrivateKey;
+  const privateKey = new PrivateKey();
+  const address = privateKey.toAddress().toString();
+</script>
+```
 
 ## Development & Tests
 
@@ -79,15 +77,15 @@ npm install
 Run all the tests:
 
 ```sh
-gulp test
+npm test
 ```
 
-You can also run just the Node.js tests with `gulp test:node`, just the browser tests with `gulp test:browser`
-or create a test coverage report (you can open `coverage/lcov-report/index.html` to visualize it) with `gulp coverage`.
+You can also run just the Node.js tests with `npm run test:node`, just the browser tests with `npm run test:browser`
+or run a test coverage report with `npm run coverage`.
 
 ## License
 
 Code released under [the MIT license](https://github.com/dashevo/dashcore-lib/blob/master/LICENSE).
 
 Copyright 2013-2017 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
-Copyright 2016-2017 The Dash Foundation, Inc.
+Copyright 2016-2018 The Dash Foundation, Inc.
