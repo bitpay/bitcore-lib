@@ -132,7 +132,7 @@ There are a series of methods used for serialization:
 - `toString` or `uncheckedSerialize`: Returns an hexadecimal serialization of the transaction, in the [serialization format for bitcoin](https://bitcoin.org/en/developer-reference#raw-transaction-format).
 - `serialize`: Does a series of checks before serializing the transaction
 - `inspect`: Returns a string with some information about the transaction (currently a string formatted as `<Transaction 000...000>`, that only shows the serialized value of the transaction.
-- `toBuffer`: Serializes the transaction for sending over the wire in the dash network
+- `toBuffer`: Serializes the transaction for sending over the wire in the Dash network
 - `toBufferWriter`: Uses an already existing BufferWriter to copy over the serialized transaction
 
 ## Serialization Checks
