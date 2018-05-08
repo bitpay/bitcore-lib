@@ -19,14 +19,25 @@ npm install dashcore-lib
 
 ## Docs
 
+* [Addresses](address.md)
+* [Block](block.md)
+* [Crypto](crypto.md)
+* [Encoding](encoding.md)
+* [Hierarchically-derived Private and Public Keys](hierarchical.md)
+* [Networks](docs/networks.md)
 * [PrivateKey](docs/privatekey.md)
 * [PublicKey](docs/publickey.md)
 * [Script](docs/script.md)
 * [Transaction](docs/transaction.md)
+* [Using Different Units](unit.md)
 * [Unspent Output](docs/upspentoutput.md)
 * [URI](docs/uri.md)
+* [Governance Object / Proposal](govobject/govobject.md)
 
 ## Exemples
+
+Some exemple can be find [here](docs/examples.md), below is a list of direct link for some of them.
+
 
 * [Generate a random address](docs/examples.md#generate-a-random-address)
 * [Generate a address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
@@ -38,6 +49,17 @@ npm install dashcore-lib
 * [Create a 2-of-3 multisig P2SH address](docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
 * [Spend from a 2-of-2 multisig P2SH address](docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
 
+## Modules
+
+Some functionality is implemented as a module that can be installed separately:
+
+* [Payment Protocol Support](https://github.com/dashevo/dashcore-payment-protocol)
+* [Peer to Peer Networking](https://github.com/dashevo/dashcore-p2p)
+* [Bitcoin Core JSON-RPC](https://github.com/dashevo/dashd-rpc)
+* [Payment Channels](https://github.com/dashevo/dashcore-channel)
+* [Mnemonics](https://github.com/dashevo/dashcore-mnemonic)
+* [Elliptical Curve Integrated Encryption Scheme](https://github.com/dashevo/dashcore-ecies)
+* [Signed Messages](https://github.com/dashevo/dashcore-message)
 
 ## Security
 
