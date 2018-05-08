@@ -149,7 +149,7 @@ These are the current default values in the dashcore library involved on these c
 - `Transaction.DUST_AMOUNT`: `546` (duffs)
 
 ## Fee calculation
-When outputs' value don't sum up to the same amount that inputs, the difference in dashes goes to the miner of the block that includes this transaction. The concept of a "change address" usually is associated with this: an output with an address that can be spent by the creator of the transaction.
+When outputs' value don't sum up to the same amount that inputs, the difference in funds goes to the miner of the block that includes this transaction. The concept of a "change address" usually is associated with this: an output with an address that can be spent by the creator of the transaction.
 
 For this reason, some methods in the Transaction class are provided:
 - `change(address)`: Set up the change address. This will set an internal `_changeScript` property that will store the change script associated with that address.

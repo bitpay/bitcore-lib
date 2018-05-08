@@ -31,7 +31,7 @@ assert(script.toString() === '33 0x022df8750480ad5b26950b25c7ba79d3e37d75f640f8e
 ```
 
 ### Pay to Multisig (p2ms)
-Multisig outputs allow to share control of dashes between several keys. When creating the script, one specifies the public keys that control the funds, and how many of those keys are required to sign off spending transactions to be valid. An output with N public keys of which M are required is called an m-of-n output (For example, 2-of-3, 3-of-5, 4-of-4, etc.)
+Multisig outputs allow to share control of some funds between several keys. When creating the script, one specifies the public keys that control the funds, and how many of those keys are required to sign off spending transactions to be valid. An output with N public keys of which M are required is called an m-of-n output (For example, 2-of-3, 3-of-5, 4-of-4, etc.)
 
 Note that regular multisig outputs are rarely used nowadays. The best practice is to use a p2sh multisig output (See Script#toScriptHashOut()).
 
@@ -50,7 +50,7 @@ assert(script.toString() === 'OP_2 33 0x022df8750480ad5b26950b25c7ba79d3e37d75f6
 ```
 
 ### Pay to Script Hash (p2sh)
-Pay to script hash outputs are scripts that contain the hash of another script, called `redeemScript`. To spend dashes sent in a p2sh output, the spending transaction must provide a script matching the script hash and data which makes the script evaluate to true.  This allows to defer revealing the spending conditions to the moment of spending. It also makes it possible for the receiver to set the conditions to spend those dashes.
+Pay to script hash outputs are scripts that contain the hash of another script, called `redeemScript`. To spend funds sent in a p2sh output, the spending transaction must provide a script matching the script hash and data which makes the script evaluate to true.  This allows to defer revealing the spending conditions to the moment of spending. It also makes it possible for the receiver to set the conditions to spend those funds.
 
 Most multisig transactions today use p2sh outputs where the `redeemScript` is a multisig output.
 
