@@ -1,5 +1,5 @@
 # Dash Crypto
-The cryptographic primitives (ECDSA and HMAC) implementations in this package have been reviewed by the BBitPay engineering team. More audits and reviews are welcomed.
+The cryptographic primitives (ECDSA and HMAC) implementations in this package have been reviewed on the upstream repository, no changes have been done since then, however, more audits and reviews are welcomed.
 
 ## Random
 The `dashcore.crypto.Random` namespace contains a single function, named `getRandomBuffer(size)` that returns a `Buffer` instance with random bytes. It may not work depending on the engine that dashcore is running on (doesn't work with IE versions lesser than 11).

@@ -73,7 +73,7 @@ Please send pull requests for bug fixes, code optimization, and ideas for improv
 
 ## Building the Browser Bundle
 
-To build a bitcore-lib-dash full bundle for the browser:
+To build a dashcore-lib full bundle for the browser:
 
 ```sh
 npm run build

@@ -1,5 +1,5 @@
 # Dash URIs
-Represents a dash payment URI. Dash URI strings is a good standard to share payment request, sometimes as a dash link or using a QR code.
+Represents a Dash payment URI. Dash URI strings is a good standard to share payment request, sometimes as a Dash link or using a QR code.
 
 URI Examples:
 
@@ -10,7 +10,7 @@ dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2&message=Payment&label=Satoshi
 ```
 
 ## URI Validation
-The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in Duffs, if present.
+The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing Dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in duffs, if present.
 
 The code for validating URIs looks like this:
 

@@ -1,5 +1,5 @@
 # Dash Address
-Represents a dash address. Addresses are the most popular way to make dash transactions. See [the dash documentation](https://dash-docs.github.io/en/glossary/address) for technical background information.
+Represents a Dash address. Addresses are the most popular way to make Dash transactions. See [the Dash documentation](https://dash-docs.github.io/en/glossary/address) for technical background information.
 
 ## Instantiate an Address
 To be able to receive some funds an address is needed, but in order to spend them a private key is necessary. Please take a look at the [`PrivateKey`](privatekey.md) docs for more information about exporting and saving a key.

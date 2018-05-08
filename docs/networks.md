@@ -1,7 +1,7 @@
 # Networks
-Dashcore provides support for the main dash network as well as for `testnet3`, the current test blockchain. We encourage the use of `Networks.livenet` and `Networks.testnet` as constants. Note that the library sometimes may check for equality against this object. Please avoid creating a deep copy of this object.
+Dashcore provides support for the main Dash network as well as for `testnet3`, the current test blockchain. We encourage the use of `Networks.livenet` and `Networks.testnet` as constants. Note that the library sometimes may check for equality against this object. Please avoid creating a deep copy of this object.
 
-The `Network` namespace has a function, `get(...)` that returns an instance of a `Network` or `undefined`. The only argument to this function is some kind of identifier of the network: either its name, a reference to a Network object, or a number used as a magic constant to identify the network (for example, the value `0x4c` that gives dash addresses the distinctive `'X'` at its beginning on livenet, is a `0x8c` for testnet).
+The `Network` namespace has a function, `get(...)` that returns an instance of a `Network` or `undefined`. The only argument to this function is some kind of identifier of the network: either its name, a reference to a Network object, or a number used as a magic constant to identify the network (for example, the value `0x4c` that gives Dash addresses the distinctive `'X'` at its beginning on livenet, is a `0x8c` for testnet).
 
 ## Regtest
 
