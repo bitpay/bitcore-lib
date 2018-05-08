@@ -34,7 +34,7 @@ npm install dashcore-lib
 * [URI](docs/uri.md)
 * [Governance Object / Proposal](govobject/govobject.md)
 
-## Exemples
+## Examples
 
 Some exemple can be find [here](docs/examples.md), below is a list of direct link for some of them.
 
