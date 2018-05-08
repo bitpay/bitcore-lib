@@ -36,7 +36,7 @@ npm install dashcore-lib
 
 ## Examples
 
-Some exemple can be find [here](docs/examples.md), below is a list of direct link for some of them.
+Some examples can be find [here](docs/examples.md), below is a list of direct link for some of them.
 
 
 * [Generate a random address](docs/examples.md#generate-a-random-address)
