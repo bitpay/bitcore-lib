@@ -94,7 +94,7 @@ Some methods related to adding inputs are:
   - `from(utxos)`: same as above, but passing in an array of Unspent Outputs.
   - `from(utxo, publicKeys, threshold)`: add an input that spends a UTXO with a P2SH output for a Multisig script. The `publicKeys` argument is an array of public keys, and `threshold` is the number of required signatures in the Multisig script.
 
-- `addInput`: Performs a series of checks on an input and appends it to the end of the `input` vector and updates the amount of incoming dashes of the transaction.
+- `addInput`: Performs a series of checks on an input and appends it to the end of the `input` vector and updates the amount of incoming funds of the transaction.
 - `uncheckedAddInput`: adds an input to the end of the `input` vector and updates the `inputAmount` without performing any checks.
 
 ### PublicKeyHashInput
