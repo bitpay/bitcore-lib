@@ -6,8 +6,8 @@ var bitcore = module.exports;
 bitcore.version = 'v' + require('./package.json').version;
 bitcore.versionGuard = function(version) {
   if (version !== undefined) {
-    var message = 'More than one instance of bitcore-lib found. ' + 
-      'Please make sure that you are not mixing instances of classes of the different versions of bitcore.';
+    var message = 'More than one instance of dashcore-lib found. ' +
+      'Please make sure that you are not mixing instances of classes of the different versions of dashcore.';
     console.warn(message);
   }
 };
