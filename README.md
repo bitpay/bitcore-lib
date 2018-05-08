@@ -61,12 +61,6 @@ Some functionality is implemented as a module that can be installed separately:
 * [Elliptical Curve Integrated Encryption Scheme](https://github.com/dashevo/dashcore-ecies)
 * [Signed Messages](https://github.com/dashevo/dashcore-message)
 
-## Security
-
-We're using Bitcore in production, as are [many others](http://bitcore.io#projects), but please use common sense when doing anything related to finances! We take no responsibility for your implementation decisions.
-
-If you find a security issue, please email security@bitpay.com.
-
 ## Contributing
 
 Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/dashevo/dashcore-lib/blob/master/CONTRIBUTING.md) file.
