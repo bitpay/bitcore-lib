@@ -5,7 +5,7 @@ The `Network` namespace has a function, `get(...)` that returns an instance of a
 
 ## Regtest
 
-The regtest network is useful for development as it's possible to programmatically and instantly generate blocks for testing. It's currently supported as a variation of testnet. Here is an example of how to use regtest with the Bitcore Library:
+The regtest network is useful for development as it's possible to programmatically and instantly generate blocks for testing. It's currently supported as a variation of testnet. Here is an example of how to use regtest with the Dashcore Library:
 
 ```js
 // Standard testnet
