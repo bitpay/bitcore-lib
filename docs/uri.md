@@ -10,7 +10,7 @@ dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2&message=Payment&label=Satoshi
 ```
 
 ## URI Validation
-The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing Dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in duffs, if present.
+The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing Dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in satoshis, if present.
 
 The code for validating URIs looks like this:
 
@@ -34,7 +34,7 @@ The code for creating an URI from an Object looks like this:
 ```javascript
 var uri = new URI({
   address: 'XuUGDZHrKLo841CyamDbG5W7n59epA71h2',
-  amount : 10000, // in duffs
+  amount : 10000, // in satoshis
   message: 'My payment request'
 });
 console.log(uri.toString()) //dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=0.0001&message=My%20payment%20request

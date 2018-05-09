@@ -12,7 +12,7 @@ Let's take a look at some very simple transactions:
 ```javascript
 var transaction = new Transaction()
     .from(utxos)          // Feed information about what unspent outputs one can use
-    .to(address, amount)  // Add an output with the given amount of duff
+    .to(address, amount)  // Add an output with the given amount of satoshi
     .change(address)      // Sets up a change address where the rest of the funds will go
     .sign(privkeySet)     // Signs all the inputs it can
 ```
@@ -25,7 +25,7 @@ Now, this could just be serialized to hexadecimal ASCII values (`transaction.ser
 dash-cli sendrawtransaction <serialized transaction>
 ```
 
-You can also override the fee estimation with another amount, specified in duffs:
+You can also override the fee estimation with another amount, specified in satoshis:
 
 ```javascript
 var transaction = new Transaction().fee(5430); // Minimum non-dust amount
@@ -144,9 +144,9 @@ When serializing, the dashcore library performs a series of checks. These can be
 - `disableMoreOutputThanInput` avoids checking that the sum of the output amounts is less than or equal to the sum of the amounts for the outputs being spent in the transaction
 
 These are the current default values in the dashcore library involved on these checks:
-- `Transaction.FEE_PER_KB`: `10000` (duffs per kilobyte)
+- `Transaction.FEE_PER_KB`: `10000` (satoshis per kilobyte)
 - `Transaction.FEE_SECURITY_MARGIN`: `15`
-- `Transaction.DUST_AMOUNT`: `546` (duffs)
+- `Transaction.DUST_AMOUNT`: `546` (satoshis)
 
 ## Fee calculation
 When the sum of the outputs' value doesn't add up to the sum of the inputs' value, the difference is given to the miner of the block that includes this transaction as a "mining fee".
