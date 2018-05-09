@@ -1,5 +1,5 @@
-Bitcore-Dash Library
-=======
+Dashcore Library
+================
 
 [![NPM Package](https://img.shields.io/npm/v/@dashevo/dashcore-lib.svg?style=flat-square)](https://www.npmjs.org/package/@dashevo/dashcore-lib)
 [![Build Status](https://img.shields.io/travis/dashevo/dashcore-lib.svg?branch=master&style=flat-square)](https://travis-ci.org/dashevo/dashcore-lib)
@@ -17,33 +17,49 @@ Dash is a powerful new peer-to-peer platform for the next generation of financia
 npm install dashcore-lib
 ```
 
-## Documentation
+## Docs
 
-The complete docs are hosted here: [bitcore documentation](http://bitcore.io/guide/). There's also a [bitcore API reference](http://bitcore.io/api/) available generated from the JSDocs of the project, where you'll find low-level details on each bitcore utility.
-
-- [Read the Developer Guide](http://bitcore.io/guide/)
-- [Read the API Reference](http://bitcore.io/api/)
-
-To get community assistance and ask for help with implementation questions, please use our [community forums](https://forum.bitcore.io/).
+* [Addresses](address.md)
+* [Block](block.md)
+* [Crypto](crypto.md)
+* [Encoding](encoding.md)
+* [Hierarchically-derived Private and Public Keys](hierarchical.md)
+* [Networks](docs/networks.md)
+* [PrivateKey](docs/privatekey.md)
+* [PublicKey](docs/publickey.md)
+* [Script](docs/script.md)
+* [Transaction](docs/transaction.md)
+* [Using Different Units](unit.md)
+* [Unspent Output](docs/upspentoutput.md)
+* [URI](docs/uri.md)
+* [Governance Object / Proposal](govobject/govobject.md)
 
 ## Examples
 
-* [Generate a random address](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#generate-a-random-address)
-* [Generate a address from a SHA256 hash](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#generate-a-address-from-a-sha256-hash)
-* [Import an address via WIF](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#import-an-address-via-wif)
-* [Create a Transaction](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#create-a-transaction)
-* [Sign a Dash message](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#sign-a-bitcoin-message)
-* [Verify a Dash message](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#verify-a-bitcoin-message)
-* [Create an OP RETURN transaction](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#create-an-op-return-transaction)
-* [Create a 2-of-3 multisig P2SH address](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
-* [Spend from a 2-of-2 multisig P2SH address](https://github.com/dashevo/dashcore-lib/blob/master/docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
+Some examples can be find [here](docs/examples.md), below is a list of direct link for some of them.
 
 
-## Security
+* [Generate a random address](docs/examples.md#generate-a-random-address)
+* [Generate a address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
+* [Import an address via WIF](docs/examples.md#import-an-address-via-wif)
+* [Create a Transaction](docs/examples.md#create-a-transaction)
+* [Sign a Dash message](docs/examples.md#sign-a-bitcoin-message)
+* [Verify a Dash message](docs/examples.md#verify-a-bitcoin-message)
+* [Create an OP RETURN transaction](docs/examples.md#create-an-op-return-transaction)
+* [Create a 2-of-3 multisig P2SH address](docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
+* [Spend from a 2-of-2 multisig P2SH address](docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
 
-We're using Bitcore in production, as are [many others](http://bitcore.io#projects), but please use common sense when doing anything related to finances! We take no responsibility for your implementation decisions.
+## Modules
 
-If you find a security issue, please email security@bitpay.com.
+Some functionality is implemented as a module that can be installed separately:
+
+* [Payment Protocol Support](https://github.com/dashevo/dashcore-payment-protocol)
+* [Peer to Peer Networking](https://github.com/dashevo/dashcore-p2p)
+* [Bitcoin Core JSON-RPC](https://github.com/dashevo/dashd-rpc)
+* [Payment Channels](https://github.com/dashevo/dashcore-channel)
+* [Mnemonics](https://github.com/dashevo/dashcore-mnemonic)
+* [Elliptical Curve Integrated Encryption Scheme](https://github.com/dashevo/dashcore-ecies)
+* [Signed Messages](https://github.com/dashevo/dashcore-message)
 
 ## Contributing
 
@@ -51,22 +67,24 @@ Please send pull requests for bug fixes, code optimization, and ideas for improv
 
 ## Building the Browser Bundle
 
-To build a bitcore-lib-dash full bundle for the browser:
+To build a dashcore-lib full bundle for the browser:
 
 ```sh
-gulp browser
+npm run build
 ```
 
-This will generate files named `bitcore-lib-dash.js` and `bitcore-lib-dash.min.js`.
+This will generate files named `dashcore-lib.js` and `dashcore-lib.min.js` in the `dist/` folder.
 
-You can also use our pre-generated files, provided for each release along with a PGP signature by one of the project's maintainers. To get them, checkout a release commit (for example, https://github.com/dashpay/bitcore-lib-dash/commit/e33b6e3ba6a1e5830a079e02d949fce69ea33546 for v0.12.6).
+## Usage on Browser
 
-To verify signatures, use the following PGP keys:
-- @braydonf: https://pgp.mit.edu/pks/lookup?op=get&search=0x9BBF07CAC07A276D `D909 EFE6 70B5 F6CC 89A3 607A 9BBF 07CA C07A 276D`
-- @gabegattis: https://pgp.mit.edu/pks/lookup?op=get&search=0x441430987182732C `F3EA 8E28 29B4 EC93 88CB  B0AA 4414 3098 7182 732C`
-- @kleetus: https://pgp.mit.edu/pks/lookup?op=get&search=0x33195D27EF6BDB7F `F8B0 891C C459 C197 65C2 5043 3319 5D27 EF6B DB7F`
-- @matiu: https://pgp.mit.edu/pks/lookup?op=get&search=0x9EDE6DE4DE531FAC `25CE ED88 A1B1 0CD1 12CD  4121 9EDE 6DE4 DE53 1FAC`
-
+```
+<script src='./dist/dashcore-lib.min.js' type="text/javascript"></script>
+<script>
+  const PrivateKey = dashcore.PrivateKey;
+  const privateKey = new PrivateKey();
+  const address = privateKey.toAddress().toString();
+</script>
+```
 
 ## Development & Tests
 
@@ -79,15 +97,15 @@ npm install
 Run all the tests:
 
 ```sh
-gulp test
+npm test
 ```
 
-You can also run just the Node.js tests with `gulp test:node`, just the browser tests with `gulp test:browser`
-or create a test coverage report (you can open `coverage/lcov-report/index.html` to visualize it) with `gulp coverage`.
+You can also run just the Node.js tests with `npm run test:node`, just the browser tests with `npm run test:browser`
+or run a test coverage report with `npm run coverage`.
 
 ## License
 
-Code released under [the MIT license](https://github.com/dashevo/dashcore-lib/blob/master/LICENSE).
+Code released under [the MIT license](LICENSE).
 
 Copyright 2013-2017 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
-Copyright 2016-2017 The Dash Foundation, Inc.
+Copyright 2016-2018 The Dash Foundation, Inc.
