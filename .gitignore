@@ -5,6 +5,8 @@ node_modules
 browser/tests.js
 docs/api
 
+dist/mocha-test.js
+
 CONTRIBUTING.html
 LICENSE.html
 README.html
@@ -24,3 +26,5 @@ bitcore.min.js.sig
 tests.js
 
 launch.json
+
+.nyc_output/
