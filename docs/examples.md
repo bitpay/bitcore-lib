@@ -7,7 +7,7 @@ var privateKey = new bitcore.PrivateKey();
 var address = privateKey.toAddress();
 ```
 
-## Generate a address from a SHA256 hash
+## Generate an address from a SHA256 hash
 ```javascript
 var value = Buffer.from('correct horse battery staple');
 var hash = bitcore.crypto.Hash.sha256(value);
