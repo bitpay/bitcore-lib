@@ -106,7 +106,7 @@
     "inherits": "=2.0.1",
     "lodash": "=4.17.1",
     "sha512": "=0.0.1",
-    "x11-hash-js": "^1.0.0"
+    "@dashevo/x11-hash-js": "^1.0.2"
   },
   "devDependencies": {
     "brfs": "^1.2.0",
