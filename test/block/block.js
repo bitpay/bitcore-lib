@@ -85,13 +85,13 @@ describe('Block', function() {
 
   describe('#fromJSON', function() {
 
-    it('should set these known values', function() {
+    it('should set these known values - from object', function() {
       var block = Block.fromObject(JSON.parse(json));
       should.exist(block.header);
       should.exist(block.transactions);
     });
 
-    it('should set these known values', function() {
+    it('should set these known values - from parsed json', function() {
       var block = new Block(JSON.parse(json));
       should.exist(block.header);
       should.exist(block.transactions);
