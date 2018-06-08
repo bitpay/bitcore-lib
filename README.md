@@ -9,7 +9,7 @@ A pure and powerful JavaScript Dash library.
 
 ## Principles
 
-Dash is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Dash network allows for highly resilient dash infrastructure, and the developer community needs reliable, open-source tools to implement dash apps and services.
+Dash is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Dash network allows for highly resilient Dash infrastructure, and the developer community needs reliable, open-source tools to implement Dash apps and services.
 
 ## Get Started
 ### NodeJS
@@ -24,24 +24,24 @@ See the section below to generate your own bundle, or download the pre-generated
 
 ## Docs
 
-* [Addresses](address.md)
-* [Block](block.md)
-* [Crypto](crypto.md)
-* [Encoding](encoding.md)
-* [Hierarchically-derived Private and Public Keys](hierarchical.md)
+* [Addresses](docs/address.md)
+* [Block](docs/block.md)
+* [Crypto](docs/crypto.md)
+* [Encoding](docs/encoding.md)
+* [Hierarchically-derived Private and Public Keys](docs/hierarchical.md)
 * [Networks](docs/networks.md)
 * [PrivateKey](docs/privatekey.md)
 * [PublicKey](docs/publickey.md)
 * [Script](docs/script.md)
 * [Transaction](docs/transaction.md)
-* [Using Different Units](unit.md)
-* [Unspent Output](docs/upspentoutput.md)
+* [Using Different Units](docs/unit.md)
+* [Unspent Output](docs/unspentoutput.md)
 * [URI](docs/uri.md)
-* [Governance Object / Proposal](govobject/govobject.md)
+* [Governance Object / Proposal](docs/govobject/govobject.md)
 
 ## Examples
 
-Some examples can be find [here](docs/examples.md), below is a list of direct link for some of them.
+Some examples can be found [here](docs/examples.md), below is a list of direct links for some of them.
 
 
 * [Generate a random address](docs/examples.md#generate-a-random-address)
@@ -60,11 +60,11 @@ Some functionality is implemented as a module that can be installed separately:
 
 * [Payment Protocol Support](https://github.com/dashevo/dashcore-payment-protocol)
 * [Peer to Peer Networking](https://github.com/dashevo/dashcore-p2p)
-* [Bitcoin Core JSON-RPC](https://github.com/dashevo/dashd-rpc)
+* [Dash Core JSON-RPC](https://github.com/dashevo/dashd-rpc)
 * [Payment Channels](https://github.com/dashevo/dashcore-channel)
 * [Mnemonics](https://github.com/dashevo/dashcore-mnemonic)
-* [Elliptical Curve Integrated Encryption Scheme](https://github.com/dashevo/dashcore-ecies)
-* [Signed Messages](https://github.com/dashevo/dashcore-message)
+* [Elliptical Curve Integrated Encryption Scheme](https://github.com/dashevo/bitcore-ecies-dash)
+* [Signed Messages](https://github.com/dashevo/bitcore-message-dash)
 
 ## Contributing
 
@@ -112,5 +112,6 @@ or run a test coverage report with `npm run coverage`.
 
 Code released under [the MIT license](LICENSE).
 
-Copyright 2013-2017 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
-Copyright 2016-2018 The Dash Foundation, Inc.
+Copyright 2013-2017 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.  
+Copyright 2016-2017 The Dash Foundation, Inc.  
+Copyright 2017-2018 Dash Core Group, Inc.  
