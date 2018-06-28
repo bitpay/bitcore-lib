@@ -8,6 +8,8 @@ var bitcore = require('../../');
 var Script = bitcore.Script;
 var Transaction = bitcore.Transaction;
 var sighash = Transaction.sighash;
+var BufferUtils = bitcore.util.buffer;
+var Signature = bitcore.crypto.Signature;
 
 var vectors_sighash = require('../data/sighash.json');
 
@@ -28,10 +30,27 @@ describe('sighash', function() {
       var tx = new Transaction(txbuf);
 
       //make sure transacion to/from buffer is isomorphic
-      tx.uncheckedSerialize().should.equal(txbuf.toString('hex'));
+      tx.uncheckedSerialize().should.equal(vector[0]);
 
       //sighash ought to be correct
-      sighash.sighash(tx, nhashtype, nin, subscript).toString('hex').should.equal(sighashbuf.toString('hex'));
+      BufferUtils.equal(sighash.sighash(tx, nhashtype, nin, subscript), sighashbuf).should.be.true;
     });
+  });
+
+  it('sighashPreimage handles correctly the SIGHASH_SINGLE bug', function() {
+
+    // Use the first transaction from vectors_sighash as template
+    var faketx = new Transaction(vectors_sighash[1][0]);
+
+    // Clear all outputs
+    faketx.outputs = [];
+    var script = new Script();
+
+    // Calculate preimage with the SIGHASH_SINGLE bug
+    var preimage = sighash.sighashPreimage(faketx, Signature.SIGHASH_SINGLE, 0, script)
+
+    var SIGHASH_SINGLE_BUG_RESULT = '0000000000000000000000000000000000000000000000000000000000000001';
+
+    preimage.toString('hex').should.equal(SIGHASH_SINGLE_BUG_RESULT)
   });
 });
