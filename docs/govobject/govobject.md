@@ -31,11 +31,11 @@ Returns a dataHex representation (see above)
 ####  `fromObject`  
 Allow to create a govObj from a json or stringifiedJSON obj
 ####  `fromString`
-Allow to create a govObj from an hex string
+Allow to create a govObj from a hex string
 ####  `checkedSerialize`
-Return an hexa string that can be used in dashd CLI
+Return a hex string that can be used in dashd CLI
 ####  `serialize`
-Return an hexa string
+Return a hex string
 ####  `inspect`
 Returns a representation of the object
 ####  `toBuffer`
@@ -134,9 +134,9 @@ var JSONObject = JSON.parse(fromString.dataHex())[0][1]);
 
 ## GovObject Types:
 
-Each of theses types are inherited from govObject allowing the same methods to be callable.
+Each of these types are inherited from govObject allowing the same methods to be callable.
 
-* Proposal `type:1` : Allow to create a proposal which inherit govObject method and overwrite them when needed
+* Proposal `type:1`: Allow to create a proposal which inherit govObject method and overwrite them when needed
 
 ```javascript
 var jsonProposal = {
@@ -155,6 +155,6 @@ proposal = proposal.fromObject(JSON.stringify(jsonProposal));
 
 var shallowCopy = proposal.shallowCopy(); //As proposal inherits govObject
 
-//Return an hex equivalent of the proposal
+//Return a hex equivalent of the proposal
 var hexProposal = proposal.serialize()
 ```

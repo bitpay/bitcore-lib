@@ -45,7 +45,7 @@ Some examples can be found [here](docs/examples.md), below is a list of direct l
 
 
 * [Generate a random address](docs/examples.md#generate-a-random-address)
-* [Generate a address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
+* [Generate an address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
 * [Import an address via WIF](docs/examples.md#import-an-address-via-wif)
 * [Create a Transaction](docs/examples.md#create-a-transaction)
 * [Sign a Dash message](docs/examples.md#sign-a-bitcoin-message)
