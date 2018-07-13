@@ -187,6 +187,8 @@ describe('Transaction', function() {
           var args = vector[i + 1];
           if (command === 'serialize') {
             transaction.serialize().should.equal(args);
+          } else if (command === 'version') {
+            transaction.version = args;
           } else {
             transaction[command].apply(transaction, args);
           }
