@@ -18,6 +18,7 @@ var Address = bitcore.Address;
 var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
+var BufferUtil = bitcore.util.buffer;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1270,6 +1271,67 @@ describe('Transaction', function() {
       });
       var copiedTransaction = bitcore.Transaction().fromObject(tx);
       expect(copiedTransaction).to.be.an.instanceof(bitcore.Transaction);
+    });
+  });
+  describe('setExtraPayload', function() {
+    it('Should set payload and size', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+
+      expect(transaction.extraPayloadSize).to.be.equal(2);
+      expect(BufferUtil.equals(transaction.extraPayload, payload)).to.be.true;
+    });
+    it('Should throw when trying to serialize with incorrect payload size', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setSpecialTransactionType(1)
+        .setExtraPayload(payload)
+        .sign(privateKey);
+
+      transaction.extraPayloadSize = 1;
+      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+    });
+    it('Should throw when trying to serialize special transaction without any payload', function () {
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setSpecialTransactionType(1)
+        .sign(privateKey);
+
+      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+    });
+    it('Should throw when extra payload size is correct, but special transaction type is not set', function () {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setExtraPayload(payload)
+        .sign(privateKey);
+
+      transaction.extraPayloadSize = 1;
+      expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
+    });
+  });
+  describe('isSpecialTransaction', function() {
+    it('Should return true if a transaction is qualified to be a special transaction', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should return false if a transaction type is not set', function() {
+      throw new Error('Not implemented');
+    });
+  });
+  describe('hasCorrectExtraPayloadSize', function() {
+    it('Should return true if a transaction extra payload size matches an actual extra payload size', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should return false if a transaction extra payload size does not match an actual extra payload size', function() {
+      throw new Error('Not implemented');
     });
   });
 });
