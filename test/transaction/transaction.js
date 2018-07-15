@@ -1320,10 +1320,14 @@ describe('Transaction', function() {
   });
   describe('isSpecialTransaction', function() {
     it('Should return true if a transaction is qualified to be a special transaction', function () {
-      throw new Error('Not implemented');
+      var transaction = Transaction().setSpecialTransactionType(1);
+
+      expect(transaction.isSpecialTransaction()).to.be.true;
     });
     it('Should return false if a transaction type is not set', function() {
-      throw new Error('Not implemented');
+      var transaction = Transaction();
+
+      expect(transaction.isSpecialTransaction()).to.be.false;
     });
   });
   describe('hasCorrectExtraPayloadSize', function() {
