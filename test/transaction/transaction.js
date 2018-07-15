@@ -1332,10 +1332,21 @@ describe('Transaction', function() {
   });
   describe('hasCorrectExtraPayloadSize', function() {
     it('Should return true if a transaction extra payload size matches an actual extra payload size', function () {
-      throw new Error('Not implemented');
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+
+      expect(transaction.extraPayloadSize).to.be.equal(2);
+      expect(transaction.hasCorrectExtraPayloadSize()).to.be.true;
     });
     it('Should return false if a transaction extra payload size does not match an actual extra payload size', function() {
-      throw new Error('Not implemented');
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+      transaction.extraPayloadSize = 1;
+
+      expect(transaction.extraPayloadSize).to.be.equal(1);
+      expect(transaction.hasCorrectExtraPayloadSize()).to.be.false;
     });
   });
 });
