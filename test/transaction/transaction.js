@@ -1317,6 +1317,23 @@ describe('Transaction', function() {
       transaction.extraPayloadSize = 1;
       expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
     });
+    it('Should be possible to serialize and deserialize special transaction', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setExtraPayload(payload)
+        .setSpecialTransactionType(1)
+        .sign(privateKey);
+
+      var serialized = transaction.serialize();
+      var deserialized = new Transaction(serialized);
+
+      expect(BufferUtil.equals(deserialized.extraPayload, payload)).to.be.true;
+      expect(deserialized.extraPayloadSize).to.be.equal(payload.length);
+      expect(deserialized.type).to.be.equal(transaction.type);
+    });
   });
   describe('isSpecialTransaction', function() {
     it('Should return true if a transaction is qualified to be a special transaction', function () {
