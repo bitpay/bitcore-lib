@@ -18,6 +18,7 @@ var Address = bitcore.Address;
 var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
+var BufferUtil = bitcore.util.buffer;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1270,6 +1271,99 @@ describe('Transaction', function() {
       });
       var copiedTransaction = bitcore.Transaction().fromObject(tx);
       expect(copiedTransaction).to.be.an.instanceof(bitcore.Transaction);
+    });
+  });
+  describe('setExtraPayload', function() {
+    it('Should set payload and size', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+
+      expect(transaction.extraPayloadSize).to.be.equal(2);
+      expect(BufferUtil.equals(transaction.extraPayload, payload)).to.be.true;
+    });
+    it('Should throw when trying to serialize with incorrect payload size', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setSpecialTransactionType(1)
+        .setExtraPayload(payload)
+        .sign(privateKey);
+
+      transaction.extraPayloadSize = 1;
+      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+    });
+    it('Should throw when trying to serialize special transaction without any payload', function () {
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setSpecialTransactionType(1)
+        .sign(privateKey);
+
+      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+    });
+    it('Should throw when extra payload size is correct, but special transaction type is not set', function () {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setExtraPayload(payload)
+        .sign(privateKey);
+
+      transaction.extraPayloadSize = 1;
+      expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
+    });
+    it('Should be possible to serialize and deserialize special transaction', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setExtraPayload(payload)
+        .setSpecialTransactionType(1)
+        .sign(privateKey);
+
+      var serialized = transaction.serialize();
+      var deserialized = new Transaction(serialized);
+
+      expect(BufferUtil.equals(deserialized.extraPayload, payload)).to.be.true;
+      expect(deserialized.extraPayloadSize).to.be.equal(payload.length);
+      expect(deserialized.type).to.be.equal(transaction.type);
+    });
+  });
+  describe('isSpecialTransaction', function() {
+    it('Should return true if a transaction is qualified to be a special transaction', function () {
+      var transaction = Transaction().setSpecialTransactionType(1);
+
+      expect(transaction.isSpecialTransaction()).to.be.true;
+    });
+    it('Should return false if a transaction type is not set', function() {
+      var transaction = Transaction();
+
+      expect(transaction.isSpecialTransaction()).to.be.false;
+    });
+  });
+  describe('hasCorrectExtraPayloadSize', function() {
+    it('Should return true if a transaction extra payload size matches an actual extra payload size', function () {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+
+      expect(transaction.extraPayloadSize).to.be.equal(2);
+      expect(transaction.hasCorrectExtraPayloadSize()).to.be.true;
+    });
+    it('Should return false if a transaction extra payload size does not match an actual extra payload size', function() {
+      var payload = BufferUtil.emptyBuffer(2);
+      var transaction = Transaction()
+        .setExtraPayload(payload);
+      transaction.extraPayloadSize = 1;
+
+      expect(transaction.extraPayloadSize).to.be.equal(1);
+      expect(transaction.hasCorrectExtraPayloadSize()).to.be.false;
     });
   });
 });
