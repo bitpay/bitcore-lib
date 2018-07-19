@@ -21,7 +21,7 @@ var BufferUtil = bitcore.util.buffer;
 
 var transactionVector = require('../data/tx_creation');
 
-describe('SubTxRegister', function() {
+describe('SubTxRegisterPayload', function() {
   
   it('Should extend Transaction', function () {
 
