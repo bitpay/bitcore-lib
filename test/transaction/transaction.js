@@ -1274,11 +1274,11 @@ describe('Transaction', function() {
       expect(copiedTransaction).to.be.an.instanceof(bitcore.Transaction);
     });
   });
-  describe('setExtraPayload', function() {
+  describe('setExtraPayloadFromBuffer', function() {
     it('Should set payload and size', function() {
       var payload = BufferUtil.emptyBuffer(2);
       var transaction = Transaction()
-        .setExtraPayload(payload);
+        .setExtraPayloadFromBuffer(payload);
 
       expect(transaction.extraPayloadSize).to.be.equal(2);
       expect(BufferUtil.equals(transaction.extraPayload, payload)).to.be.true;
@@ -1290,7 +1290,7 @@ describe('Transaction', function() {
         .to(fromAddress, 10000)
         .change(fromAddress)
         .setSpecialTransactionType(1)
-        .setExtraPayload(payload)
+        .setExtraPayloadFromBuffer(payload)
         .sign(privateKey);
 
       transaction.extraPayloadSize = 1;
@@ -1312,7 +1312,7 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setExtraPayload(payload)
+        .setExtraPayloadFromBuffer(payload)
         .sign(privateKey);
 
       transaction.extraPayloadSize = 1;
@@ -1324,7 +1324,7 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setExtraPayload(payload)
+        .setExtraPayloadFromBuffer(payload)
         .setSpecialTransactionType(1)
         .sign(privateKey);
 
@@ -1346,25 +1346,6 @@ describe('Transaction', function() {
       var transaction = Transaction();
 
       expect(transaction.isSpecialTransaction()).to.be.false;
-    });
-  });
-  describe('hasCorrectExtraPayloadSize', function() {
-    it('Should return true if a transaction extra payload size matches an actual extra payload size', function () {
-      var payload = BufferUtil.emptyBuffer(2);
-      var transaction = Transaction()
-        .setExtraPayload(payload);
-
-      expect(transaction.extraPayloadSize).to.be.equal(2);
-      expect(transaction.hasCorrectExtraPayloadSize()).to.be.true;
-    });
-    it('Should return false if a transaction extra payload size does not match an actual extra payload size', function() {
-      var payload = BufferUtil.emptyBuffer(2);
-      var transaction = Transaction()
-        .setExtraPayload(payload);
-      transaction.extraPayloadSize = 1;
-
-      expect(transaction.extraPayloadSize).to.be.equal(1);
-      expect(transaction.hasCorrectExtraPayloadSize()).to.be.false;
     });
   });
 });
