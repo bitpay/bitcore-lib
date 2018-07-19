@@ -20,6 +20,7 @@ var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
 var BufferUtil = bitcore.util.buffer;
 var SpecialTransactions = bitcore.Transaction.SpecialTransactions;
+var SubTxRegisterPayload = SpecialTransactions.payload.SubTxRegisterPayload;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1274,13 +1275,14 @@ describe('Transaction', function() {
       expect(copiedTransaction).to.be.an.instanceof(bitcore.Transaction);
     });
   });
-  describe('setExtraPayloadFromBuffer', function() {
+  describe('setExtraPayload', function() {
     it('Should set payload and size', function() {
-      var payload = BufferUtil.emptyBuffer(2);
+      var payload = new SubTxRegisterPayload();
       var transaction = Transaction()
-        .setExtraPayloadFromBuffer(payload);
+        .setExtraPayload(payload);
 
-      expect(transaction.extraPayloadSize).to.be.equal(2);
+      var payloadSize = transaction.getExtraPayloadSize();
+      expect(transaction.extraPayloadSize.).to.be.equal(2);
       expect(BufferUtil.equals(transaction.extraPayload, payload)).to.be.true;
     });
     it('Should throw when trying to serialize with incorrect payload size', function() {
