@@ -19,6 +19,7 @@ var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
 var BufferUtil = bitcore.util.buffer;
+var SpecialTransactions = bitcore.Transaction.SpecialTransactions;
 
 var transactionVector = require('../data/tx_creation');
 
