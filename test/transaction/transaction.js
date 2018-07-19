@@ -21,6 +21,7 @@ var errors = bitcore.errors;
 var BufferUtil = bitcore.util.buffer;
 var SpecialTransactions = bitcore.Transaction.SpecialTransactions;
 var SubTxRegisterPayload = SpecialTransactions.payload.SubTxRegisterPayload;
+var RegisteredTransactionTypes = SpecialTransactions.constants.registeredTransactionTypes;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1276,27 +1277,37 @@ describe('Transaction', function() {
     });
   });
   describe('setExtraPayload', function() {
-    it('Should set payload and size', function() {
-      var payload = new SubTxRegisterPayload();
-      var transaction = Transaction()
-        .setExtraPayload(payload);
 
+    var testName = 'test';
+    var nameSize = Buffer.from(testName, 'utf8').length;
+    var validPayload = new SubTxRegisterPayload()
+      .setUserName(testName)
+      .setPubKeyIdFromPrivateKey(privateKey);
+
+    it('Should set payload and size', function() {
+      var transaction = Transaction()
+        .setExtraPayload(validPayload);
+
+      // first 2 is version size, second one is username size variable
+      var expectedPayloadSize = SpecialTransactions.constants.PUBKEY_ID_SIZE + nameSize + 2 + 2;
       var payloadSize = transaction.getExtraPayloadSize();
-      expect(transaction.extraPayloadSize.).to.be.equal(2);
-      expect(BufferUtil.equals(transaction.extraPayload, payload)).to.be.true;
+      expect(payloadSize).to.be.equal(expectedPayloadSize);
+      expect(transaction.extraPayload).to.be.deep.equal(validPayload);
     });
-    it('Should throw when trying to serialize with incorrect payload size', function() {
-      var payload = BufferUtil.emptyBuffer(2);
+    it('Should be possible to serialize and deserialize special transaction', function() {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setSpecialTransactionType(1)
-        .setExtraPayloadFromBuffer(payload)
+        .setExtraPayload(validPayload)
+        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .sign(privateKey);
 
-      transaction.extraPayloadSize = 1;
-      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+      var serialized = transaction.serialize();
+      var deserialized = new Transaction(serialized);
+
+      expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
+      expect(deserialized.type).to.be.equal(transaction.type);
     });
     it('Should throw when trying to serialize special transaction without any payload', function () {
       var transaction = Transaction()
@@ -1319,23 +1330,6 @@ describe('Transaction', function() {
 
       transaction.extraPayloadSize = 1;
       expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
-    });
-    it('Should be possible to serialize and deserialize special transaction', function() {
-      var payload = BufferUtil.emptyBuffer(2);
-      var transaction = Transaction()
-        .from(simpleUtxoWith1BTC)
-        .to(fromAddress, 10000)
-        .change(fromAddress)
-        .setExtraPayloadFromBuffer(payload)
-        .setSpecialTransactionType(1)
-        .sign(privateKey);
-
-      var serialized = transaction.serialize();
-      var deserialized = new Transaction(serialized);
-
-      expect(BufferUtil.equals(deserialized.extraPayload, payload)).to.be.true;
-      expect(deserialized.extraPayloadSize).to.be.equal(payload.length);
-      expect(deserialized.type).to.be.equal(transaction.type);
     });
   });
   describe('isSpecialTransaction', function() {
