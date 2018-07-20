@@ -14,31 +14,73 @@ describe('SubTxRegisterPayload', function() {
     });
   });
   describe('parsePayloadBuffer', function () {
-    throw new Error('Not implemented');
+    it('Should return instance of SubTxRegisterPayload with parsed data', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw an error if data is incomplete', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw an error if data is incorrect', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('parsePayloadJSON', function () {
-    throw new Error('Not implemented');
+    it('Should return instance of SubTxRegisterPayload with parsed data', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw an error if data is incomplete', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw an error if data is incorrect', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#setUserName', function () {
-    throw new Error('Not implemented');
+    it('Should set username and return instance back', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#setPubKeyId', function () {
-    throw new Error('Not implemented');
+    it('Should set pubKeyId and return instance back', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#setPubKeyIdFromPrivateKey', function () {
-    throw new Error('Not implemented');
+    it('Should set pubKeyId and return instance back', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#sign', function () {
-    throw new Error('Not implemented');
+    it('Should sign payload and return instance back', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#verifySignature', function () {
-    throw new Error('Not implemented');
+    it('Should verify signature', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#toJSON', function () {
-    throw new Error('Not implemented');
+    it('Should return a JSON that contains same data as the payload instance', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw if data is incomplete', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw if data is invalid', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#toBuffer', function () {
-    throw new Error('Not implemented');
+    it('Should return a Buffer that contains same data as the payload instance', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw if data is incomplete', function () {
+      throw new Error('Not implemented');
+    });
+    it('Should throw if data is invalid', function () {
+      throw new Error('Not implemented');
+    });
   });
   describe('#getHash', function() {
     it('Should return hash', function () {
