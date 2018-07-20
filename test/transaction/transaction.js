@@ -1288,8 +1288,8 @@ describe('Transaction', function() {
       var transaction = Transaction()
         .setExtraPayload(validPayload);
 
-      // 3 is username size variable
-      var expectedPayloadSize = SpecialTransactions.constants.PUBKEY_ID_SIZE + nameSize + 3;
+      // 2 bytes for payload version, 1 byte for username size
+      var expectedPayloadSize = 2 + 1 + nameSize + SpecialTransactions.constants.PUBKEY_ID_SIZE;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);
