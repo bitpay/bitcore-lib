@@ -1288,8 +1288,8 @@ describe('Transaction', function() {
       var transaction = Transaction()
         .setExtraPayload(validPayload);
 
-      // first 2 is version size, second one is username size variable
-      var expectedPayloadSize = SpecialTransactions.constants.PUBKEY_ID_SIZE + nameSize + 2 + 2;
+      // 3 is username size variable
+      var expectedPayloadSize = SpecialTransactions.constants.PUBKEY_ID_SIZE + nameSize + 3;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);
@@ -1319,13 +1319,12 @@ describe('Transaction', function() {
 
       expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
     });
-    it('Should throw when extra payload size is correct, but special transaction type is not set', function () {
-      var payload = BufferUtil.emptyBuffer(2);
+    it('Should throw when extra payload is set, but special transaction type is not set', function () {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setExtraPayloadFromBuffer(payload)
+        .setExtraPayload(validPayload)
         .sign(privateKey);
 
       transaction.extraPayloadSize = 1;
