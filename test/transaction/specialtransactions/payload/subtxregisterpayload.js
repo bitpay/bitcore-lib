@@ -206,11 +206,29 @@ describe('SubTxRegisterPayload', function() {
     });
   });
   describe('#verifySignature', function () {
-    it('Should verify signature if a private key is a string', function () {
-      throw new Error('Not implemented');
+    it('Should verify signature if pubKeyId is a Buffer', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(pubKeyId)).to.be.true;
     });
-    it('Should verify signature if a private key is an instance of PrivateKey', function () {
-      throw new Error('Not implemented');
+    it('Should verify signature if pubKeyId is a hex string', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(pubKeyId.toString('hex'))).to.be.true;
+    });
+    it('Should return false if pubKeyId doesn\'t match the signature', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(new PrivateKey().toPublicKey()._getID())).to.be.false;
     });
   });
   describe('#toJSON', function () {
