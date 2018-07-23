@@ -8,6 +8,7 @@ var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
 var Payload = SpecialTransactions.payload;
 var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
 
+var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.SUBTXREGISTER_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 
@@ -53,7 +54,7 @@ describe('SubTxRegisterPayload', function() {
         nVersion: 10,
         userName: 'test',
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payload = SubTxRegisterPayload.parsePayloadJSON(payloadJSON);
       expect(payload.nVersion).to.be.equal(10);
@@ -65,16 +66,16 @@ describe('SubTxRegisterPayload', function() {
       var payloadWithoutUserName = {
         nVersion: 10,
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithoutPubKeyId = {
         nVersion: 10,
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithoutVersion = {
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(56),
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
         pubKeyId: pubKeyId
       };
       expect(function () {
@@ -92,24 +93,24 @@ describe('SubTxRegisterPayload', function() {
         nVersion: 10,
         userName: 10,
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectPubKeyId = {
         nVersion: 10,
         userName: 'test',
         pubKeyId: 'pubKeyId',
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectPubKeyIdSize = {
         nVersion: 10,
         userName: 'test',
         pubKeyId: BufferUtil.emptyBuffer(46),
-        vchSig: BufferUtil.emptyBuffer(56)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectVersion = {
         nVersion: '10',
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(56),
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
         pubKeyId: pubKeyId
       };
       var payloadWithIncorrectSignature = {
@@ -180,10 +181,28 @@ describe('SubTxRegisterPayload', function() {
   });
   describe('#sign', function () {
     it('Should sign payload and return instance back if a private key is a string', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
     });
     it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(new PrivateKey(privateKey));
+      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
+    });
+    it('Should throw when trying to sign incomplete data', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test');
+
+      expect(function () {
+        payload.sign(privateKey);
+      }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
   });
   describe('#verifySignature', function () {
