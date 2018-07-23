@@ -305,13 +305,34 @@ describe('SubTxRegisterPayload', function() {
   });
   describe('#getHash', function() {
     it('Should return hash', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      var hash = payload.getHash();
+      expect(hash).to.be.an.instanceOf(Buffer);
+      expect(hash.length).to.be.equal(32);
     });
     it('Should return hash without signature if option passed', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      var hash = payload.getHash();
+      var hashFromDataWithoutSignature = payload.getHash({ skipSignature: true });
+      expect(hashFromDataWithoutSignature).to.be.an.instanceOf(Buffer);
+      expect(hashFromDataWithoutSignature.length).to.be.equal(32);
+      expect(hashFromDataWithoutSignature).to.be.not.deep.equal(hash);
     });
     it('Should throw if data is incomplete', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test');
+
+      expect(function() {
+        payload.getHash();
+      }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
   });
 });
