@@ -6,25 +6,30 @@ var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
 var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
 var Payload = SpecialTransactions.payload;
-var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
+var SubTxTransitionPayload = Payload.SubTxTransitionPayload;
+
+var getRandomHash = function getRandomHash() {
+  return Hash.sha256sha256(Math.random());
+};
 
 var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 
-describe('SubTxRegisterPayload', function() {
+describe('SubTxTransitionPayload', function() {
 
   describe('constructor', function () {
-    it('Should create SubTxRegisterPayload instance', function () {
-      var payload = new SubTxRegisterPayload();
+    it('Should create SubTxTransitionPayload instance', function () {
+      var payload = new SubTxTransitionPayload();
       expect(payload).to.have.property('nVersion');
     });
   });
   describe('parsePayloadBuffer', function () {
     it('Should return instance of SubTxRegisterPayload with parsed data', function () {
-      var payloadBuffer = new SubTxRegisterPayload()
-        .setUserName('test')
-        .setPubKeyId(pubKeyId)
+      var payloadBuffer = new SubTxTransitionPayload()
+        .setHashPrevSubTx(getRandomHash())
+        .setCreditFee(10)
+        .setRegTxId(getRandomHash())
         .toBuffer();
 
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
