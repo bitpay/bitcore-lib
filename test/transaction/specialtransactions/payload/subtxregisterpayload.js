@@ -233,13 +233,41 @@ describe('SubTxRegisterPayload', function() {
   });
   describe('#toJSON', function () {
     it('Should return a JSON that contains same data as the payload instance', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      var payloadJSON = payload.toJSON();
+      expect(payload.userName).to.be.equal(payloadJSON.userName);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
     });
-    it('Should throw if data is incomplete', function () {
-      throw new Error('Not implemented');
+    it('Should throw if the data is incomplete', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test');
+
+      expect(function () {
+        payload.toJSON();
+      }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
-    it('Should throw if data is invalid', function () {
-      throw new Error('Not implemented');
+    it('Should throw if the data is invalid', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName(4)
+        .setPubKeyId(pubKeyId);
+
+      expect(function () {
+        payload.toJSON();
+      }).to.throw('Invalid Argument for userName, expected string but got number');
+    });
+    it('Should skip signature if such option is passed', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      var payloadJSON = payload.toJSON({ skipSignature: true });
+      expect(payloadJSON).not.have.a.property('vchSig');
     });
   });
   describe('#toBuffer', function () {
