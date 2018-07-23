@@ -241,7 +241,7 @@ describe('SubTxRegisterPayload', function() {
       var payloadJSON = payload.toJSON();
       expect(payload.userName).to.be.equal(payloadJSON.userName);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
-      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
+      expect(payload.vchSig).to.be.an.deep.equal(payload.vchSig);
     });
     it('Should throw if the data is incomplete', function () {
       var payload = new SubTxRegisterPayload()
@@ -272,13 +272,35 @@ describe('SubTxRegisterPayload', function() {
   });
   describe('#toBuffer', function () {
     it('Should return a Buffer that contains same data as the payload instance', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      var payloadBuffer = payload.toBuffer();
+
+      var restoredPayload = SubTxRegisterPayload.parsePayloadBuffer(payloadBuffer);
+      expect(restoredPayload.nVersion).to.be.equal(payload.nVersion);
+      expect(restoredPayload.userName).to.be.equal(payload.userName);
+      expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);
+      expect(restoredPayload.vchSig).to.be.deep.equal(payload.vchSig);
     });
-    it('Should throw if data is incomplete', function () {
-      throw new Error('Not implemented');
+    it('Should throw if the data is incomplete', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test');
+
+      expect(function () {
+        payload.toBuffer();
+      }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
-    it('Should throw if data is invalid', function () {
-      throw new Error('Not implemented');
+    it('Should throw if the data is invalid', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName(4)
+        .setPubKeyId(pubKeyId);
+
+      expect(function () {
+        payload.toBuffer();
+      }).to.throw('Invalid Argument for userName, expected string but got number');
     });
   });
   describe('#getHash', function() {
