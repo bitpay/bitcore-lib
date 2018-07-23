@@ -146,17 +146,36 @@ describe('SubTxRegisterPayload', function() {
   });
   describe('#setUserName', function () {
     it('Should set username and return instance back', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test');
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.userName).to.be.equal('test');
     });
   });
   describe('#setPubKeyId', function () {
     it('Should set pubKeyId and return instance back', function () {
-      throw new Error('Not implemented');
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyId(pubKeyId);
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
     });
   });
   describe('#setPubKeyIdFromPrivateKey', function () {
-    it('Should set pubKeyId and return instance back', function () {
-      throw new Error('Not implemented');
+    it('Should set pubKeyId and return instance back if private key is a string', function () {
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyIdFromPrivateKey(privateKey);
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+    });
+    it('Should set pubKeyId and return instance back if private key is an instance of PrivateKey', function () {
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyIdFromPrivateKey(new PrivateKey(privateKey));
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
     });
   });
   describe('#sign', function () {
