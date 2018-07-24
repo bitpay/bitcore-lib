@@ -4,14 +4,10 @@ var DashcoreLib = require('../../../../index');
 
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
-var Hash = DashcoreLib.crypto.Hash;
 var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
 var Payload = SpecialTransactions.payload;
 var SubTxTransitionPayload = Payload.SubTxTransitionPayload;
-
-var getRandomHash = function getRandomHash() {
-  return Hash.sha256sha256(Buffer.from(Math.random().toString()));
-};
+var HashUtil = DashcoreLib.util.hashUtil;
 
 var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
@@ -27,112 +23,157 @@ describe('SubTxTransitionPayload', function() {
   });
 
   describe('#setRegTxId', function () {
-    it('Should set username and return instance back', function () {
-      var hash = getRandomHash();
+    it('Should set regTxId and return instance back', function () {
+      var regTxId = HashUtil.getRandomHash();
 
       var payload = new SubTxTransitionPayload()
-        .setRegTxId(getRandomHash());
+        .setRegTxId(regTxId);
 
       expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
-      expect(payload.userName).to.be.equal('test');
+      expect(payload.regTxId).to.be.deep.equal(regTxId);
     });
   });
 
-  describe('#setPubKeyId', function () {
-    it('Should set pubKeyId and return instance back', function () {
-      var payload = new SubTxRegisterPayload()
-        .setPubKeyId(pubKeyId);
+  describe('#setHashPrevSubTx', function () {
+    it('Should set hashPrevSubTx and return instance back', function () {
+      var hashPrevSubTx = HashUtil.getRandomHash();
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
-      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+      var payload = new SubTxTransitionPayload()
+        .setHashPrevSubTx(hashPrevSubTx);
+
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
+      expect(payload.hashPrevSubTx).to.be.deep.equal(hashPrevSubTx);
     });
   });
 
-  describe('#setPubKeyIdFromPrivateKey', function () {
-    it('Should set pubKeyId and return instance back if private key is a string', function () {
-      var payload = new SubTxRegisterPayload()
-        .setPubKeyIdFromPrivateKey(privateKey);
+  describe('#setCreditFee', function () {
+    it('Should set creditFee and return instance back', function () {
+      var creditFee = 10;
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
-      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+      var payload = new SubTxTransitionPayload()
+        .setCreditFee(creditFee);
+
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
+      expect(payload.creditFee).to.be.equal(creditFee);
     });
-    it('Should set pubKeyId and return instance back if private key is an instance of PrivateKey', function () {
-      var payload = new SubTxRegisterPayload()
-        .setPubKeyIdFromPrivateKey(new PrivateKey(privateKey));
+  });
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
-      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+  describe('#hashSTPacket', function () {
+    it('Should set hashSTPacket and return instance back', function () {
+      var hashSTPacket = HashUtil.getRandomHash();
+
+      var payload = new SubTxTransitionPayload()
+        .setHashSTPacket(hashSTPacket);
+
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
+      expect(payload.hashSTPacket).to.be.deep.equal(hashSTPacket);
     });
   });
 
   describe('parsePayloadBuffer', function () {
-    it('Should return instance of SubTxRegisterPayload with parsed data', function () {
-      var payloadBuffer = new SubTxTransitionPayload()
-        .setHashPrevSubTx(getRandomHash())
+    it('Should return instance of SubTxTransitionPayload with parsed data', function () {
+      var hashPrevSubTx = HashUtil.getRandomHash();
+      var regTxId = HashUtil.getRandomHash();
+      var hashSTPacket = HashUtil.getRandomHash();
+
+      var payload = new SubTxTransitionPayload()
+        .setHashPrevSubTx(hashPrevSubTx)
         .setCreditFee(10)
-        .setRegTxId(getRandomHash())
-        .toBuffer();
+        .setRegTxId(regTxId)
+        .setHashSTPacket(hashSTPacket);
+
+      var payloadBuffer = payload.toBuffer();
 
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
-      var parsedPayload = SubTxRegisterPayload.parsePayloadBuffer(payloadBuffer);
-      expect(parsedPayload.userName).to.be.equal('test');
-      expect(BufferUtil.equals(parsedPayload.pubKeyId, pubKeyId)).to.be.true;
-
+      var parsedPayload = SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
+      expect(parsedPayload.hashPrevSubTx).to.be.deep.equal(hashPrevSubTx);
+      expect(parsedPayload.regTxId).to.be.deep.equal(regTxId);
+      expect(parsedPayload.hashSTPacket).to.be.deep.equal(hashSTPacket);
+      expect(parsedPayload.creditFee).to.be.equal(10);
+      expect(parsedPayload.nVersion).to.be.equal(payload.nVersion);
     });
     it('Should throw an error if data is incomplete', function () {
-      var payloadBuffer = new SubTxRegisterPayload()
-        .setUserName('test')
-        .setPubKeyId(pubKeyId)
-        .toBuffer();
-      // 2 bytes is payload version, 1 is username size
-      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length);
-      expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - SpecialTransactions.constants.PUBKEY_ID_SIZE);
+      var hashPrevSubTx = HashUtil.getRandomHash();
+      var regTxId = HashUtil.getRandomHash();
+      var hashSTPacket = HashUtil.getRandomHash();
+
+      var payload = new SubTxTransitionPayload()
+        .setHashPrevSubTx(hashPrevSubTx)
+        .setCreditFee(10)
+        .setRegTxId(regTxId)
+        .setHashSTPacket(hashSTPacket);
+
+      var payloadBuffer = payload.toBuffer();
+      payloadBuffer = payloadBuffer.slice(0, payloadBuffer.length - 32);
+
+      expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
       expect(function () {
-        SubTxRegisterPayload.parsePayloadBuffer(payloadBufferWithoutPubKeyId)
-      }).to.throw('Invalid pubKeyId size');
+        SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
+      }).to.throw('Invalid Argument');
     });
   });
   describe('parsePayloadJSON', function () {
-    it('Should return instance of SubTxRegisterPayload with correct parsed data', function () {
+    it('Should return instance of SubTxTransitionPayload with correct parsed data', function () {
       var payloadJSON = {
         nVersion: 10,
-        userName: 'test',
-        pubKeyId: pubKeyId,
+        creditFee: 100,
+        hashPrevSubTx: HashUtil.getRandomHash(),
+        regTxId: HashUtil.getRandomHash(),
+        hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
-      var payload = SubTxRegisterPayload.parsePayloadJSON(payloadJSON);
+      var payload = SubTxTransitionPayload.parsePayloadJSON(payloadJSON);
       expect(payload.nVersion).to.be.equal(10);
-      expect(payload.userName).to.be.equal('test');
-      expect(BufferUtil.equals(payload.pubKeyId, payloadJSON.pubKeyId)).to.be.true;
-      expect(BufferUtil.equals(payload.vchSig, payloadJSON.vchSig)).to.be.true;
+      expect(payload.creditFee).to.be.equal(100);
+      expect(payload.hashPrevSubTx).to.be.deep.equal(payloadJSON.hashPrevSubTx);
+      expect(payload.hashSTPacket).to.be.deep.equal(payloadJSON.hashSTPacket);
+      expect(payload.regTxId).to.be.deep.equal(payloadJSON.regTxId);
+      expect(payload.creditFee).to.be.deep.equal(payloadJSON.creditFee);
     });
     it('Should throw an error if the data is incomplete', function () {
-      var payloadWithoutUserName = {
+      var payloadWithoutHashPrevSubTx = {
         nVersion: 10,
-        pubKeyId: pubKeyId,
+        creditFee: 100,
+        regTxId: HashUtil.getRandomHash(),
+        hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
-      var payloadWithoutPubKeyId = {
+      var payloadWithoutRegTxId = {
         nVersion: 10,
-        userName: 'test',
+        creditFee: 100,
+        hashPrevSubTx: HashUtil.getRandomHash(),
+        hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
-      var payloadWithoutVersion = {
-        userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
-        pubKeyId: pubKeyId
+      var payloadWithoutHashSTPacket = {
+        nVersion: 10,
+        creditFee: 100,
+        hashPrevSubTx: HashUtil.getRandomHash(),
+        regTxId: HashUtil.getRandomHash(),
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+      };
+      var payloadWithoutCreditFee = {
+        nVersion: 10,
+        hashPrevSubTx: HashUtil.getRandomHash(),
+        hashSTPacket: HashUtil.getRandomHash(),
+        regTxId: HashUtil.getRandomHash(),
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutUserName);
-      }).to.throw('Invalid Argument for userName, expected string but got undefined');
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutHashPrevSubTx);
+      }).to.throw('Invalid Argument: expect hashPrevSubTx to be a Buffer but got undefined');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutPubKeyId);
-      }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutRegTxId);
+      }).to.throw('Invalid Argument: expect regTxId to be a Buffer but got undefined');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutVersion);
-      }).to.throw('Invalid Argument for nVersion, expected number but got undefined');
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutHashSTPacket);
+      }).to.throw('Invalid Argument: expect hashSTPacket to be a Buffer but got undefined');
+      expect(function () {
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutCreditFee);
+      }).to.throw('Invalid Argument for creditFee, expected number but got undefined');
+
     });
     it('Should throw an error if the data is incorrect', function () {
       var payloadWithIncorrectUsername = {
@@ -172,62 +213,62 @@ describe('SubTxTransitionPayload', function() {
         pubKeyId: pubKeyId
       };
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectUsername);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectUsername);
       }).to.throw('Invalid Argument for userName, expected string but got number');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectPubKeyId);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectPubKeyId);
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectPubKeyIdSize);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectPubKeyIdSize);
       }).to.throw('Invalid Argument: Invalid pubKeyId size');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectVersion);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectVersion);
       }).to.throw('Invalid Argument for nVersion, expected number but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectSignature);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectSignature);
       }).to.throw('Invalid Argument: expect vchSig to be a Buffer but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectSignatureSize);
+        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectSignatureSize);
       }).to.throw('Invalid Argument: Invalid vchSig size');
     });
   });
   describe('#setUserName', function () {
     it('Should set username and return instance back', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test');
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
       expect(payload.userName).to.be.equal('test');
     });
   });
   describe('#setPubKeyId', function () {
     it('Should set pubKeyId and return instance back', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setPubKeyId(pubKeyId);
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
     });
   });
   describe('#setPubKeyIdFromPrivateKey', function () {
     it('Should set pubKeyId and return instance back if private key is a string', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setPubKeyIdFromPrivateKey(privateKey);
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
     });
     it('Should set pubKeyId and return instance back if private key is an instance of PrivateKey', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setPubKeyIdFromPrivateKey(new PrivateKey(privateKey));
 
-      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
     });
   });
   describe('#sign', function () {
     it('Should sign payload and return instance back if a private key is a string', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -235,7 +276,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
     });
     it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(new PrivateKey(privateKey));
@@ -243,7 +284,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
     });
     it('Should throw when trying to sign incomplete data', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test');
 
       expect(function () {
@@ -253,7 +294,7 @@ describe('SubTxTransitionPayload', function() {
   });
   describe('#verifySignature', function () {
     it('Should verify signature if pubKeyId is a Buffer', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -261,7 +302,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payload.verifySignature(pubKeyId)).to.be.true;
     });
     it('Should verify signature if pubKeyId is a hex string', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -269,7 +310,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payload.verifySignature(pubKeyId.toString('hex'))).to.be.true;
     });
     it('Should return false if pubKeyId doesn\'t match the signature', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -279,7 +320,7 @@ describe('SubTxTransitionPayload', function() {
   });
   describe('#toJSON', function () {
     it('Should return a JSON that contains same data as the payload instance', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -290,7 +331,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payload.vchSig).to.be.an.deep.equal(payload.vchSig);
     });
     it('Should throw if the data is incomplete', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test');
 
       expect(function () {
@@ -298,7 +339,7 @@ describe('SubTxTransitionPayload', function() {
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
     it('Should throw if the data is invalid', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName(4)
         .setPubKeyId(pubKeyId);
 
@@ -307,7 +348,7 @@ describe('SubTxTransitionPayload', function() {
       }).to.throw('Invalid Argument for userName, expected string but got number');
     });
     it('Should skip signature if such option is passed', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -318,21 +359,21 @@ describe('SubTxTransitionPayload', function() {
   });
   describe('#toBuffer', function () {
     it('Should return a Buffer that contains same data as the payload instance', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
 
       var payloadBuffer = payload.toBuffer();
 
-      var restoredPayload = SubTxRegisterPayload.parsePayloadBuffer(payloadBuffer);
+      var restoredPayload = SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
       expect(restoredPayload.nVersion).to.be.equal(payload.nVersion);
       expect(restoredPayload.userName).to.be.equal(payload.userName);
       expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);
       expect(restoredPayload.vchSig).to.be.deep.equal(payload.vchSig);
     });
     it('Should throw if the data is incomplete', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test');
 
       expect(function () {
@@ -340,7 +381,7 @@ describe('SubTxTransitionPayload', function() {
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
     });
     it('Should throw if the data is invalid', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName(4)
         .setPubKeyId(pubKeyId);
 
@@ -351,7 +392,7 @@ describe('SubTxTransitionPayload', function() {
   });
   describe('#getHash', function() {
     it('Should return hash', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -361,7 +402,7 @@ describe('SubTxTransitionPayload', function() {
       expect(hash.length).to.be.equal(32);
     });
     it('Should return hash without signature if option passed', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
@@ -373,7 +414,7 @@ describe('SubTxTransitionPayload', function() {
       expect(hashFromDataWithoutSignature).to.be.not.deep.equal(hash);
     });
     it('Should throw if data is incomplete', function () {
-      var payload = new SubTxRegisterPayload()
+      var payload = new SubTxTransitionPayload()
         .setUserName('test');
 
       expect(function() {

@@ -36,6 +36,7 @@ bitcore.util = {};
 bitcore.util.buffer = require('./lib/util/buffer');
 bitcore.util.js = require('./lib/util/js');
 bitcore.util.preconditions = require('./lib/util/preconditions');
+bitcore.util.hashUtil = require('./lib/util/hashutil');
 
 // errors thrown by the library
 bitcore.errors = require('./lib/errors');
