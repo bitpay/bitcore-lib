@@ -4,12 +4,13 @@ var DashcoreLib = require('../../../../index');
 
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
+var Hash = DashcoreLib.crypto.Hash;
 var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
 var Payload = SpecialTransactions.payload;
 var SubTxTransitionPayload = Payload.SubTxTransitionPayload;
 
 var getRandomHash = function getRandomHash() {
-  return Hash.sha256sha256(Math.random());
+  return Hash.sha256sha256(Buffer.from(Math.random().toString()));
 };
 
 var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
@@ -24,6 +25,46 @@ describe('SubTxTransitionPayload', function() {
       expect(payload).to.have.property('nVersion');
     });
   });
+
+  describe('#setRegTxId', function () {
+    it('Should set username and return instance back', function () {
+      var hash = getRandomHash();
+
+      var payload = new SubTxTransitionPayload()
+        .setRegTxId(getRandomHash());
+
+      expect(payload).to.be.an.instanceOf(SubTxTransitionPayload);
+      expect(payload.userName).to.be.equal('test');
+    });
+  });
+
+  describe('#setPubKeyId', function () {
+    it('Should set pubKeyId and return instance back', function () {
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyId(pubKeyId);
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+    });
+  });
+
+  describe('#setPubKeyIdFromPrivateKey', function () {
+    it('Should set pubKeyId and return instance back if private key is a string', function () {
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyIdFromPrivateKey(privateKey);
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+    });
+    it('Should set pubKeyId and return instance back if private key is an instance of PrivateKey', function () {
+      var payload = new SubTxRegisterPayload()
+        .setPubKeyIdFromPrivateKey(new PrivateKey(privateKey));
+
+      expect(payload).to.be.an.instanceOf(SubTxRegisterPayload);
+      expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
+    });
+  });
+
   describe('parsePayloadBuffer', function () {
     it('Should return instance of SubTxRegisterPayload with parsed data', function () {
       var payloadBuffer = new SubTxTransitionPayload()
