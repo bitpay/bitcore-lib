@@ -20,7 +20,7 @@ describe('SubTxRegisterPayload', function() {
       expect(payload).to.have.property('nVersion');
     });
   });
-  describe('parsePayloadBuffer', function () {
+  describe('fromBuffer', function () {
     it('Should return instance of SubTxRegisterPayload with parsed data', function () {
       var payloadBuffer = new SubTxRegisterPayload()
         .setUserName('test')
@@ -29,7 +29,7 @@ describe('SubTxRegisterPayload', function() {
 
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
-      var parsedPayload = SubTxRegisterPayload.parsePayloadBuffer(payloadBuffer);
+      var parsedPayload = SubTxRegisterPayload.fromBuffer(payloadBuffer);
       expect(parsedPayload.userName).to.be.equal('test');
       expect(BufferUtil.equals(parsedPayload.pubKeyId, pubKeyId)).to.be.true;
 
@@ -44,11 +44,11 @@ describe('SubTxRegisterPayload', function() {
       expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - SpecialTransactions.constants.PUBKEY_ID_SIZE);
 
       expect(function () {
-        SubTxRegisterPayload.parsePayloadBuffer(payloadBufferWithoutPubKeyId)
+        SubTxRegisterPayload.fromBuffer(payloadBufferWithoutPubKeyId)
       }).to.throw('Invalid pubKeyId size');
     });
   });
-  describe('parsePayloadJSON', function () {
+  describe('fromJSON', function () {
     it('Should return instance of SubTxRegisterPayload with correct parsed data', function () {
       var payloadJSON = {
         nVersion: 10,
@@ -56,7 +56,7 @@ describe('SubTxRegisterPayload', function() {
         pubKeyId: pubKeyId,
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
-      var payload = SubTxRegisterPayload.parsePayloadJSON(payloadJSON);
+      var payload = SubTxRegisterPayload.fromJSON(payloadJSON);
       expect(payload.nVersion).to.be.equal(10);
       expect(payload.userName).to.be.equal('test');
       expect(BufferUtil.equals(payload.pubKeyId, payloadJSON.pubKeyId)).to.be.true;
@@ -79,13 +79,13 @@ describe('SubTxRegisterPayload', function() {
         pubKeyId: pubKeyId
       };
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutUserName);
+        SubTxRegisterPayload.fromJSON(payloadWithoutUserName);
       }).to.throw('Invalid Argument for userName, expected string but got undefined');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutPubKeyId);
+        SubTxRegisterPayload.fromJSON(payloadWithoutPubKeyId);
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got undefined');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithoutVersion);
+        SubTxRegisterPayload.fromJSON(payloadWithoutVersion);
       }).to.throw('Invalid Argument for nVersion, expected number but got undefined');
     });
     it('Should throw an error if the data is incorrect', function () {
@@ -126,22 +126,22 @@ describe('SubTxRegisterPayload', function() {
         pubKeyId: pubKeyId
       };
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectUsername);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectUsername);
       }).to.throw('Invalid Argument for userName, expected string but got number');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectPubKeyId);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectPubKeyId);
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectPubKeyIdSize);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectPubKeyIdSize);
       }).to.throw('Invalid Argument: Invalid pubKeyId size');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectVersion);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectVersion);
       }).to.throw('Invalid Argument for nVersion, expected number but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectSignature);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignature);
       }).to.throw('Invalid Argument: expect vchSig to be a Buffer but got string');
       expect(function () {
-        SubTxRegisterPayload.parsePayloadJSON(payloadWithIncorrectSignatureSize);
+        SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignatureSize);
       }).to.throw('Invalid Argument: Invalid vchSig size');
     });
   });
@@ -279,7 +279,7 @@ describe('SubTxRegisterPayload', function() {
 
       var payloadBuffer = payload.toBuffer();
 
-      var restoredPayload = SubTxRegisterPayload.parsePayloadBuffer(payloadBuffer);
+      var restoredPayload = SubTxRegisterPayload.fromBuffer(payloadBuffer);
       expect(restoredPayload.nVersion).to.be.equal(payload.nVersion);
       expect(restoredPayload.userName).to.be.equal(payload.userName);
       expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);

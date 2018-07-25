@@ -70,7 +70,7 @@ describe('SubTxTransitionPayload', function() {
     });
   });
 
-  describe('parsePayloadBuffer', function () {
+  describe('fromBuffer', function () {
     it('Should return instance of SubTxTransitionPayload with parsed data', function () {
       var hashPrevSubTx = HashUtil.getRandomHash();
       var regTxId = HashUtil.getRandomHash();
@@ -86,7 +86,7 @@ describe('SubTxTransitionPayload', function() {
 
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
-      var parsedPayload = SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
+      var parsedPayload = SubTxTransitionPayload.fromBuffer(payloadBuffer);
       expect(parsedPayload.hashPrevSubTx).to.be.deep.equal(hashPrevSubTx);
       expect(parsedPayload.regTxId).to.be.deep.equal(regTxId);
       expect(parsedPayload.hashSTPacket).to.be.deep.equal(hashSTPacket);
@@ -110,11 +110,11 @@ describe('SubTxTransitionPayload', function() {
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
       expect(function () {
-        SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
+        SubTxTransitionPayload.fromBuffer(payloadBuffer);
       }).to.throw('Invalid Argument');
     });
   });
-  describe('parsePayloadJSON', function () {
+  describe('fromJSON', function () {
     it('Should return instance of SubTxTransitionPayload with correct parsed data', function () {
       var payloadJSON = {
         nVersion: 10,
@@ -124,7 +124,7 @@ describe('SubTxTransitionPayload', function() {
         hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
-      var payload = SubTxTransitionPayload.parsePayloadJSON(payloadJSON);
+      var payload = SubTxTransitionPayload.fromJSON(payloadJSON);
       expect(payload.nVersion).to.be.equal(10);
       expect(payload.creditFee).to.be.equal(100);
       expect(payload.hashPrevSubTx).to.be.deep.equal(payloadJSON.hashPrevSubTx);
@@ -162,22 +162,22 @@ describe('SubTxTransitionPayload', function() {
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutHashPrevSubTx);
+        SubTxTransitionPayload.fromJSON(payloadWithoutHashPrevSubTx);
       }).to.throw('Invalid Argument: expect hashPrevSubTx to be a Buffer but got undefined');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutRegTxId);
+        SubTxTransitionPayload.fromJSON(payloadWithoutRegTxId);
       }).to.throw('Invalid Argument: expect regTxId to be a Buffer but got undefined');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutHashSTPacket);
+        SubTxTransitionPayload.fromJSON(payloadWithoutHashSTPacket);
       }).to.throw('Invalid Argument: expect hashSTPacket to be a Buffer but got undefined');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithoutCreditFee);
+        SubTxTransitionPayload.fromJSON(payloadWithoutCreditFee);
       }).to.throw('Invalid Argument for creditFee, expected number but got undefined');
 
     });
     it('Should throw an error if the data is incorrect', function () {
-      var invalidVersions =
-      var validPayload = {
+      var invalidVersions = [-1, '1', 1.5, []];
+      var validPayloadJSON = {
         nVersion: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHash(),
@@ -185,23 +185,24 @@ describe('SubTxTransitionPayload', function() {
         hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
+      var validPayload = SubTxTransitionPayload.fromJSON();
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectUsername);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectUsername);
       }).to.throw('Invalid Argument for userName, expected string but got number');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectPubKeyId);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectPubKeyId);
       }).to.throw('Invalid Argument: expect pubKeyId to be a Buffer but got string');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectPubKeyIdSize);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectPubKeyIdSize);
       }).to.throw('Invalid Argument: Invalid pubKeyId size');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectVersion);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectVersion);
       }).to.throw('Invalid Argument for nVersion, expected number but got string');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectSignature);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectSignature);
       }).to.throw('Invalid Argument: expect vchSig to be a Buffer but got string');
       expect(function () {
-        SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectSignatureSize);
+        SubTxTransitionPayload.fromJSON(payloadWithIncorrectSignatureSize);
       }).to.throw('Invalid Argument: Invalid vchSig size');
     });
   });
@@ -339,7 +340,7 @@ describe('SubTxTransitionPayload', function() {
 
       var payloadBuffer = payload.toBuffer();
 
-      var restoredPayload = SubTxTransitionPayload.parsePayloadBuffer(payloadBuffer);
+      var restoredPayload = SubTxTransitionPayload.fromBuffer(payloadBuffer);
       expect(restoredPayload.nVersion).to.be.equal(payload.nVersion);
       expect(restoredPayload.userName).to.be.equal(payload.userName);
       expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);
