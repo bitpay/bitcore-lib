@@ -176,41 +176,14 @@ describe('SubTxTransitionPayload', function() {
 
     });
     it('Should throw an error if the data is incorrect', function () {
-      var payloadWithIncorrectUsername = {
+      var invalidVersions =
+      var validPayload = {
         nVersion: 10,
-        userName: 10,
-        pubKeyId: pubKeyId,
+        creditFee: 100,
+        hashPrevSubTx: HashUtil.getRandomHash(),
+        regTxId: HashUtil.getRandomHash(),
+        hashSTPacket: HashUtil.getRandomHash(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
-      };
-      var payloadWithIncorrectPubKeyId = {
-        nVersion: 10,
-        userName: 'test',
-        pubKeyId: 'pubKeyId',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
-      };
-      var payloadWithIncorrectPubKeyIdSize = {
-        nVersion: 10,
-        userName: 'test',
-        pubKeyId: BufferUtil.emptyBuffer(46),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
-      };
-      var payloadWithIncorrectVersion = {
-        nVersion: '10',
-        userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
-        pubKeyId: pubKeyId
-      };
-      var payloadWithIncorrectSignature = {
-        nVersion: 10,
-        userName: 'test',
-        vchSig: 'signature',
-        pubKeyId: pubKeyId
-      };
-      var payloadWithIncorrectSignatureSize = {
-        nVersion: 10,
-        userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(28),
-        pubKeyId: pubKeyId
       };
       expect(function () {
         SubTxTransitionPayload.parsePayloadJSON(payloadWithIncorrectUsername);
