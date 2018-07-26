@@ -7,6 +7,7 @@ var BufferUtil = DashcoreLib.util.buffer;
 var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
 var Payload = SpecialTransactions.payload;
 var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
+var isHexString = DashcoreLib.util.js.isHexaString;
 
 var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
@@ -54,7 +55,7 @@ describe('SubTxRegisterPayload', function() {
         nVersion: 10,
         userName: 'test',
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payload = SubTxRegisterPayload.fromJSON(payloadJSON);
       expect(payload.nVersion).to.be.equal(10);
@@ -122,7 +123,7 @@ describe('SubTxRegisterPayload', function() {
       var payloadWithIncorrectSignatureSize = {
         nVersion: 10,
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(28),
+        vchSig: BufferUtil.emptyBuffer(28).toString('hex'),
         pubKeyId: pubKeyId
       };
       expect(function () {
@@ -139,7 +140,7 @@ describe('SubTxRegisterPayload', function() {
       }).to.throw('Invalid Argument for nVersion, expected number but got string');
       expect(function () {
         SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignature);
-      }).to.throw('Invalid Argument: expect vchSig to be a Buffer but got string');
+      }).to.throw('Invalid Argument: expect vchSig to be a hex string but got string');
       expect(function () {
         SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignatureSize);
       }).to.throw('Invalid Argument: Invalid vchSig size');
@@ -185,16 +186,18 @@ describe('SubTxRegisterPayload', function() {
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
-      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
+      expect(payload.vchSig).to.be.a.string;
+      expect(isHexString(payload.vchSig)).to.be.true;
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
       var payload = new SubTxRegisterPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(new PrivateKey(privateKey));
-      expect(payload.vchSig).to.be.an.instanceOf(Buffer);
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE);
+      expect(payload.vchSig).to.be.a.string;
+      expect(isHexString(payload.vchSig)).to.be.true;
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should throw when trying to sign incomplete data', function () {
       var payload = new SubTxRegisterPayload()
@@ -241,7 +244,7 @@ describe('SubTxRegisterPayload', function() {
       var payloadJSON = payload.toJSON();
       expect(payload.userName).to.be.equal(payloadJSON.userName);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
-      expect(payload.vchSig).to.be.an.deep.equal(payload.vchSig);
+      expect(payload.vchSig).to.be.deep.equal(payload.vchSig);
     });
     it('Should throw if the data is incomplete', function () {
       var payload = new SubTxRegisterPayload()
