@@ -1309,6 +1309,21 @@ describe('Transaction', function() {
       expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
       expect(deserialized.type).to.be.equal(transaction.type);
     });
+    it('Should be possible to serialize and deserialize special transaction from object', function() {
+      var transaction = Transaction()
+        .from(simpleUtxoWith1BTC)
+        .to(fromAddress, 10000)
+        .change(fromAddress)
+        .setExtraPayload(validPayload)
+        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
+        .sign(privateKey);
+
+      var serialized = transaction.toObject();
+      var deserialized = new Transaction(serialized);
+
+      expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
+      expect(deserialized.type).to.be.equal(transaction.type);
+    });
     it('Should throw when trying to serialize special transaction without any payload', function () {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
