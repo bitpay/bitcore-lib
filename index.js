@@ -57,7 +57,7 @@ bitcore.Transaction = require('./lib/transaction');
 bitcore.GovObject = require('./lib/govobject');
 bitcore.URI = require('./lib/uri');
 bitcore.Unit = require('./lib/unit');
-bitcore.Message = require('./lib/message')
+bitcore.Message = require('./lib/message');
 
 // dependencies, subject to change
 bitcore.deps = {};
