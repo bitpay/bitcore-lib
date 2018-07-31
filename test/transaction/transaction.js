@@ -1286,6 +1286,7 @@ describe('Transaction', function() {
 
     it('Should set payload and size', function() {
       var transaction = Transaction()
+        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload);
 
       // 2 bytes for payload version, 1 byte for username size
@@ -1340,10 +1341,12 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
+        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload)
         .sign(privateKey);
 
-      transaction.extraPayloadSize = 1;
+      delete transaction.type;
+
       expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
     });
   });
@@ -1367,14 +1370,14 @@ describe('Transaction', function() {
       expect(transaction.extraPayload).to.be.an.instanceOf(SubTxRegisterPayload);
     });
 
-    it('Should remove extraPayload when seting type to normal transaction', function () {
+    it('Should not be able to set transaction type after it was already set', function () {
       var transaction = new Transaction().setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
 
       expect(transaction.extraPayload).to.be.an.instanceOf(SubTxRegisterPayload);
 
-      transaction.setType(Transaction.TYPES.TRANSACTION_NORMAL);
-
-      expect(transaction.extraPayload).to.be.undefined;
+      expect(function() {
+        transaction.setType(Transaction.TYPES.TRANSACTION_NORMAL)
+      }).to.throw('Type is already set');
     });
 
     it('Should throw if transaction type is unknown', function () {
