@@ -1310,6 +1310,16 @@ describe('Transaction', function() {
       expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
       expect(deserialized.type).to.be.equal(transaction.type);
     });
+    it('Should not be possible to set extra payload if transaction type is not set', function () {
+      expect(function () {
+        var transaction = Transaction()
+          .from(simpleUtxoWith1BTC)
+          .to(fromAddress, 10000)
+          .change(fromAddress)
+          .setExtraPayload(validPayload)
+          .sign(privateKey);
+      }).to.throw('Transaction type is not set');
+    });
     it('Should be possible to serialize and deserialize special transaction from object', function() {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
