@@ -1300,7 +1300,7 @@ describe('Transaction', function() {
         .to(fromAddress, 10000)
         .change(fromAddress)
         .setExtraPayload(validPayload)
-        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
+        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .sign(privateKey);
 
       var serialized = transaction.serialize();
@@ -1315,7 +1315,7 @@ describe('Transaction', function() {
         .to(fromAddress, 10000)
         .change(fromAddress)
         .setExtraPayload(validPayload)
-        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
+        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .sign(privateKey);
 
       var serialized = transaction.toObject();
@@ -1329,7 +1329,7 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setSpecialTransactionType(1)
+        .setType(1)
         .sign(privateKey);
 
       expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
