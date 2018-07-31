@@ -5,12 +5,11 @@ var DashcoreLib = require('../../../../index');
 
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
-var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
-var Payload = SpecialTransactions.payload;
+var Payload = DashcoreLib.Transaction.Payload;
 var SubTxTransitionPayload = Payload.SubTxTransitionPayload;
 var HashUtil = DashcoreLib.util.hashUtil;
 
-var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
+var CORRECT_SIGNATURE_SIZE = Payload.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 var validPayloadJSONFixture = {

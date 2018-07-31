@@ -4,12 +4,11 @@ var DashcoreLib = require('../../../../index');
 
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
-var SpecialTransactions = DashcoreLib.Transaction.SpecialTransactions;
-var Payload = SpecialTransactions.payload;
+var Payload = DashcoreLib.Transaction.Payload;
 var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
 var isHexString = DashcoreLib.util.js.isHexaString;
 
-var CORRECT_SIGNATURE_SIZE = SpecialTransactions.constants.COMPACT_SIGNATURE_SIZE;
+var CORRECT_SIGNATURE_SIZE = Payload.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 
@@ -42,7 +41,7 @@ describe('SubTxRegisterPayload', function() {
         .toBuffer();
       // 2 bytes is payload version, 1 is username size
       var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length);
-      expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - SpecialTransactions.constants.PUBKEY_ID_SIZE);
+      expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - Payload.constants.PUBKEY_ID_SIZE);
 
       expect(function () {
         SubTxRegisterPayload.fromBuffer(payloadBufferWithoutPubKeyId)

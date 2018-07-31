@@ -15,13 +15,11 @@ var Output = bitcore.Transaction.Output;
 var PrivateKey = bitcore.PrivateKey;
 var Script = bitcore.Script;
 var Address = bitcore.Address;
-var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
-var BufferUtil = bitcore.util.buffer;
-var SpecialTransactions = bitcore.Transaction.SpecialTransactions;
-var SubTxRegisterPayload = SpecialTransactions.payload.SubTxRegisterPayload;
-var RegisteredTransactionTypes = SpecialTransactions.constants.registeredTransactionTypes;
+var Payload = bitcore.Transaction.Payload;
+var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
+var RegisteredTransactionTypes = Payload.constants.registeredTransactionTypes;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1290,7 +1288,7 @@ describe('Transaction', function() {
         .setExtraPayload(validPayload);
 
       // 2 bytes for payload version, 1 byte for username size
-      var expectedPayloadSize = 2 + 1 + nameSize + SpecialTransactions.constants.PUBKEY_ID_SIZE;
+      var expectedPayloadSize = 2 + 1 + nameSize + Payload.constants.PUBKEY_ID_SIZE;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);
