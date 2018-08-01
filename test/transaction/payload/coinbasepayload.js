@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
-var DashcoreLib = require('../../../../index');
+var DashcoreLib = require('../../../index');
 
 var CoinbasePayload = DashcoreLib.Transaction.Payload.CoinbasePayload;
 
