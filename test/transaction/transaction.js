@@ -1287,8 +1287,8 @@ describe('Transaction', function() {
         .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload);
 
-      // 2 bytes for payload version, 1 byte for username size
-      var expectedPayloadSize = 2 + 1 + nameSize + Payload.constants.PUBKEY_ID_SIZE;
+      // 2 bytes for payload version, 1 byte for username size, and 1 is empty signature
+      var expectedPayloadSize = 2 + 1 + nameSize + Payload.constants.PUBKEY_ID_SIZE + 1;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);

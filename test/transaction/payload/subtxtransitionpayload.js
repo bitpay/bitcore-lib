@@ -280,7 +280,7 @@ describe('SubTxTransitionPayload', function() {
       var payload = validPayloadFixture.copy();
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON).not.have.a.property('vchSig');
+      expect(payloadJSON.vchSig).to.be.equal(Payload.constants.EMPTY_SIGNATURE);
     });
   });
   describe('#toBuffer', function () {
