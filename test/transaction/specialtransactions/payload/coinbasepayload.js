@@ -3,7 +3,7 @@ var sinon = require('sinon');
 
 var DashcoreLib = require('../../../../index');
 
-var CoinbasePayload = DashcoreLib.Transaction.SpecialTransactions.payload.CoinbasePayload;
+var CoinbasePayload = DashcoreLib.Transaction.Payload.CoinbasePayload;
 
 var merkleRootMNList = 'e83c76065797d4542f1cd02e00d02093bea6fb53f5ad6aaa160fd3ccb30001b9';
 console.log(merkleRootMNList);

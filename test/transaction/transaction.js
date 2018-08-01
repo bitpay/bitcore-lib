@@ -15,13 +15,11 @@ var Output = bitcore.Transaction.Output;
 var PrivateKey = bitcore.PrivateKey;
 var Script = bitcore.Script;
 var Address = bitcore.Address;
-var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
-var BufferUtil = bitcore.util.buffer;
-var SpecialTransactions = bitcore.Transaction.SpecialTransactions;
-var SubTxRegisterPayload = SpecialTransactions.payload.SubTxRegisterPayload;
-var RegisteredTransactionTypes = SpecialTransactions.constants.registeredTransactionTypes;
+var Payload = bitcore.Transaction.Payload;
+var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
+var RegisteredTransactionTypes = Payload.constants.registeredTransactionTypes;
 
 var transactionVector = require('../data/tx_creation');
 
@@ -1286,10 +1284,11 @@ describe('Transaction', function() {
 
     it('Should set payload and size', function() {
       var transaction = Transaction()
+        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload);
 
       // 2 bytes for payload version, 1 byte for username size
-      var expectedPayloadSize = 2 + 1 + nameSize + SpecialTransactions.constants.PUBKEY_ID_SIZE;
+      var expectedPayloadSize = 2 + 1 + nameSize + Payload.constants.PUBKEY_ID_SIZE;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);
@@ -1299,8 +1298,8 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
+        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload)
-        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .sign(privateKey);
 
       var serialized = transaction.serialize();
@@ -1309,13 +1308,23 @@ describe('Transaction', function() {
       expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
       expect(deserialized.type).to.be.equal(transaction.type);
     });
+    it('Should not be possible to set extra payload if transaction type is not set', function () {
+      expect(function () {
+        var transaction = Transaction()
+          .from(simpleUtxoWith1BTC)
+          .to(fromAddress, 10000)
+          .change(fromAddress)
+          .setExtraPayload(validPayload)
+          .sign(privateKey);
+      }).to.throw('Transaction type is not set');
+    });
     it('Should be possible to serialize and deserialize special transaction from object', function() {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
+        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload)
-        .setSpecialTransactionType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
         .sign(privateKey);
 
       var serialized = transaction.toObject();
@@ -1329,26 +1338,29 @@ describe('Transaction', function() {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setSpecialTransactionType(1)
-        .sign(privateKey);
+        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
 
-      expect(function () { transaction.serialize(); }).to.throw('Transaction payload size is invalid');
+      delete transaction.extraPayload;
+
+      expect(function () { transaction.sign(privateKey).serialize(); }).to.throw('Transaction payload size is invalid');
     });
     it('Should throw when extra payload is set, but special transaction type is not set', function () {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
+        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .setExtraPayload(validPayload)
         .sign(privateKey);
 
-      transaction.extraPayloadSize = 1;
+      delete transaction.type;
+
       expect(function () { transaction.serialize(); }).to.throw('Special transaction type is not set');
     });
   });
   describe('isSpecialTransaction', function() {
     it('Should return true if a transaction is qualified to be a special transaction', function () {
-      var transaction = Transaction().setSpecialTransactionType(1);
+      var transaction = Transaction().setType(Transaction.TYPES.TRANSACTION_COINBASE);
 
       expect(transaction.isSpecialTransaction()).to.be.true;
     });
@@ -1356,6 +1368,30 @@ describe('Transaction', function() {
       var transaction = Transaction();
 
       expect(transaction.isSpecialTransaction()).to.be.false;
+    });
+  });
+  describe('setType', function () {
+    it('Should set type and create payload', function () {
+      var transaction = new Transaction().setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
+
+      expect(transaction.type).to.be.equal(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
+      expect(transaction.extraPayload).to.be.an.instanceOf(SubTxRegisterPayload);
+    });
+
+    it('Should not be able to set transaction type after it was already set', function () {
+      var transaction = new Transaction().setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
+
+      expect(transaction.extraPayload).to.be.an.instanceOf(SubTxRegisterPayload);
+
+      expect(function() {
+        transaction.setType(Transaction.TYPES.TRANSACTION_NORMAL)
+      }).to.throw('Type is already set');
+    });
+
+    it('Should throw if transaction type is unknown', function () {
+      expect(function () {
+        var transaction = new Transaction().setType(123367);
+      }).to.throw('Unknown special transaction type');
     });
   });
 });
