@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 
-var DashcoreLib = require('../../../../index');
+var DashcoreLib = require('../../../index');
 
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
@@ -39,8 +39,8 @@ describe('SubTxRegisterPayload', function() {
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .toBuffer();
-      // 2 bytes is payload version, 1 is username size
-      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length);
+      // 2 bytes is payload version, 1 is username size, 1 is zero signature
+      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 1);
       expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - Payload.constants.PUBKEY_ID_SIZE);
 
       expect(function () {
@@ -269,7 +269,7 @@ describe('SubTxRegisterPayload', function() {
         .sign(privateKey);
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON).not.have.a.property('vchSig');
+      expect(payloadJSON.vchSig).to.be.equal(Payload.constants.EMPTY_SIGNATURE);
     });
   });
   describe('#toBuffer', function () {
@@ -286,6 +286,19 @@ describe('SubTxRegisterPayload', function() {
       expect(restoredPayload.userName).to.be.equal(payload.userName);
       expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);
       expect(restoredPayload.vchSig).to.be.deep.equal(payload.vchSig);
+    });
+    it('Should write zero byte instead of signature if skipSignature option passed', function () {
+      var payload = new SubTxRegisterPayload()
+        .setUserName('test')
+        .setPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      // We excluding signature size from payload size. We expect 1 byte at the end to be a zero
+      var expectedLength = payload.toBuffer().length - Payload.constants.COMPACT_SIGNATURE_SIZE + 1;
+
+      var payloadBuffer = payload.toBuffer({ skipSignature: true });
+
+      expect(payloadBuffer.length).to.be.equal(expectedLength);
     });
     it('Should throw if the data is incomplete', function () {
       var payload = new SubTxRegisterPayload()
