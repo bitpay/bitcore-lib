@@ -179,7 +179,7 @@ describe('Transaction', function() {
     transaction.uncheckedSerialize().should.equal(tx_1_hex);
   });
 
-  it('should be able to create special transaction with payload', function () {
+  it('should autofill version field if nothing passed to constructor', function () {
     var testKey = 'cNfg1KdmEXySkwK5XyydmgoKLbMaCiRyqPEtXZPw1aq8XMd5U5GF';
     var testName = 'test';
     var transaction = new Transaction({
@@ -206,10 +206,9 @@ describe('Transaction', function() {
       .setPubKeyIdFromPrivateKey(testKey)
       .sign(testKey);
 
+    expect(transaction.version).to.be.equal(Transaction.CURRENT_VERSION);
     var serialized = transaction.sign(new PrivateKey(testKey)).serialize(true);
-    var object = transaction.toObject();
-    var parsed = new Transaction(serialized);
-    expect(parsed.version).to.be.equal(3);
+    expect(new Transaction(serialized).version).to.be.equal(Transaction.CURRENT_VERSION);
   });
 
   describe('transaction creation test vector', function() {
