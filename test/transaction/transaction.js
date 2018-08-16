@@ -23,8 +23,6 @@ var RegisteredTransactionTypes = Payload.constants.registeredTransactionTypes;
 
 var transactionVector = require('../data/tx_creation');
 
-var registrationTransaction = '010000000001809698000000000063b94c600000000001047465737488d9931ea73d60eaf7e5671efc0552b912911f2a411fa8f56a2766464967f0953d975cb9bfd7103e97d5aad6c2d2b908ba9f4d2c2f9a6c143d1e2001bdcdb1416c368e6cc7d87b57acc4dd49f2f4fd11d90f72d6ce2200000000';
-
 describe('Transaction', function() {
 
   it('should serialize and deserialize correctly a given transaction', function() {
