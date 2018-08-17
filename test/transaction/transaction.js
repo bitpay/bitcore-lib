@@ -177,6 +177,38 @@ describe('Transaction', function() {
     transaction.uncheckedSerialize().should.equal(tx_1_hex);
   });
 
+  it('should autofill version field if nothing passed to constructor', function () {
+    var testKey = 'cNfg1KdmEXySkwK5XyydmgoKLbMaCiRyqPEtXZPw1aq8XMd5U5GF';
+    var testName = 'test';
+    var transaction = new Transaction({
+      type: Transaction.TYPES.TRANSACTION_SUBTX_REGISTER,
+      outputs: [
+        {
+          satoshis: 18492520000,
+          script: '76a914fa1e0abfb8d26e494375f47e04b4883c44dd44d988ac'
+        }
+      ],
+    }).from({
+        "txid": "40b9d99ff299082f3bb3a92e879ece6667c12b8d71e2b85f66487fa6b0ae1bf9",
+        "vout": 0,
+        "address": "yZaKKq7TZf7pqmNNVvMG5Uhwpf2ZgjmyYF",
+        "scriptPubKey": "21029b3a2cd74b9dfc543ccd18a571332dd557400b85ff999decff1e5f7275a44690ac",
+        "amount": 500.00000000,
+        "confirmations": 185,
+        "spendable": true,
+        "solvable": true,
+        "ps_rounds": -2
+      });
+    transaction.extraPayload
+      .setUserName(testName)
+      .setPubKeyIdFromPrivateKey(testKey)
+      .sign(testKey);
+
+    expect(transaction.version).to.be.equal(Transaction.CURRENT_VERSION);
+    var serialized = transaction.sign(new PrivateKey(testKey)).serialize(true);
+    expect(new Transaction(serialized).version).to.be.equal(Transaction.CURRENT_VERSION);
+  });
+
   describe('transaction creation test vector', function() {
     this.timeout(5000);
     var index = 0;
