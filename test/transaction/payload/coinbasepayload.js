@@ -9,7 +9,7 @@ var merkleRootMNList = 'e83c76065797d4542f1cd02e00d02093bea6fb53f5ad6aaa160fd3cc
 console.log(merkleRootMNList);
 
 var validCoinbasePayloadJSON = {
-  nVersion: 10,
+  version: 10,
   height: 20,
   merkleRootMNList: merkleRootMNList
 };
@@ -35,7 +35,7 @@ describe('CoinbasePayload', function () {
       var payload = CoinbasePayload.fromBuffer(validCoinbasePayloadBuffer);
 
       expect(payload).to.be.an.instanceOf(CoinbasePayload);
-      expect(payload.nVersion).to.be.equal(10);
+      expect(payload.version).to.be.equal(10);
       expect(payload.height).to.be.equal(20);
       expect(payload.merkleRootMNList).to.be.equal(merkleRootMNList);
       expect(payload.validate.callCount).to.be.equal(1);
@@ -60,7 +60,7 @@ describe('CoinbasePayload', function () {
       var payload = CoinbasePayload.fromBuffer(validCoinbasePayloadBuffer);
 
       expect(payload).to.be.an.instanceOf(CoinbasePayload);
-      expect(payload.nVersion).to.be.equal(10);
+      expect(payload.version).to.be.equal(10);
       expect(payload.height).to.be.equal(20);
       expect(payload.merkleRootMNList).to.be.equal(merkleRootMNList);
       expect(payload.validate.callCount).to.be.equal(1);
@@ -72,34 +72,34 @@ describe('CoinbasePayload', function () {
   });
 
   describe('#validate', function () {
-    it('Should allow only unsigned integer as nVersion', function () {
+    it('Should allow only unsigned integer as version', function () {
       var payload = validCoinbasePayload.copy();
 
-      payload.nVersion = -1;
+      payload.version = -1;
 
       expect(function () {
         payload.validate()
-      }).to.throw('Invalid Argument: Expect nVersion to be an unsigned integer');
+      }).to.throw('Invalid Argument: Expect version to be an unsigned integer');
 
-      payload.nVersion = 1.5;
-
-      expect(function () {
-        payload.validate()
-      }).to.throw('Invalid Argument: Expect nVersion to be an unsigned integer');
-
-      payload.nVersion = '12';
+      payload.version = 1.5;
 
       expect(function () {
         payload.validate()
-      }).to.throw('Invalid Argument: Expect nVersion to be an unsigned integer');
+      }).to.throw('Invalid Argument: Expect version to be an unsigned integer');
 
-      payload.nVersion = Buffer.from('0a0f', 'hex');
+      payload.version = '12';
 
       expect(function () {
         payload.validate()
-      }).to.throw('Invalid Argument: Expect nVersion to be an unsigned integer');
+      }).to.throw('Invalid Argument: Expect version to be an unsigned integer');
 
-      payload.nVersion = 123;
+      payload.version = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate()
+      }).to.throw('Invalid Argument: Expect version to be an unsigned integer');
+
+      payload.version = 123;
 
       expect(function () {
         payload.validate()
@@ -187,7 +187,7 @@ describe('CoinbasePayload', function () {
 
       var payloadJSON = payload.toJSON();
 
-      expect(payloadJSON.nVersion).to.be.equal(payload.nVersion);
+      expect(payloadJSON.version).to.be.equal(payload.version);
       expect(payloadJSON.height).to.be.equal(payload.height);
       expect(payloadJSON.merkleRootMNList).to.be.equal(payload.merkleRootMNList);
     });
@@ -214,7 +214,7 @@ describe('CoinbasePayload', function () {
       var serializedPayload = payload.toBuffer();
       var restoredPayload = CoinbasePayload.fromBuffer(serializedPayload);
 
-      expect(restoredPayload.nVersion).to.be.equal(payload.nVersion);
+      expect(restoredPayload.version).to.be.equal(payload.version);
       expect(restoredPayload.height).to.be.equal(payload.height);
       expect(restoredPayload.merkleRootMNList).to.be.equal(payload.merkleRootMNList);
     });

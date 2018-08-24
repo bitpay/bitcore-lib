@@ -13,7 +13,7 @@ var CORRECT_SIGNATURE_SIZE = Payload.constants.COMPACT_SIGNATURE_SIZE;
 var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 var validPayloadJSONFixture = {
-  nVersion: 10,
+  version: 10,
   creditFee: 100,
   hashPrevSubTx: HashUtil.getRandomHashHexString(),
   regTxId: HashUtil.getRandomHashHexString(),
@@ -27,7 +27,7 @@ describe('SubTxTransitionPayload', function() {
   describe('constructor', function () {
     it('Should create SubTxTransitionPayload instance', function () {
       var payload = new SubTxTransitionPayload();
-      expect(payload).to.have.property('nVersion');
+      expect(payload).to.have.property('version');
     });
   });
 
@@ -101,7 +101,7 @@ describe('SubTxTransitionPayload', function() {
       expect(parsedPayload.regTxId).to.be.deep.equal(regTxId);
       expect(parsedPayload.hashSTPacket).to.be.deep.equal(hashSTPacket);
       expect(parsedPayload.creditFee).to.be.equal(10);
-      expect(parsedPayload.nVersion).to.be.equal(payload.nVersion);
+      expect(parsedPayload.version).to.be.equal(payload.version);
     });
     it('Should throw an error if data is incomplete', function () {
       var hashPrevSubTx = HashUtil.getRandomHashHexString();
@@ -121,13 +121,13 @@ describe('SubTxTransitionPayload', function() {
 
       expect(function () {
         SubTxTransitionPayload.fromBuffer(payloadBuffer);
-      }).to.throw('Invalid Argument');
+      }).to.throw();
     });
   });
   describe('fromJSON', function () {
     it('Should return instance of SubTxTransitionPayload with correct parsed data', function () {
       var payloadJSON = {
-        nVersion: 10,
+        version: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
@@ -135,7 +135,7 @@ describe('SubTxTransitionPayload', function() {
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payload = SubTxTransitionPayload.fromJSON(payloadJSON);
-      expect(payload.nVersion).to.be.equal(10);
+      expect(payload.version).to.be.equal(10);
       expect(payload.creditFee).to.be.equal(100);
       expect(payload.hashPrevSubTx).to.be.deep.equal(payloadJSON.hashPrevSubTx);
       expect(payload.hashSTPacket).to.be.deep.equal(payloadJSON.hashSTPacket);
@@ -144,28 +144,28 @@ describe('SubTxTransitionPayload', function() {
     });
     it('Should throw an error if the data is incomplete', function () {
       var payloadWithoutHashPrevSubTx = {
-        nVersion: 10,
+        version: 10,
         creditFee: 100,
         regTxId: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutRegTxId = {
-        nVersion: 10,
+        version: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutHashSTPacket = {
-        nVersion: 10,
+        version: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
         vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutCreditFee = {
-        nVersion: 10,
+        version: 10,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
@@ -189,7 +189,7 @@ describe('SubTxTransitionPayload', function() {
       var invalidVersions = [-1, '1', 1.5, []];
       var payloadsWithInvalidVersions = invalidVersions.map(function (version) {
         var payload = validPayloadFixture.copy().toJSON();
-        payload.nVersion = version;
+        payload.version = version;
         return payload;
       });
       payloadsWithInvalidVersions.forEach(function (payloadWithInvalidVersion) {
@@ -262,7 +262,7 @@ describe('SubTxTransitionPayload', function() {
     it('Should return a JSON that contains same data as the payload instance', function () {
       var payload = validPayloadFixture.copy().sign(privateKey);
       var payloadJSON = payload.toJSON();
-      expect(payloadJSON.nVersion).to.be.equal(payload.nVersion);
+      expect(payloadJSON.version).to.be.equal(payload.version);
       expect(payloadJSON.hashPrevSubTx).to.be.deep.equal(payload.hashPrevSubTx);
       expect(payloadJSON.hashSTPacket).to.be.deep.equal(payload.hashSTPacket);
       expect(payloadJSON.regTxId).to.be.deep.equal(payload.regTxId);
@@ -280,7 +280,7 @@ describe('SubTxTransitionPayload', function() {
       var payload = validPayloadFixture.copy();
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON.vchSig).to.be.equal(Payload.constants.EMPTY_SIGNATURE);
+      expect(payloadJSON).not.to.have.property('vchSig');
     });
   });
   describe('#toBuffer', function () {
