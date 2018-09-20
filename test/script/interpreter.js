@@ -202,6 +202,9 @@ describe('Interpreter', function() {
     var hashbuf = new Buffer(32);
     hashbuf.fill(0);
     var credtx = new Transaction();
+    // Set version directly, since default version has been changed in DIP2, and this test suit
+    // works only for version 1 transactions
+    credtx.version = 1;
     credtx.uncheckedAddInput(new Transaction.Input({
       prevTxId: '0000000000000000000000000000000000000000000000000000000000000000',
       outputIndex: 0xffffffff,
@@ -215,6 +218,7 @@ describe('Interpreter', function() {
     var idbuf = credtx.id;
 
     var spendtx = new Transaction();
+    spendtx.version = 1;
     spendtx.uncheckedAddInput(new Transaction.Input({
       prevTxId: idbuf.toString('hex'),
       outputIndex: 0,
