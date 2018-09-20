@@ -2,6 +2,11 @@ language: node_js
 sudo: required
 addons:
  chrome: stable
+branches:
+ only:
+   - develop
+   - master
+   - evo
 node_js:
 - '6'
 - '7'
@@ -10,8 +15,16 @@ before_install:
   - npm install -g bower
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 install:
   - bower install
   - npm install
 after_script:
   - gulp coveralls
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: /bin/bash deploy.sh
+  on:
+    repo: dashevo/dapi
+    branch: evo
