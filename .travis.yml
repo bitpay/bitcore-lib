@@ -23,8 +23,7 @@ after_script:
   - gulp coveralls
 deploy:
   skip_cleanup: true
-  provider: script
-  script: /bin/bash deploy.sh
+  - npm publish --tag alpha
   on:
     repo: dashevo/dapi
     branch: evo
