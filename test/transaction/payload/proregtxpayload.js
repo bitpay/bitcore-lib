@@ -48,16 +48,7 @@ describe('ProRegTxPayload', function () {
 
 
     it('Should throw an error if data is incomplete', function () {
-      var payloadBuffer = new SubTxRegisterPayload()
-        .setUserName('test')
-        .setPubKeyId(pubKeyId)
-        .toBuffer();
-      // 2 bytes is payload version, 1 is username size, 2 is sig size and zero signature
-      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 2);
-
-      expect(function () {
-        SubTxRegisterPayload.fromBuffer(payloadBufferWithoutPubKeyId)
-      }).to.throw();
+      //todo
     });
   });
 
