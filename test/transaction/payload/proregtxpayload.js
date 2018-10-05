@@ -57,33 +57,91 @@ describe('ProRegTxPayload', function () {
     });
   });
 
-
+  function deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj))
+  }
 
   describe('Validation', function () {
     it('should invalidate for missing values', function () {
 
-      options.version = 1;
-      const imm = JSON.parse(JSON.stringify(options));
-
-      delete options.version;
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.version;
       expect(function () {
-        new ProRegTxPayload().fromJSON(options);
+        new ProRegTxPayload().fromJSON(tmpOptions);
       }).to.throw(`Invalid Argument: Expect version to be an unsigned integer`);
 
-      options = imm;
-      delete options.type;
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.type;
       expect(function () {
-        new ProRegTxPayload().fromJSON(options);
+        new ProRegTxPayload().fromJSON(tmpOptions);
       }).to.throw(`Invalid Argument: Expect type to be an unsigned integer`);
 
-      // options = imm;
-      // delete options.mode;
-      // expect(function () {
-      //   new ProRegTxPayload().fromJSON(options);
-      // }).to.throw(`Invalid Argument: Expect mode to be an unsigned integer`);
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.mode;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect mode to be an unsigned integer`);
 
-      //todo
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.collateralIndex;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect collateralIndex to be an unsigned integer`);
 
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.ipAddress;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Expect ipAddress to be a string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.port;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Expect port to be an unsigned integer`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.KeyIdOwner;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect KeyIdOwner to be a hex string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.KeyIdOperator;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect KeyIdOperator to be a hex string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.KeyIdVoting;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect KeyIdVoting to be a hex string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.operatorReward;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect operatorReward to be an unsigned integer`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.scriptPayout;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect scriptPayout to be a hex string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.inputsHash;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`Invalid Argument: Expect inputsHash to be a hex string`);
+
+      var tmpOptions = deepCopy(options)
+      delete tmpOptions.payloadSig;
+      expect(function () {
+        new ProRegTxPayload().fromJSON(tmpOptions);
+      }).to.throw(`nvalid Argument: Expect payloadSig to be a hex string`);
+   
     });
   });
 
