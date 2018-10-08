@@ -1484,6 +1484,23 @@ describe('Transaction', function() {
 
     });
 
+    describe('Provider Transaction ', function () {
+
+      it('Should parse the payload', function () {
+        var transactionHex = '0300020001a45f4e6af45dfc15d44147ec6e5ab0d8d2048ea2e95e2820f7cdfd1c1b917509000000006b483045022100c78d22ea8df7a17d2491b6be545c577b0659b551e2e75de42ee31cd396e46745022035e6bfa933a5c4d35cd13dc764572f886a9f1139aae61d54881fe3be6407b74c0121022bf34ca08d39eb045fbfda9d5aaedef1f1e16801fe0cfe8375b054e0810f50defeffffff01b30f6eb7060000001976a914e0cd9defb139b9433d481b20dd15bbbb94a1aa0c88ac00000000b40100a45f4e6af45dfc15d44147ec6e5ab0d8d2048ea2e95e2820f7cdfd1c1b9175094312010000000000000000000000ffff0102030604d41976a9148603df234fe8f26064439de60ed13eb92d76cc5588ac8c62104a85a6efb165315d61e1660ee7e25c1831d240c35878053929ba377c88411fdaf84b78552f91c99eb267efec1be0e63b7459e66f142daabb0345477842592b68ce0f59b163657c480061fe834a888f9a9697e7635b36b4ede84a2374ad9831';
+
+        var tx = new Transaction(transactionHex);
+        expect(tx.extraPayload.version).to.be.equal(1);
+        expect(tx.extraPayload.proTXHash).to.be.equal('0975911b1cfdcdf720285ee9a28e04d2d8b05a6eec4741d415fc5df46a4e5fa4');
+        // 1.2.3.6 mapped to IPv6
+        expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffff01020306');
+        expect(tx.extraPayload.port).to.be.equal(1236);
+        expect(new Script(tx.extraPayload.scriptOperatorPayout).toAddress('testnet').toString()).to.be.equal('yYY42uyDZk8Rp32SSyjAAy2pUtzkAT2WDb');
+        // TODO: Add signature verification
+      });
+
+    });
+
     describe('State transition', function () {
       var regTxId = 'd0df4810f9899a71968b5e4147b52cab86ad9342a9806a514227514d8a160a3c';
       var hashPrevSubTx = 'd0df4810f9899a71968b5e4147b52cab86ad9342a9806a514227514d8a160a3c';
