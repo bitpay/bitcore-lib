@@ -3,7 +3,7 @@ All Dash transactions have scripts embedded into its inputs and outputs.  The sc
 
 When a transaction is validated, the input scripts are concatenated with the output scripts and evaluated. To be valid, all transaction scripts must evaluate to true.  A good analogy for how this works is that the output scripts are puzzles that specify in which conditions can those funds be spent. The input scripts provide the correct data to make those output scripts evaluate to true.
 
-For more detailed information about the Dash scripting language, check the online reference [on bitcoin's wiki](https://en.bitcoin.it/wiki/Script).
+For more detailed information about the Dash scripting language, check the online reference [on Bitcoin's wiki](https://en.bitcoin.it/wiki/Script).
 
 The `Script` object provides an interface to construct, parse, and identify Dash scripts. It also gives simple interfaces to create most common script types. This class is useful if you want to create custom input or output scripts. In other case, you should probably use `Transaction`.
 
@@ -103,7 +103,7 @@ s.isMultisigOut() // true
 ```
 
 ## Script Interpreting and Validation
-To validate a transaction, the Dash network validates all of its inputs and outputs. To validate an input, the input's script is concatenated with the referenced output script, and the result is executed. If at the end of execution the stack contains a 'true' value, then the transaction is valid. You can do this in `dashcore` by using the `Interpreter` class. The entry point (and probably the only interface you'll need for most applications) is the method `Interpreter#verify()`.
+To validate a transaction, the Dash network validates all of its inputs and outputs. To validate an input, the input's script is concatenated with the referenced output script, and the result is executed. If at the end of execution the stack contains a 'true' value, then the transaction is valid. You can do this in `Dashcore` by using the `Interpreter` class. The entry point (and probably the only interface you'll need for most applications) is the method `Interpreter#verify()`.
 
 You can use it like this:
 

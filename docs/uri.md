@@ -10,7 +10,7 @@ dash:XuUGDZHrKLo841CyamDbG5W7n59epA71h2?amount=1.2&message=Payment&label=Satoshi
 ```
 
 ## URI Validation
-The main use that we expect you'll have for the `URI` class in dashcore is validating and parsing Dash URIs. A `URI` instance exposes the address as a dashcore `Address` object and the amount in satoshis, if present.
+The main use that we expect you'll have for the `URI` class in Dashcore is validating and parsing Dash URIs. A `URI` instance exposes the address as a Dashcore `Address` object and the amount in satoshis, if present.
 
 The code for validating URIs looks like this:
 
@@ -22,12 +22,12 @@ console.log(uri.address.network, uri.amount); // 'livenet', 120000000
 ```
 
 ## URI Parameters
-All standard parameters can be found as members of the `URI` instance. However a bitcoin URI may contain other non-standard parameters, all those can be found under the `extra` namespace.
+All standard parameters can be found as members of the `URI` instance. However a Bitcoin URI may contain other non-standard parameters, all those can be found under the `extra` namespace.
 
 See [the official BIP21 spec](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki) for more information.
 
 ## Create URI
-Another important use case for the `URI` class is creating a bitcoin URI for sharing a payment request. That can be accomplished by using a dictionary to create an instance of URI.
+Another important use case for the `URI` class is creating a Bitcoin URI for sharing a payment request. That can be accomplished by using a dictionary to create an instance of URI.
 
 The code for creating an URI from an Object looks like this:
 
