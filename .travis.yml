@@ -25,5 +25,5 @@ deploy:
   skip_cleanup: true
   - npm publish --tag alpha
   on:
-    repo: dashevo/dapi
+    repo: dashevo/dashcore-lib
     branch: evo
