@@ -22,8 +22,15 @@ install:
 after_script:
   - gulp coveralls
 deploy:
-  skip_cleanup: true
-  - npm publish --tag alpha
-  on:
-    repo: dashevo/dashcore-lib
-    branch: evo
+  - provider: script
+    skip_cleanup: true
+    script: npm publish --tag alpha
+    on:
+      repo: dashevo/dashcore-lib
+      branch: evo
+  - provider: script
+    skip_cleanup: true
+    script: npm publish
+    on:
+      repo: dashevo/dashcore-lib
+      branch: master
