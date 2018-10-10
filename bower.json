@@ -6,7 +6,7 @@
   "authors": [
     "Dash", "BitPay, Inc."
   ],
-  "description": "A pure, powerful core for your dash project.",
+  "description": "A pure, powerful core for your Dash project.",
   "moduleType": [
     "globals"
   ],

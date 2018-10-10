@@ -7,7 +7,7 @@ Here is how to create a new private key. It will generate a new random number us
 ```javascript
 var privateKey = new PrivateKey();
 
-// Creates a private key from a hexa encoded number
+// Creates a private key from a hex encoded number
 var privateKey2 = new PrivateKey('b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79');
 ```
 

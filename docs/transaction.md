@@ -12,7 +12,7 @@ Let's take a look at some very simple transactions:
 ```javascript
 var transaction = new Transaction()
     .from(utxos)          // Feed information about what unspent outputs one can use
-    .to(address, amount)  // Add an output with the given amount of satoshi
+    .to(address, amount)  // Add an output with the given amount of satoshis
     .change(address)      // Sets up a change address where the rest of the funds will go
     .sign(privkeySet)     // Signs all the inputs it can
 ```
@@ -113,7 +113,7 @@ The following methods are used to manage signatures for a transaction:
   - `sigtype`: the "sighash", the type of transaction hash used to calculate the signature
   - `publicKey`: a `PublicKey` of the `PrivateKey` used to create the signature
 
-- `addSignature`: takes an element outputed by `getSignatures` and applies the signature to this input (modifies the script to include the new signature).
+- `addSignature`: takes an element outputted by `getSignatures` and applies the signature to this input (modifies the script to include the new signature).
 - `clearSignatures`: removes all signatures for this input
 - `isFullySigned`: returns true if the input is fully signed
 
@@ -127,23 +127,23 @@ To remove all outputs, you can use `clearOutputs()`, which preserves change outp
 
 ## Serialization
 There are a series of methods used for serialization:
-- `toObject`: Returns a plain JavaScript object with no methods and enough information to fully restore the state of this transaction. Using other serialization methods (except for `toJSON`) will cause a some information to be lost.
+- `toObject`: Returns a plain JavaScript object with no methods and enough information to fully restore the state of this transaction. Using other serialization methods (except for `toJSON`) will cause some information to be lost.
 - `toJSON`: Will be called when using `JSON.stringify` to return JSON-encoded string using the output from `toObject`.
-- `toString` or `uncheckedSerialize`: Returns an hexadecimal serialization of the transaction, in the [serialization format for bitcoin](https://bitcoin.org/en/developer-reference#raw-transaction-format).
+- `toString` or `uncheckedSerialize`: Returns an hexadecimal serialization of the transaction, in the [serialization format for Bitcoin](https://bitcoin.org/en/developer-reference#raw-transaction-format).
 - `serialize`: Does a series of checks before serializing the transaction
 - `inspect`: Returns a string with some information about the transaction (currently a string formatted as `<Transaction 000...000>`, that only shows the serialized value of the transaction.
 - `toBuffer`: Serializes the transaction for sending over the wire in the Dash network
 - `toBufferWriter`: Uses an already existing BufferWriter to copy over the serialized transaction
 
 ## Serialization Checks
-When serializing, the dashcore library performs a series of checks. These can be disabled by providing an object to the `serialize` method with the checks that you'll like to skip.
+When serializing, the Dashcore library performs a series of checks. These can be disabled by providing an object to the `serialize` method with the checks that you'll like to skip.
 - `disableLargeFees` avoids checking that the fee is no more than `Transaction.FEE_PER_KB * Transaction.FEE_SECURITY_MARGIN * size_in_kb`.
 - `disableSmallFees` avoids checking that the fee is less than `Transaction.FEE_PER_KB * size_in_kb / Transaction.FEE_SECURITY_MARGIN`.
 - `disableIsFullySigned` does not check if all inputs are fully signed
 - `disableDustOutputs` does not check for dust outputs being generated
 - `disableMoreOutputThanInput` avoids checking that the sum of the output amounts is less than or equal to the sum of the amounts for the outputs being spent in the transaction
 
-These are the current default values in the dashcore library involved on these checks:
+These are the current default values in the Dashcore library involved on these checks:
 - `Transaction.FEE_PER_KB`: `10000` (satoshis per kilobyte)
 - `Transaction.FEE_SECURITY_MARGIN`: `15`
 - `Transaction.DUST_AMOUNT`: `546` (satoshis)
@@ -151,7 +151,7 @@ These are the current default values in the dashcore library involved on these c
 ## Fee calculation
 When the sum of the outputs' value doesn't add up to the sum of the inputs' value, the difference is given to the miner of the block that includes this transaction as a "mining fee".
 
-When outputs' value don't sum up to the same amount that inputs, the difference in funds goes to the miner of the block that includes this transaction. The concept of a "change address" usually is associated with this: an output with an address that can be spent by the creator of the transaction.
+When outputs' value doesn't sum up to the same amount that inputs, the difference in funds goes to the miner of the block that includes this transaction. The concept of a "change address" usually is associated with this: an output with an address that can be spent by the creator of the transaction.
 
 For this reason, some methods in the Transaction class are provided:
 - `change(address)`: Set up the change address. This will set an internal `_changeScript` property that will store the change script associated with that address.
@@ -161,9 +161,9 @@ For this reason, some methods in the Transaction class are provided:
 Internally, a `_changeIndex` property stores the index of the change output (so it can get updated when a new input or output is added).
 
 ## Time-Locking transaction
-All Dash transactions contain a locktime field. The locktime indicates the earliest time a transaction can be added to the blockchain. Locktime allows signers to create time-locked transactions which will only become valid in the future, giving the signers a chance to change their minds. Locktime can be set in the form of a Dash block height (the transaction can only be included in a block with a higher height than specified) or a linux timestamp (transaction can only be confirmed after that time). For more information see [bitcoin's development guide section on locktime](https://bitcoin.org/en/developer-guide#locktime-and-sequence-number).
+All Dash transactions contain a locktime field. The locktime indicates the earliest time a transaction can be added to the blockchain. Locktime allows signers to create time-locked transactions which will only become valid in the future, giving the signers a chance to change their minds. Locktime can be set in the form of a Dash block height (the transaction can only be included in a block with a higher height than specified) or a Linux timestamp (transaction can only be confirmed after that time). For more information see [Bitcoin's development guide section on locktime](https://bitcoin.org/en/developer-guide#locktime-and-sequence-number).
 
-In dashcore, you can set a `Transaction`'s locktime by using the methods `Transaction#lockUntilDate` and `Transaction#lockUntilBlockHeight`. You can also get a friendly version of the locktime field via `Transaction#getLockTime`;
+In Dashcore, you can set a `Transaction`'s locktime by using the methods `Transaction#lockUntilDate` and `Transaction#lockUntilBlockHeight`. You can also get a friendly version of the locktime field via `Transaction#getLockTime`;
 
 For example:
 
