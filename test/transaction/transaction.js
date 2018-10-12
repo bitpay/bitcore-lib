@@ -1495,6 +1495,7 @@ describe('Transaction', function() {
         expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffff01020307');
         expect(tx.extraPayload.port).to.be.equal(1237);
         expect(tx.extraPayload.protocolVersion).to.be.equal(70211);
+        expect(tx.extraPayload.collateralIndex).to.be.equal(1);
 
         expect(tx.extraPayload.keyIdOperator).to.be.equal('37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a');
         expect(tx.extraPayload.keyIdOwner).to.be.equal('37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a');
@@ -1504,6 +1505,7 @@ describe('Transaction', function() {
 
         expect(tx.extraPayload.operatorReward).to.be.equal(1200);
         expect(tx.extraPayload.inputsHash).to.be.equal('0da72bc98991885d9e6f617a5b1fca526b03ef12691e9668741f6c8eaad6311e');
+        expect(tx.extraPayload.payloadSig).to.be.equal('1f1260016c46818327d3267ccb2a52e616fa0caef5fc7fce468cd351233b3e364149905ae110e37ea5c06fcf60b8794fc2419004bbca2eba028694a7abe750497c');
         // TODO: Add signature verification
       });
 
