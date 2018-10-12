@@ -1441,7 +1441,7 @@ describe('Transaction', function() {
 
         expect(parsedTransaction.type).to.be.equal(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
         expect(parsedTransaction.extraPayload.version).to.be.equal(1);
-        expect(parsedTransaction.extraPayload.userName).to.be.equal(username);
+        expect(parsedTransaction.extraPayload.userame).to.be.equal(username);
         expect(parsedTransaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(expectedPubKeyId);
 
         expect(parsedTransaction.extraPayload.verifySignature(expectedPubKeyId)).to.be.true;
@@ -1487,15 +1487,23 @@ describe('Transaction', function() {
     describe('Provider Register Transaction', function () {
 
       it('Should parse the payload', function () {
-        var transactionHex = '0300010003a966c289061610196f43ec4f95192d62864ede64fa4ce5d5c905e1a9200855200000000049483045022100927551e57f3a20e73187b0dd60ca44c0f86e9c63e365b24d2c4dfa79d13075a80220475a615791b52592bfb7165ab1319897aea44d779ea0dd84f35de1336663137401fefffffff64c5645b70855061b477f45d0816564b168fb5dcf038cb83cf085e7e88aa8390000000048473044022074a7afff9ed3bf04ed3f99fa5d59cce7f5e9c4332a3ade32ead195ee0784e54e02202fdf6af49a638b0b0a59cbcad1ea049b67cda22e758b8cdfafadeaec8f2077f401feffffffba08bfaff3611d7b2d97c50cd40cf2967dc7c22073addba8e91215b494cc514e0000000048473044022065048cfe9e4d9ffbdc32a40b029d46e8a221c911a8228ea157ddddf5689cab32022040e4985fd0fb9aedb4b5ab6ec255ea4026e8098e6f74944c03344bfbbf7d908201feffffff02857f357a0a0000001976a914e4d5a109661155a616f05b1a0b2c95221ca0c23388ac00e87648170000001976a91496dc3875f032c9439c4b1e4c3c9ddbd8a9c9594888ac00000000d60100431201000100000000000000000000000000ffff9f596eb84e1f8ce053db1d2dca51baa435e4dbf104dc1c0bd9038ce053db1d2dca51baa435e4dbf104dc1c0bd9038ce053db1d2dca51baa435e4dbf104dc1c0bd9031976a91496dc3875f032c9439c4b1e4c3c9ddbd8a9c9594888ac000017720491c12b97c956257e6865eca1196956eda35fe3dd42e6949019a42a410b411ba498c1a8781be5dab5e9afec7d0b69cb78608ddc93cf8441d3d274b64bce091936f48a8d779ac3e8da6828486f7df21c3c12b7e1ef84b1de4172001ce47fa5de';
+        var transactionHex = '0300010003fd6f3b724ba3ac23bd8cab31ea6e35bf33833025a633d2daace8f095e8f3b8240000000049483045022100d3950dd6b7cdf4ed28d958130f8c37a77be0f8c2f8b97789338572a4ec0d6931022054c15a878b30a930811649b604485bdc73b518e3787ddb23edca87881b01267101feffffff506bd3b81031c45d744393fe85268c9bb21d3a02f55f170052a3f5ed1c7c4b6e0000000049483045022100d2b927f04efb6d2b6831a5f5086e4192c51ebad9c2fede31c3c3e7160431a5c402207aa68eec9b44ff1fb9ab5091f43f1c52ad25502987b07c10a82077a54a3741a001fefffffffb5b4f4bd1a2e9a1cca8cb91fdf6812c4651abc42fa08a74183107ff8b7b48bd000000006a473044022075831620bf92a7135e9dca51d2fb6a800bb80f0bddd2bcae7251827f963cbdfb02203a21d4dee89180b84c5b2d5a980749a12267ee3b044043957e0096e0c3e77a5a0121038057de04c3c0fea73236ab95497293b533ba0fde85ef327b591ba8c2ca2a8a2cfeffffff02160d6eb7060000001976a9149ccb39b39a4294b1cf5d7efe2b3347456d5db34288ac00e87648170000001976a9146ba54a9548b7fb962e33114902234eeb93c7fd5c88ac00000000d60100431201000100000000000000000000000000ffff0102030704d537ab1f05addb051a4c618a3ccbd1ebd49fe2f60a37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a1976a9146ba54a9548b7fb962e33114902234eeb93c7fd5c88acb0040da72bc98991885d9e6f617a5b1fca526b03ef12691e9668741f6c8eaad6311e411f1260016c46818327d3267ccb2a52e616fa0caef5fc7fce468cd351233b3e364149905ae110e37ea5c06fcf60b8794fc2419004bbca2eba028694a7abe750497c';
 
         var tx = new Transaction(transactionHex);
         expect(tx.extraPayload.version).to.be.equal(1);
-        expect(tx.extraPayload.proTXHash).to.be.equal('0975911b1cfdcdf720285ee9a28e04d2d8b05a6eec4741d415fc5df46a4e5fa4');
-        // 1.2.3.6 mapped to IPv6
-        expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffff01020306');
-        expect(tx.extraPayload.port).to.be.equal(1236);
-        expect(new Script(tx.extraPayload.scriptOperatorPayout).toAddress('testnet').toString()).to.be.equal('yYY42uyDZk8Rp32SSyjAAy2pUtzkAT2WDb');
+        // 1.2.3.7 mapped to IPv6
+        expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffff01020307');
+        expect(tx.extraPayload.port).to.be.equal(1237);
+        expect(tx.extraPayload.protocolVersion).to.be.equal(70211);
+
+        expect(tx.extraPayload.keyIdOperator).to.be.equal('37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a');
+        expect(tx.extraPayload.keyIdOwner).to.be.equal('37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a');
+        expect(tx.extraPayload.keyIdVoting).to.be.equal('37ab1f05addb051a4c618a3ccbd1ebd49fe2f60a');
+
+        expect(new Script(tx.extraPayload.scriptPayout).toAddress('testnet').toString()).to.be.equal('yW8dANZciyvr8QkxURPVbxaadzf2WFZnAw');
+
+        expect(tx.extraPayload.operatorReward).to.be.equal(1200);
+        expect(tx.extraPayload.inputsHash).to.be.equal('0da72bc98991885d9e6f617a5b1fca526b03ef12691e9668741f6c8eaad6311e');
         // TODO: Add signature verification
       });
 
