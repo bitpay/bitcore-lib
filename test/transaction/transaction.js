@@ -1441,7 +1441,7 @@ describe('Transaction', function() {
 
         expect(parsedTransaction.type).to.be.equal(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
         expect(parsedTransaction.extraPayload.version).to.be.equal(1);
-        expect(parsedTransaction.extraPayload.userame).to.be.equal(username);
+        expect(parsedTransaction.extraPayload.username).to.be.equal(username);
         expect(parsedTransaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(expectedPubKeyId);
 
         expect(parsedTransaction.extraPayload.verifySignature(expectedPubKeyId)).to.be.true;
