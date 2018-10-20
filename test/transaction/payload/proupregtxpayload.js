@@ -8,16 +8,16 @@ var ProUpRegTxPayload = Payload.ProUpRegTxPayload;
 
 var validProUpRegTxPayloadJSON = {
   version: 1,
-  proTXHash: '0975911b1cfdcdf720285ee9a28e04d2d8b05a6eec4741d415fc5df46a4e5fa4',
-  mode: 4675,
-  keyIdOperator: 'd40406030201ffff000000000000000000000001',
-  keyIdVoting: 'b93ed10ee69d436460f2e84f23df038614a97619',
-  scriptPayout: '2f55784bf8da1f41887c37ba2939057858c340d231185ce2e70e66e1615d3165b1efa6854a10628cac8855cc76',
-  payloadSig: '7c480061fe834a888f9a9697e7635b36b4ede84a2374ad9831',
-  inputsHash: '63b1590fce682b594278474503bbaa2d146fe659743be6e01becef67b29ec991',
+  proTXHash: '01040eb32f760490054543356cff463865633439dd073cffa570305eb086f70e',
+  // mode: 0,
+  keyIdOperator: 'e72ec3cdd5a87c47db3dd983f0329abe34b92908',
+  keyIdVoting: 'c2ae01fb4084cbc3bc31e7f59b36be228a320404',
+  scriptPayout: 'ac88c21664f1db4d073f45fd45d762b37417c885da4f14a976',
+  inputsHash: '0e47b3e02ffe6316db51d30e598b8cb671c50713511427f32ed78aeb8215d024',
+  payloadSig: '1ca150395389416102887e0a5dd609a3d477edf1f79faaf61603e4dc2564a4b31b603671cdd719e617f0588bd541568131f0d9444e0b5e2deba9dd16e927f48911',
 }
 
-var validProUpRegTxPayloadHexString = '0100a45f4e6af45dfc15d44147ec6e5ab0d8d2048ea2e95e2820f7cdfd1c1b9175094312010000000000000000000000ffff0102030604d41976a9148603df234fe8f26064439de60ed13eb92d76cc5588ac8c62104a85a6efb165315d61e1660ee7e25c1831d240c35878053929ba377c88411fdaf84b78552f91c99eb267efec1be0e63b7459e66f142daabb0345477842592b68ce0f59b163657c480061fe834a888f9a9697e7635b36b4ede84a2374ad9831';
+var validProUpRegTxPayloadHexString = '01000ef786b05e3070a5ff3c07dd393463653846ff6c354345059004762fb30e04010829b934be9a32f083d93ddb477ca8d5cdc32ee70404328a22be369bf5e731bcc3cb8440fb01aec21976a9144fda85c81774b362d745fd453f074ddbf16416c288ac24d01582eb8ad72ef32714511307c571b68c8b590ed351db1663fe2fe0b3470e411ca150395389416102887e0a5dd609a3d477edf1f79faaf61603e4dc2564a4b31b603671cdd719e617f0588bd541568131f0d9444e0b5e2deba9dd16e927f48911';
 var validProUpRegTxPayloadBuffer = Buffer.from(validProUpRegTxPayloadHexString, 'hex');
 var validProUpRegTxPayload = ProUpRegTxPayload.fromBuffer(validProUpRegTxPayloadBuffer);
 var validProUpRegTxHash = 'a64e3e06c71873aff149c446d76618efad9a5908007886f6024e9fddb3e6aa13';
@@ -40,15 +40,15 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
       expect(payload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
       expect(payload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
+      expect(payload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
+      expect(payload.payloadSig).to.be.equal(validProUpRegTxPayloadJSON.payloadSig);
     });
 
     it('Should throw an error when there is unexpected information in the raw payload', function() {
       var payloadWithAdditionalZeros = Buffer.from(validProUpRegTxPayloadHexString + '0000', 'hex');
-
       expect(function() {
         ProUpRegTxPayload.fromBuffer(payloadWithAdditionalZeros)
       }).to.throw('Failed to parse payload: raw payload is bigger than expected.');
@@ -66,10 +66,11 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
       expect(payload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
       expect(payload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
+      expect(payload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
+      expect(payload.payloadSig).to.be.equal(validProUpRegTxPayloadJSON.payloadSig);
     });
 
     after(function () {
@@ -93,10 +94,11 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payloadJSON.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payloadJSON.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payloadJSON.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
       expect(payloadJSON.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
       expect(payloadJSON.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payloadJSON.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
+      expect(payloadJSON.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
+      expect(payloadJSON.payloadSig).to.be.equal(validProUpRegTxPayloadJSON.payloadSig);
     });
   });
 
@@ -113,14 +115,16 @@ describe('ProUpRegTxPayload', function () {
       var payload = validProUpRegTxPayload.copy();
 
       var serializedPayload = payload.toBuffer();
-      var restoredPayload = ProUpRegTxPayload.fromBuffer(serializedPayload);
+      expect(serializedPayload.byteLength).to.be.equal(198);
 
+      var restoredPayload = ProUpRegTxPayload.fromBuffer(serializedPayload);
       expect(restoredPayload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(restoredPayload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(restoredPayload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
       expect(restoredPayload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
       expect(restoredPayload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(restoredPayload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
+      expect(restoredPayload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
+      expect(restoredPayload.payloadSig).to.be.equal(validProUpRegTxPayloadJSON.payloadSig);
     });
 
     it('Should call #validate', function () {
