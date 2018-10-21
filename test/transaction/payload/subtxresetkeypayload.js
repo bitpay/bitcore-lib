@@ -35,6 +35,13 @@ var validSubTxResetKeyPayloadSigned = SubTxResetKeyPayload.fromBuffer(validSubTx
 
 describe('SubTxResetKeyPayload', function () {
 
+  describe('constructor', function () {
+    it('Should create SubTxResetKeyPayload instance', function () {
+      var payload = new SubTxResetKeyPayload();
+      expect(payload).to.have.property('version');
+    });
+  });
+
   describe('.fromBuffer', function () {
 
     beforeEach(function () {
