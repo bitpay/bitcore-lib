@@ -1,8 +1,11 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
-
 var DashcoreLib = require('../../../index');
 var SubTxResetKeyPayload = DashcoreLib.Transaction.Payload.SubTxResetKeyPayload;
+var PrivateKey = DashcoreLib.PrivateKey;
+var BufferUtil = DashcoreLib.util.buffer;
+var privateKey = 'cQSA77TsRYNEsYRmLoY7Y3gNF3Kb5qff4yUv3hWB7fm46YQ2njqN';
+var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 
 var validSubTxResetKeyPayloadJSON = {
   version: 1,
@@ -10,7 +13,7 @@ var validSubTxResetKeyPayloadJSON = {
   hashPrevSubTx: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
   creditFee: 1000,
   //newPubKeySize: 20,
-  newPubKey: 'a4163320ebc4bf150fd46acbf506c4ec82249ceb',
+  newPubKey: pubKeyId,
   payloadSigSize: 0,
 };
 
@@ -20,7 +23,7 @@ var validSubTxResetKeyPayloadJSONsigned = {
   hashPrevSubTx: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
   creditFee: 1000,
   //newPubKeySize: 20,
-  newPubKey: 'a4163320ebc4bf150fd46acbf506c4ec82249ceb',
+  newPubKey: pubKeyId,
   payloadSigSize: 65,
   payloadSig: '96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f',
 };
@@ -60,7 +63,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
     });
 
     it('Should throw in case if there is some unexpected information in raw payload', function() {
@@ -69,6 +72,39 @@ describe('SubTxResetKeyPayload', function () {
       expect(function() {
         SubTxResetKeyPayload.fromBuffer(payloadWithAdditionalZeros)
       }).to.throw('Failed to parse payload: raw payload is bigger than expected.');
+    });
+
+    it('Should return instance of SubTxResetKeyPayload with parsed data', function () {
+      var options = { skipSignature: true };
+      var payloadBuffer = new SubTxResetKeyPayload()
+        .setRegTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setPrevSubTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .toBuffer(options);
+
+      expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
+
+      var parsedPayload = SubTxResetKeyPayload.fromBuffer(payloadBuffer);
+      expect(parsedPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(BufferUtil.equals(parsedPayload.newPubKey, pubKeyId)).to.be.true;
+
+    });
+
+    it('Should throw an error if data is incomplete', function () {
+      var options = { skipSignature: true };
+      var payloadBuffer = new SubTxResetKeyPayload()
+        .setRegTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setPrevSubTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .toBuffer(options);
+      // 2 bytes is payload version, 1 is username size, 2 is sig size and zero signature
+      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 2);
+
+      expect(function () {
+        SubTxResetKeyPayload.fromBuffer(payloadBufferWithoutPubKeyId)
+      }).to.throw();
     });
 
   });
@@ -91,7 +127,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payload.payloadSigSize).to.be.equal(65);
       expect(payload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
     });
@@ -119,7 +155,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payload.payloadSigSize).to.be.equal(0);
     });
 
@@ -141,7 +177,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payload.payloadSigSize).to.be.equal(65);
       expect(payload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
     });
@@ -171,7 +207,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payloadJSON.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
       expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payloadJSON.newPubKeySize).to.be.equal(20);
-      expect(payloadJSON.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payloadJSON.payloadSigSize).to.be.equal(0);
 
     });
@@ -200,12 +236,12 @@ describe('SubTxResetKeyPayload', function () {
 
       expect(payloadJSON.version).to.be.equal(1);
       expect(payloadJSON.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.creditFee).to.be.equal(1000);
+      expect(payloadJSON.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
-      expect(payload.payloadSigSize).to.be.equal(65);
-      expect(payload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(payloadJSON.payloadSigSize).to.be.equal(65);
+      expect(payloadJSON.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
 
     });
     it('Should call #validate', function () {
@@ -234,11 +270,11 @@ describe('SubTxResetKeyPayload', function () {
 
       expect(restoredPayload.version).to.be.equal(1);
       expect(restoredPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.creditFee).to.be.equal(1000);
+      expect(restoredPayload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
-      expect(payload.payloadSigSize).to.be.equal(0);
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(restoredPayload.payloadSigSize).to.be.equal(0);
     });
     it('Should call #validate', function () {
       var payload = SubTxResetKeyPayload.fromJSON(validSubTxResetKeyPayloadJSON);
@@ -266,12 +302,12 @@ describe('SubTxResetKeyPayload', function () {
 
       expect(restoredPayload.version).to.be.equal(1);
       expect(restoredPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.creditFee).to.be.equal(1000);
+      expect(restoredPayload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(payload.newPubKey).to.be.equal('a4163320ebc4bf150fd46acbf506c4ec82249ceb');
-      expect(payload.payloadSigSize).to.be.equal(65);
-      expect(payload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(restoredPayload.payloadSigSize).to.be.equal(65);
+      expect(restoredPayload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
     });
     it('Should call #validate', function () {
       var payload = SubTxResetKeyPayload.fromJSON(validSubTxResetKeyPayloadJSONsigned);
