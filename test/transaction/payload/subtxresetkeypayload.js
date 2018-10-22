@@ -9,6 +9,7 @@ var privateKey = 'cQSA77TsRYNEsYRmLoY7Y3gNF3Kb5qff4yUv3hWB7fm46YQ2njqN';
 var subTxHash = '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
 var CORRECT_SIGNATURE_SIZE = DashcoreLib.Transaction.Payload.constants.COMPACT_SIGNATURE_SIZE;
+var payloadSig = '96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f';
 
 var validSubTxResetKeyPayloadJSON = {
   version: 1,
@@ -27,7 +28,7 @@ var validSubTxResetKeyPayloadJSONsigned = {
   //newPubKeySize: 20,
   newPubKey: pubKeyId,
   payloadSigSize: 65,
-  vchSig: '96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f',
+  vchSig: payloadSig,
 };
 
 var validSubTxResetKeyPayloadHexString = '0100e10e96741721c25567b454ac37bf80f3abaf929ed2d5ce36f15378e7e4f5b854e10e96741721c25567b454ac37bf80f3abaf929ed2d5ce36f15378e7e4f5b854e803000000000000eb9c2482ecc406f5cb6ad40f15bfc4eb203316a400';
@@ -131,7 +132,7 @@ describe('SubTxResetKeyPayload', function () {
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payload.payloadSigSize).to.be.equal(65);
-      expect(payload.vchSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(payload.vchSig).to.be.equal(payloadSig);
     });
 
     it('Should throw in case if there is some unexpected information in raw payload', function() {
@@ -291,7 +292,7 @@ describe('SubTxResetKeyPayload', function () {
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
       expect(payload.payloadSigSize).to.be.equal(65);
-      expect(payload.vchSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(payload.vchSig).to.be.equal(payloadSig);
     });
 
     after(function () {
@@ -375,11 +376,6 @@ describe('SubTxResetKeyPayload', function () {
         .setNewPubKeyId(pubKeyId)
         .sign(privateKey);
 
-      console.log('pubKeyId', pubKeyId)
-      console.log('convertPrivateKeyToPubKeyId', SubTxResetKeyPayload.convertPrivateKeyToPubKeyId(privateKey))
-      console.log('privateKey', privateKey)
-      console.log('vchSig', payload.vchSig)
-
       expect(payload.verifySignature( SubTxResetKeyPayload.convertPrivateKeyToPubKeyId(privateKey))).to.be.true;
     });
     it('Should verify signature if pubKeyId is a hex string', function () {
@@ -413,7 +409,7 @@ describe('SubTxResetKeyPayload', function () {
     });
 
     it('Should be able to serialize payload JSON', function () {
-      var payload = validSubTxResetKeyPayload.copy();
+      var payload = validSubTxResetKeyPayload;
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
 
@@ -422,8 +418,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(payloadJSON.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payloadJSON.newPubKeySize).to.be.equal(20);
-      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
-      expect(payloadJSON.payloadSigSize).to.be.equal(0);
+      expect(BufferUtil.equals(payloadJSON.newPubKey, pubKeyId)).to.be.true;
 
     });
     it('Should call #validate', function () {
@@ -444,18 +439,16 @@ describe('SubTxResetKeyPayload', function () {
     });
 
     it('Should be able to serialize payload JSON', function () {
-      var payload = validSubTxResetKeyPayloadSigned.copy();
-
+      var payload = validSubTxResetKeyPayloadSigned;
       var payloadJSON = payload.toJSON();
-
       expect(payloadJSON.version).to.be.equal(1);
       expect(payloadJSON.regTxHash).to.be.equal(subTxHash);
       expect(payloadJSON.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(BufferUtil.equals(payloadJSON.newPubKey, pubKeyId)).to.be.true;
       expect(payloadJSON.payloadSigSize).to.be.equal(65);
-      expect(payloadJSON.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(payloadJSON.vchSig).to.be.equal(payloadSig);
 
     });
     it('Should call #validate', function () {
@@ -476,7 +469,7 @@ describe('SubTxResetKeyPayload', function () {
     });
 
     it('Should be able to serialize payload to Buffer', function () {
-      var payload = validSubTxResetKeyPayload.copy();
+      var payload = validSubTxResetKeyPayload;
 
       var serializedPayload = payload.toBuffer({ skipSignature: true });
       var restoredPayload = SubTxResetKeyPayload.fromBuffer(serializedPayload);
@@ -486,7 +479,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(restoredPayload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(BufferUtil.equals(restoredPayload.newPubKey, pubKeyId)).to.be.true;
       expect(restoredPayload.payloadSigSize).to.be.equal(0);
     });
     it('Should call #validate', function () {
@@ -507,7 +500,7 @@ describe('SubTxResetKeyPayload', function () {
     });
 
     it('Should be able to serialize payload to Buffer', function () {
-      var payload = validSubTxResetKeyPayloadSigned.copy();
+      var payload = validSubTxResetKeyPayloadSigned;
 
       var serializedPayload = payload.toBuffer();
       var restoredPayload = SubTxResetKeyPayload.fromBuffer(serializedPayload);
@@ -517,9 +510,9 @@ describe('SubTxResetKeyPayload', function () {
       expect(restoredPayload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
-      expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
+      expect(BufferUtil.equals(restoredPayload.newPubKey, pubKeyId)).to.be.true;
       expect(restoredPayload.payloadSigSize).to.be.equal(65);
-      expect(restoredPayload.payloadSig).to.be.equal('96a4dba864e46b2a8283763351a74a53ebc0a7ce7611f62b5250b6592156b618d584c363bf04dc20ebd5f8ba8f073e0e4e78a89364e5c57a814eef6278fd51ab1f');
+      expect(restoredPayload.vchSig).to.be.equal(payloadSig);
     });
     it('Should call #validate', function () {
       var payload = SubTxResetKeyPayload.fromJSON(validSubTxResetKeyPayloadJSONsigned);
