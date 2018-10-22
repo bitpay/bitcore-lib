@@ -99,8 +99,8 @@ describe('SubTxResetKeyPayload', function () {
         .setCreditFee(1000)
         .setNewPubKeyId(pubKeyId)
         .toBuffer(options);
-      // 2 bytes is payload version, 1 is username size, 2 is sig size and zero signature
-      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 2);
+      // 2 bytes is payload version, 32 is regTxHash size, 32 is preSubTxHash, 8 is varint size for creditFee of 1000 duffs
+      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 32 + 32 + 8);
 
       expect(function () {
         SubTxResetKeyPayload.fromBuffer(payloadBufferWithoutPubKeyId)
