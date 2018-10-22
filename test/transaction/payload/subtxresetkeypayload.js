@@ -5,12 +5,14 @@ var SubTxResetKeyPayload = DashcoreLib.Transaction.Payload.SubTxResetKeyPayload;
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
 var privateKey = 'cQSA77TsRYNEsYRmLoY7Y3gNF3Kb5qff4yUv3hWB7fm46YQ2njqN';
+var subTxHash = '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
+var CORRECT_SIGNATURE_SIZE = DashcoreLib.Transaction.Payload.constants.COMPACT_SIGNATURE_SIZE;
 
 var validSubTxResetKeyPayloadJSON = {
   version: 1,
-  regTxHash: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
-  hashPrevSubTx: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
+  regTxHash: subTxHash,
+  hashPrevSubTx: subTxHash,
   creditFee: 1000,
   //newPubKeySize: 20,
   newPubKey: pubKeyId,
@@ -19,8 +21,8 @@ var validSubTxResetKeyPayloadJSON = {
 
 var validSubTxResetKeyPayloadJSONsigned = {
   version: 1,
-  regTxHash: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
-  hashPrevSubTx: '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1',
+  regTxHash: subTxHash,
+  hashPrevSubTx: subTxHash,
   creditFee: 1000,
   //newPubKeySize: 20,
   newPubKey: pubKeyId,
@@ -59,8 +61,8 @@ describe('SubTxResetKeyPayload', function () {
       var payload = SubTxResetKeyPayload.fromBuffer(Buffer.from(validSubTxResetKeyPayloadHexString, 'hex'));
 
       expect(payload.version).to.be.equal(1);
-      expect(payload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payload.regTxHash).to.be.equal(subTxHash);
+      expect(payload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -77,8 +79,8 @@ describe('SubTxResetKeyPayload', function () {
     it('Should return instance of SubTxResetKeyPayload with parsed data', function () {
       var options = { skipSignature: true };
       var payloadBuffer = new SubTxResetKeyPayload()
-        .setRegTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
-        .setPrevSubTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
         .setCreditFee(1000)
         .setNewPubKeyId(pubKeyId)
         .toBuffer(options);
@@ -86,7 +88,7 @@ describe('SubTxResetKeyPayload', function () {
       expect(BufferUtil.isBuffer(payloadBuffer)).to.be.true;
 
       var parsedPayload = SubTxResetKeyPayload.fromBuffer(payloadBuffer);
-      expect(parsedPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(parsedPayload.regTxHash).to.be.equal(subTxHash);
       expect(BufferUtil.equals(parsedPayload.newPubKey, pubKeyId)).to.be.true;
 
     });
@@ -94,8 +96,8 @@ describe('SubTxResetKeyPayload', function () {
     it('Should throw an error if data is incomplete', function () {
       var options = { skipSignature: true };
       var payloadBuffer = new SubTxResetKeyPayload()
-        .setRegTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
-        .setPrevSubTxHash('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1')
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
         .setCreditFee(1000)
         .setNewPubKeyId(pubKeyId)
         .toBuffer(options);
@@ -123,8 +125,8 @@ describe('SubTxResetKeyPayload', function () {
       var payload = SubTxResetKeyPayload.fromBuffer(Buffer.from(validSubTxResetKeyPayloadHexStringSigned, 'hex'));
 
       expect(payload.version).to.be.equal(1);
-      expect(payload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payload.regTxHash).to.be.equal(subTxHash);
+      expect(payload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -151,8 +153,8 @@ describe('SubTxResetKeyPayload', function () {
       var payload = SubTxResetKeyPayload.fromJSON(validSubTxResetKeyPayloadJSON);
 
       expect(payload.version).to.be.equal(1);
-      expect(payload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payload.regTxHash).to.be.equal(subTxHash);
+      expect(payload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -162,6 +164,122 @@ describe('SubTxResetKeyPayload', function () {
     after(function () {
       SubTxResetKeyPayload.prototype.validate.restore();
     })
+
+    it('Should return instance of SubTxResetKeyPayload with correct parsed data', function () {
+      var payloadJSON = {
+        version: 10,
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payload = SubTxResetKeyPayload.fromJSON(payloadJSON);
+      expect(payload.version).to.be.equal(10);
+      expect(payload.regTxHash).to.be.equal(payloadJSON.regTxHash);
+      expect(payload.hashPrevSubTx).to.be.equal(payloadJSON.hashPrevSubTx);
+      expect(payload.creditFee).to.be.equal(payloadJSON.creditFee);
+      expect(BufferUtil.equals(payload.newPubKey, payloadJSON.newPubKey)).to.be.true;
+      expect(BufferUtil.equals(payload.payloadSig, payloadJSON.payloadSig)).to.be.true;
+    });
+    it('Should throw an error if the data is incomplete', function () {
+      var payloadWithoutRegTxHash = {
+        version: 10,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payloadWithoutNewPubKey = {
+        version: 10,
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payloadWithoutVersion = {
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithoutRegTxHash);
+      }).to.throw('Invalid Argument: Expect regTxHash to be a hex string representing sha256 hash');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithoutNewPubKey);
+      }).to.throw('Invalid Argument: expect newPubKey to be a Buffer but got undefined');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithoutVersion);
+      }).to.throw('Invalid Argument for version, expected number but got undefined');
+    });
+    it('Should throw an error if the data is incorrect', function () {
+      var payloadWithIncorrectRegTxHash = {
+        version: 10,
+        regTxHash: 10,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payloadWithIncorrectPubKeyId = {
+        version: 10,
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: 'pubKeyId',
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payloadWithIncorrectVersion = {
+        version: '10',
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      var payloadWithIncorrectSignature = {
+        version: 10,
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: CORRECT_SIGNATURE_SIZE,
+        payloadSig: 'signature'
+      };
+      var payloadWithIncorrectSignatureSize = {
+        version: 10,
+        regTxHash: subTxHash,
+        hashPrevSubTx: subTxHash,
+        creditFee: 1000,
+        newPubKey: pubKeyId,
+        payloadSigSize: 22,
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+      };
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithIncorrectRegTxHash);
+      }).to.throw('Invalid Argument: Expect regTxHash to be a hex string representing sha256 hash');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithIncorrectPubKeyId);
+      }).to.throw('Invalid Argument: expect newPubKey to be a Buffer but got string');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithIncorrectVersion);
+      }).to.throw('Invalid Argument for version, expected number but got string');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithIncorrectSignature);
+      }).to.throw('Invalid Argument: expect payloadSig to be a hex string but got string');
+      expect(function () {
+        SubTxResetKeyPayload.fromJSON(payloadWithIncorrectSignatureSize);
+      }).to.throw('Invalid Argument: Invalid payloadSigSize size');
+    });
   });
 
   describe('.fromJSON signed', function () {
@@ -173,8 +291,8 @@ describe('SubTxResetKeyPayload', function () {
       var payload = SubTxResetKeyPayload.fromJSON(validSubTxResetKeyPayloadJSONsigned);
 
       expect(payload.version).to.be.equal(1);
-      expect(payload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payload.regTxHash).to.be.equal(subTxHash);
+      expect(payload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -203,8 +321,8 @@ describe('SubTxResetKeyPayload', function () {
       var payloadJSON = payload.toJSON(options);
 
       expect(payloadJSON.version).to.be.equal(1);
-      expect(payloadJSON.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payloadJSON.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payloadJSON.regTxHash).to.be.equal(subTxHash);
+      expect(payloadJSON.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payloadJSON.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -235,8 +353,8 @@ describe('SubTxResetKeyPayload', function () {
       var payloadJSON = payload.toJSON();
 
       expect(payloadJSON.version).to.be.equal(1);
-      expect(payloadJSON.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(payloadJSON.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(payloadJSON.regTxHash).to.be.equal(subTxHash);
+      expect(payloadJSON.hashPrevSubTx).to.be.equal(subTxHash);
       expect(payloadJSON.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -269,8 +387,8 @@ describe('SubTxResetKeyPayload', function () {
       var restoredPayload = SubTxResetKeyPayload.fromBuffer(serializedPayload);
 
       expect(restoredPayload.version).to.be.equal(1);
-      expect(restoredPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(restoredPayload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(restoredPayload.regTxHash).to.be.equal(subTxHash);
+      expect(restoredPayload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
@@ -301,8 +419,8 @@ describe('SubTxResetKeyPayload', function () {
       var restoredPayload = SubTxResetKeyPayload.fromBuffer(serializedPayload);
 
       expect(restoredPayload.version).to.be.equal(1);
-      expect(restoredPayload.regTxHash).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
-      expect(restoredPayload.hashPrevSubTx).to.be.equal('54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1');
+      expect(restoredPayload.regTxHash).to.be.equal(subTxHash);
+      expect(restoredPayload.hashPrevSubTx).to.be.equal(subTxHash);
       expect(restoredPayload.creditFee).to.be.equal(1000);
       //expect(payload.newPubKeySize).to.be.equal(20);
       expect(BufferUtil.equals(payload.newPubKey, pubKeyId)).to.be.true;
