@@ -4,6 +4,7 @@ var DashcoreLib = require('../../../index');
 var SubTxResetKeyPayload = DashcoreLib.Transaction.Payload.SubTxResetKeyPayload;
 var PrivateKey = DashcoreLib.PrivateKey;
 var BufferUtil = DashcoreLib.util.buffer;
+var isHexString = DashcoreLib.util.js.isHexaString;
 var privateKey = 'cQSA77TsRYNEsYRmLoY7Y3gNF3Kb5qff4yUv3hWB7fm46YQ2njqN';
 var subTxHash = '54b8f5e4e77853f136ced5d29e92afabf380bf37ac54b46755c2211774960ee1';
 var pubKeyId = new PrivateKey(privateKey).toPublicKey()._getID();
@@ -304,7 +305,106 @@ describe('SubTxResetKeyPayload', function () {
       SubTxResetKeyPayload.prototype.validate.restore();
     })
   });
+  describe('#setRegTxHash', function () {
+    it('Should set regTxHash and return instance back', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash);
 
+      expect(payload).to.be.an.instanceOf(SubTxResetKeyPayload);
+      expect(payload.regTxHash).to.be.equal(subTxHash);
+    });
+  });
+  describe('#setPrevSubTxHash', function () {
+    it('Should set regTxHash and return instance back', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setPrevSubTxHash(subTxHash);
+
+      expect(payload).to.be.an.instanceOf(SubTxResetKeyPayload);
+      expect(payload.hashPrevSubTx).to.be.equal(subTxHash);
+    });
+  });
+  describe('#setCreditFee', function () {
+    it('Should set creditFee and return instance back', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setCreditFee(1000);
+
+      expect(payload).to.be.an.instanceOf(SubTxResetKeyPayload);
+      expect(payload.creditFee).to.be.deep.equal(1000);
+    });
+  });
+  describe('#setNewPubKey', function () {
+    it('Should set newPubKey and return instance back', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setNewPubKeyId(pubKeyId);
+
+      expect(payload).to.be.an.instanceOf(SubTxResetKeyPayload);
+      expect(payload.newPubKey).to.be.deep.equal(pubKeyId);
+    });
+  });
+  describe('#sign', function () {
+    it('Should sign payload and return instance back if a private key is a string', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .sign(privateKey);
+      expect(payload.vchSig).to.be.a.string;
+      expect(isHexString(payload.vchSig)).to.be.true;
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+    });
+    it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .sign(new PrivateKey(privateKey));
+      expect(payload.vchSig).to.be.a.string;
+      expect(isHexString(payload.vchSig)).to.be.true;
+      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+    });
+    it('Should throw when trying to sign incomplete data', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+
+      expect(function () {
+        payload.sign(privateKey);
+      }).to.throw('Invalid Argument for creditFee, expected number but got undefined');
+    });
+  });
+  describe('#verifySignature', function () {
+    it('Should verify signature if pubKeyId is a Buffer', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(pubKeyId)).to.be.true;
+    });
+    it('Should verify signature if pubKeyId is a hex string', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(pubKeyId.toString('hex'))).to.be.true;
+    });
+    it('Should return false if pubKeyId doesn\'t match the signature', function () {
+      var payload = new SubTxResetKeyPayload()
+        .setRegTxHash(subTxHash)
+        .setPrevSubTxHash(subTxHash)
+        .setCreditFee(1000)
+        .setNewPubKeyId(pubKeyId)
+        .sign(privateKey);
+
+      expect(payload.verifySignature(new PrivateKey().toPublicKey()._getID())).to.be.false;
+    });
+  });
   describe('#toJSON', function () {
     beforeEach(function () {
       sinon.spy(SubTxResetKeyPayload.prototype, 'validate');
