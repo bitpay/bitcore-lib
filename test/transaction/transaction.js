@@ -1484,6 +1484,21 @@ describe('Transaction', function() {
 
     });
 
+    describe('Topup Transaction', function () {
+
+      it('Should parse the payload', function () {
+        var txHexString = '030009000001001bb70000000000016a000000002201003727f1b7e5aa90f32235d045fd4624bf453fe8e16ea5010ad923f70d2f88fd45';
+
+        var transaction = new Transaction(txHexString);
+
+        expect(transaction.extraPayload.version).to.be.equal(1);
+        expect(transaction.extraPayload.regTxHash).to.be.equal('45fd882f0df723d90a01a56ee1e83f45bf2446fd45d03522f390aae5b7f12737');
+
+        expect(transaction.outputs[0].satoshis).to.be.equal(12000000);
+      });
+
+    });
+
     describe('Provider Register Transaction', function () {
 
       it('Should parse the payload', function () {
