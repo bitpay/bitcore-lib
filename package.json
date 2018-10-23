@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "jshint . || true",
     "test": "npm run build && npm run test:node && npm run test:browser && npm run lint",
-    "test:node": "mocha --no-timeouts --recursive",
+    "test:node": "mocha $NODE_DEBUG_OPTION --no-timeouts --recursive",
     "test:browser": "karma start ./karma.conf.js --single-run",
     "coverage": "nyc mocha --recursive",
     "build": "webpack --display-error-details"
