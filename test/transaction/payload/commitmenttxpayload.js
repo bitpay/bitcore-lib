@@ -23,8 +23,8 @@ var validCommitmentTxPayloadJSON = {
 };
 
 // Todo after commitement tx implemnetation done in core
-// var validProRegTxPayloadHexString = ''
-// var payload = CommitmentTxPayload.fromBuffer(Buffer.from(validProRegTxPayloadHexString, 'hex'));
+// var validCommitmentTxPayloadHexString = ''
+// var payload = CommitmentTxPayload.fromBuffer(Buffer.from(validCommitmentTxPayloadHexString, 'hex'));
 
 function checkValidJSON(payload) {
   expect(payload.version).to.be.equal(validCommitmentTxPayloadJSON.version);
@@ -37,7 +37,7 @@ function checkValidJSON(payload) {
   expect(payload.sig).to.be.equal(validCommitmentTxPayloadJSON.sig);
 }
 
-describe('ProRegTxPayload', function () {
+describe('CommitmentTxPayload', function () {
 
   var payload = null;
   var payloadBuffer = null;
