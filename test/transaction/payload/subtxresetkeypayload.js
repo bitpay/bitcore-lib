@@ -376,7 +376,7 @@ describe('SubTxResetKeyPayload', function () {
         .setNewPubKeyId(pubKeyId)
         .sign(privateKey);
 
-      expect(payload.verifySignature( SubTxResetKeyPayload.convertPrivateKeyToPubKeyId(privateKey))).to.be.true;
+      expect(payload.verifySignature(SubTxResetKeyPayload.convertPrivateKeyToPubKeyId(privateKey))).to.be.true;
     });
     it('Should verify signature if pubKeyId is a hex string', function () {
       var payload = new SubTxResetKeyPayload()
