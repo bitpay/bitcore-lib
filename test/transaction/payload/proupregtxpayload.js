@@ -9,7 +9,6 @@ var ProUpRegTxPayload = Payload.ProUpRegTxPayload;
 var validProUpRegTxPayloadJSON = {
   version: 1,
   proTXHash: '01040eb32f760490054543356cff463865633439dd073cffa570305eb086f70e',
-  // mode: 0,
   keyIdOperator: 'e72ec3cdd5a87c47db3dd983f0329abe34b92908',
   keyIdVoting: 'c2ae01fb4084cbc3bc31e7f59b36be228a320404',
   scriptPayout: 'ac88c21664f1db4d073f45fd45d762b37417c885da4f14a976',
