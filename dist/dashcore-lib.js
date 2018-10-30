@@ -53454,7 +53454,7 @@ Payload.SubTxResetKeyPayload = __webpack_require__(127);
 Payload.SubTxTopupPayload = __webpack_require__(128);
 Payload.SubTxTransitionPayload = __webpack_require__(129);
 Payload.CoinbasePayload = __webpack_require__(130);
-Payload.ProRegTxPayload = __webpack_require__(131)
+Payload.ProRegTxPayload = __webpack_require__(131);
 Payload.ProTxUpServPayload = __webpack_require__(132);
 
 Payload.constants = __webpack_require__(25);

@@ -270,7 +270,7 @@ describe('SubTxResetKeyPayload', function () {
       }).to.throw('Invalid Argument for version, expected number but got string');
       expect(function () {
         SubTxResetKeyPayload.fromJSON(payloadWithIncorrectSignature);
-      }).to.throw('Invalid Argument: expect vchSig to be a hex string but got string');
+      }).to.throw('Invalid Argument: expect payloadSig to be a hex string but got string');
       expect(function () {
         SubTxResetKeyPayload.fromJSON(payloadWithIncorrectSignatureSize);
       }).to.throw('Invalid Argument: Invalid payloadSigSize size');
