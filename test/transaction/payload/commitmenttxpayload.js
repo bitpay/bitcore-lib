@@ -63,7 +63,7 @@ describe('CommitmentTxPayload', function () {
       sinon.spy(CommitmentTxPayload.prototype, 'validate');
     });
 
-    it('Should return payload buffer of spesific length', function () {
+    it('Should return payload buffer of specific length', function () {
 
       //Manually calculated from validCommitmentTxPayloadJSON
       var expectedBufferLength = 312;
