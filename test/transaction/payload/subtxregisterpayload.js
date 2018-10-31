@@ -53,28 +53,28 @@ describe('SubTxRegisterPayload', function() {
         version: 10,
         userName: 'test',
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payload = SubTxRegisterPayload.fromJSON(payloadJSON);
       expect(payload.version).to.be.equal(10);
       expect(payload.userName).to.be.equal('test');
       expect(BufferUtil.equals(payload.pubKeyId, payloadJSON.pubKeyId)).to.be.true;
-      expect(BufferUtil.equals(payload.vchSig, payloadJSON.vchSig)).to.be.true;
+      expect(BufferUtil.equals(payload.payloadSig, payloadJSON.payloadSig)).to.be.true;
     });
     it('Should throw an error if the data is incomplete', function () {
       var payloadWithoutUserName = {
         version: 10,
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithoutPubKeyId = {
         version: 10,
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithoutVersion = {
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
         pubKeyId: pubKeyId
       };
       expect(function () {
@@ -92,36 +92,36 @@ describe('SubTxRegisterPayload', function() {
         version: 10,
         userName: 10,
         pubKeyId: pubKeyId,
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectPubKeyId = {
         version: 10,
         userName: 'test',
         pubKeyId: 'pubKeyId',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectPubKeyIdSize = {
         version: 10,
         userName: 'test',
         pubKeyId: BufferUtil.emptyBuffer(46),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE)
       };
       var payloadWithIncorrectVersion = {
         version: '10',
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE),
         pubKeyId: pubKeyId
       };
       var payloadWithIncorrectSignature = {
         version: 10,
         userName: 'test',
-        vchSig: 'signature',
+        payloadSig: 'signature',
         pubKeyId: pubKeyId
       };
       var payloadWithIncorrectSignatureSize = {
         version: 10,
         userName: 'test',
-        vchSig: BufferUtil.emptyBuffer(28).toString('hex'),
+        payloadSig: BufferUtil.emptyBuffer(28).toString('hex'),
         pubKeyId: pubKeyId
       };
       expect(function () {
@@ -138,10 +138,10 @@ describe('SubTxRegisterPayload', function() {
       }).to.throw('Invalid Argument for version, expected number but got string');
       expect(function () {
         SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignature);
-      }).to.throw('Invalid Argument: expect vchSig to be a hex string but got string');
+      }).to.throw('Invalid Argument: expect payloadSig to be a hex string but got string');
       expect(function () {
         SubTxRegisterPayload.fromJSON(payloadWithIncorrectSignatureSize);
-      }).to.throw('Invalid Argument: Invalid vchSig size');
+      }).to.throw('Invalid Argument: Invalid payloadSig size');
     });
   });
   describe('#setUserName', function () {
@@ -184,18 +184,18 @@ describe('SubTxRegisterPayload', function() {
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
-      expect(payload.vchSig).to.be.a.string;
-      expect(isHexString(payload.vchSig)).to.be.true;
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+      expect(payload.payloadSig).to.be.a.string;
+      expect(isHexString(payload.payloadSig)).to.be.true;
+      expect(payload.payloadSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
       var payload = new SubTxRegisterPayload()
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .sign(new PrivateKey(privateKey));
-      expect(payload.vchSig).to.be.a.string;
-      expect(isHexString(payload.vchSig)).to.be.true;
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+      expect(payload.payloadSig).to.be.a.string;
+      expect(isHexString(payload.payloadSig)).to.be.true;
+      expect(payload.payloadSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should throw when trying to sign incomplete data', function () {
       var payload = new SubTxRegisterPayload()
@@ -242,7 +242,7 @@ describe('SubTxRegisterPayload', function() {
       var payloadJSON = payload.toJSON();
       expect(payload.userName).to.be.equal(payloadJSON.userName);
       expect(payload.pubKeyId).to.be.deep.equal(pubKeyId);
-      expect(payload.vchSig).to.be.deep.equal(payload.vchSig);
+      expect(payload.payloadSig).to.be.deep.equal(payload.payloadSig);
     });
     it('Should throw if the data is incomplete', function () {
       var payload = new SubTxRegisterPayload()
@@ -268,7 +268,7 @@ describe('SubTxRegisterPayload', function() {
         .sign(privateKey);
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON).not.to.have.property('vchSig');
+      expect(payloadJSON).not.to.have.property('payloadSig');
     });
   });
   describe('#toBuffer', function () {
@@ -284,7 +284,7 @@ describe('SubTxRegisterPayload', function() {
       expect(restoredPayload.version).to.be.equal(payload.version);
       expect(restoredPayload.userName).to.be.equal(payload.userName);
       expect(restoredPayload.pubKeyId).to.be.deep.equal(payload.pubKeyId);
-      expect(restoredPayload.vchSig).to.be.deep.equal(payload.vchSig);
+      expect(restoredPayload.payloadSig).to.be.deep.equal(payload.payloadSig);
     });
     it('Should write zero byte instead of signature if skipSignature option passed', function () {
       var payload = new SubTxRegisterPayload()

@@ -132,7 +132,7 @@ describe('SubTxTransitionPayload', function() {
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payload = SubTxTransitionPayload.fromJSON(payloadJSON);
       expect(payload.version).to.be.equal(10);
@@ -148,28 +148,28 @@ describe('SubTxTransitionPayload', function() {
         creditFee: 100,
         regTxId: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutRegTxId = {
         version: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutHashSTPacket = {
         version: 10,
         creditFee: 100,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       var payloadWithoutCreditFee = {
         version: 10,
         hashPrevSubTx: HashUtil.getRandomHashHexString(),
         hashSTPacket: HashUtil.getRandomHashHexString(),
         regTxId: HashUtil.getRandomHashHexString(),
-        vchSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
+        payloadSig: BufferUtil.emptyBuffer(CORRECT_SIGNATURE_SIZE).toString('hex')
       };
       expect(function () {
         SubTxTransitionPayload.fromJSON(payloadWithoutHashPrevSubTx);
@@ -202,9 +202,9 @@ describe('SubTxTransitionPayload', function() {
       var payloadWithIncorrectCreditFee = validPayloadFixture.copy().setCreditFee(-10);
       var payloadWithIncorrectHashPrevSubTx = validPayloadFixture.copy().setHashPrevSubTx('123');
       var payloadWithIncorrectSignature = validPayloadFixture.copy();
-      payloadWithIncorrectSignature.vchSig = 'signature';
+      payloadWithIncorrectSignature.payloadSig = 'signature';
       var payloadWithIncorrectSignatureSize = validPayloadFixture.copy();
-      payloadWithIncorrectSignatureSize.vchSig = BufferUtil.emptyBuffer(10).toString('hex');
+      payloadWithIncorrectSignatureSize.payloadSig = BufferUtil.emptyBuffer(10).toString('hex');
       expect(function () {
         SubTxTransitionPayload.fromJSON(payloadWithIncorrectRegTxIdSize);
       }).to.throw('Invalid Argument: Invalid regTxId size');
@@ -219,22 +219,22 @@ describe('SubTxTransitionPayload', function() {
       }).to.throw('Invalid Argument: Invalid hashPrevSubTx size');
       expect(function () {
         SubTxTransitionPayload.fromJSON(payloadWithIncorrectSignature);
-      }).to.throw('Invalid Argument: expect vchSig to be a hex string');
+      }).to.throw('Invalid Argument: expect payloadSig to be a hex string');
       expect(function () {
         SubTxTransitionPayload.fromJSON(payloadWithIncorrectSignatureSize);
-      }).to.throw('Invalid Argument: Invalid vchSig size');
+      }).to.throw('Invalid Argument: Invalid payloadSig size');
     });
   });
   describe('#sign', function () {
     it('Should sign payload and return instance back if a private key is a string', function () {
       var payload = validPayloadFixture.copy().sign(privateKey);
-      expect(payload.vchSig).to.be.a.string;
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+      expect(payload.payloadSig).to.be.a.string;
+      expect(payload.payloadSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should sign payload and return instance back if a private key is an instance of PrivateKey', function () {
       var payload = validPayloadFixture.copy().sign(new PrivateKey(privateKey));
-      expect(payload.vchSig).to.be.a.string;
-      expect(payload.vchSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
+      expect(payload.payloadSig).to.be.a.string;
+      expect(payload.payloadSig.length).to.be.equal(CORRECT_SIGNATURE_SIZE * 2);
     });
     it('Should throw when trying to sign incomplete data', function () {
       var payload = validPayloadFixture.copy().setRegTxId('ffa2');
@@ -267,7 +267,7 @@ describe('SubTxTransitionPayload', function() {
       expect(payloadJSON.hashSTPacket).to.be.deep.equal(payload.hashSTPacket);
       expect(payloadJSON.regTxId).to.be.deep.equal(payload.regTxId);
       expect(payloadJSON.creditFee).to.be.equal(payload.creditFee);
-      expect(payloadJSON.vchSig).to.be.deep.equal(payload.vchSig);
+      expect(payloadJSON.payloadSig).to.be.deep.equal(payload.payloadSig);
     });
     it('Should validate data before serialization', function () {
       var payload = validPayloadFixture.copy();
@@ -280,7 +280,7 @@ describe('SubTxTransitionPayload', function() {
       var payload = validPayloadFixture.copy();
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON).not.to.have.property('vchSig');
+      expect(payloadJSON).not.to.have.property('payloadSig');
     });
   });
   describe('#toBuffer', function () {
