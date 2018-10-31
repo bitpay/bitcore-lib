@@ -16,7 +16,7 @@ var validCommitmentTxPayloadJSON = {
   signers: 'f01a',
   validMembersSize: 9,
   validMembers: 'f991',
-  quorumPublicKey: 'aae5b7f1273724463d90a01a56e45f3d90a01a56e45fd8fd45d03522f390aae5b7f12737244682f0df72e1e83f45bffd45d03522f390d882f0df72e1e83f45bf',
+  quorumPublicKey: 'ae5b7f1273724463d90a01a56e45f3d90a01a56e45fd8fd45d03522f390aae5b7f12737244682f0df72e1e83f45bffd5',
   quorumVvecHash: '45fd882f0df723d90a01a56ee1e83f45bf2446fd45d03522f390aae5b7f12737',
   quorumSig: '3d90a01a56e45fd882f0df72e1e83f45bffd45d03522f390aae5b7f127372446',
   sig: 'd45d03522f45fd82446f390aae5b7f1273782f0df723d90a01a56ee1e83f45bf',
@@ -66,7 +66,7 @@ describe('CommitmentTxPayload', function () {
     it('Should return payload buffer of spesific length', function () {
 
       //Manually calculated from validCommitmentTxPayloadJSON
-      var expectedBufferLength = 200;
+      var expectedBufferLength = 184;
 
       payloadBuffer = payload.toBuffer();
       expect(payloadBuffer.length).to.be.equal(expectedBufferLength);
