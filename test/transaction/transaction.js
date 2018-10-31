@@ -1548,6 +1548,25 @@ describe('Transaction', function() {
 
     });
 
+    describe('Provider Update Revoke Transaction', function () {
+
+      it('Should parse the payload', function () {
+        var transactionHex = '03000400016fe60245ddc5cdc16e4df54195e66a95515c4070165f5c6fe6c210222c855e01000000006a47304402207ef383df4ea0182b022625683045027b96354f444395df41ec4ec6eacf6451a502205dc45ff192a486c8ce95c692033369a625b31d1b6d981e37463486593b03738a012102b3542d00ded35ab924f5a5c41ab9d94ff0a994a48ebf67ab81aafad12aa0cc39feffffff01a901af2f000000001976a914f2fe991946fa5f682481e9ab29075d478602ee0688ac000000008601000ef786b05e3070a5ff3c07dd393463653846ff6c354345059004762fb30e040100004f422948637072af5cdc211bb30fe96386c4935f64da82e6a855c6c9f3b377084120fd80034be1b0a94ecf7518eae71435b7774f3862f9e3a544848e2a24048043a33929089a0a871a17bbeb794c1153ed371eecbffd6d346e543a02fce734a059d3';
+        var tx = new Transaction(transactionHex);
+
+        var actual = tx.extraPayload;
+        var expected = {
+          version: 1,
+          proTXHash: '01040eb32f760490054543356cff463865633439dd073cffa570305eb086f70e',
+          reason: 0,
+          inputsHash: '4f422948637072af5cdc211bb30fe96386c4935f64da82e6a855c6c9f3b37708',
+        };
+
+        expect(JSON.stringify(actual)).to.be.deep.equal(JSON.stringify(expected));
+      });
+
+    });
+
     describe('Provider Service Update Transaction ', function () {
 
       it('Should parse the payload', function () {
