@@ -59,6 +59,7 @@ bitcore.GovObject = require('./lib/govobject');
 bitcore.URI = require('./lib/uri');
 bitcore.Unit = require('./lib/unit');
 bitcore.Message = require('./lib/message');
+bitcore.Mnemonic = require('./lib/mnemonic');
 
 // dependencies, subject to change
 bitcore.deps = {};
