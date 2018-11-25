@@ -5,8 +5,8 @@ var sinon = require('sinon');
 var bitcore = require('../');
 
 describe('#versionGuard', function() {
-  it('global._bitcore should be defined', function() {
-    should.equal(global._bitcore, bitcore.version);
+  it('global._dashcore should be defined', function() {
+    should.equal(global._dashcore, bitcore.version);
   });
 
   it('throw a warning if version is already defined', function() {
