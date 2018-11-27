@@ -1,6 +1,6 @@
 {
   "name": "@dashevo/dashcore-lib",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.20",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "Dash Core Group, Inc. <dev@dash.org>",
   "main": "index.js",
