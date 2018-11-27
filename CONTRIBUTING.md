@@ -1,26 +1,24 @@
-Contributing to Bitcore
-=======
+# Contributing to dashcore-lib
 
-We're working hard to make *bitcore* the most powerful JavaScript library for working with bitcoin. Our goal is to have *bitcore* be a library that can be used by anyone interested in bitcoin, and to level expertise differences with great design and documentation.
+We're working hard to make *dashcore-lib* the most powerful JavaScript library for working with Dash. Our goal is to have *dashcore-lib* be a library that can be used by anyone interested in Dash, and to level expertise differences with great design and documentation.
 
 ## Community
 
 If there are any questions, etc., please feel to ask in one of the community channels:
 
-- https://labs.bitpay.com/c/bitcore (Support Forum)
-- https://gitter.im/bitpay/bitcore (Development Chat)
+- https://www.dash.org/forum (Support Forum)
 
 ## Quick Checklist
 
 Ideally, please make sure to run:
 
-* `gulp test` passes all the tests (We run tests against Node.js v0.10, v0.12, io.js, and modern browsers)
-* `gulp coverage` covers 100% of the branches of your code (See `coverage/lcov-report/index.html` for details)
-* `gulp lint` doesn't complain about your changes
+* `npm run test` passes all the tests (We run tests against Node.js v6, v8, v10 and modern browsers)
+* `npm run coverage` covers 100% of the branches of your code (See `coverage/lcov-report/index.html` for details)
+* `npm run lint` doesn't complain about your changes
 
 ## Design Guidelines
 
-These are some global design goals in bitcore that any change must adhere.
+These are some global design goals in dashcore-lib that any change must adhere.
 
 ### D1 - Naming Matters
 
@@ -91,7 +89,7 @@ var bufferUtil = require('./util/buffer');
 
 #### G7 - Standard Methods
 
-When possible, bitcore objects should have standard methods on an instance prototype:
+When possible, dashcore-lib objects should have standard methods on an instance prototype:
 * `toObject/toJSON` - A plain JavaScript object that `JSON.stringify` can call
 * `toString` - A string representation of the instance
 * `toBuffer` - A hex Buffer
@@ -101,7 +99,7 @@ These should have a matching static method that can be used for instantiation:
 * `fromString` - Should be able to instantiate with output from `toString`
 * `fromBuffer` - Should likewise be able to instantiate from output from `toBuffer`
 
-`JSON.stringify` and `JSON.parse` are expected to be handled outside of the scope of Bitcore methods. For example, calling `JSON.stringify` on an Bitcore object will behave as expected and call `transaction.toJSON()` and then stringify it:
+`JSON.stringify` and `JSON.parse` are expected to be handled outside of the scope of dashcore-lib methods. For example, calling `JSON.stringify` on an dashcore-lib object will behave as expected and call `transaction.toJSON()` and then stringify it:
 
 ```javascript
 var transactionString = JSON.stringify(transaction);
@@ -116,12 +114,11 @@ var tx = new Transaction(data);
 
 ### Errors
 
-#### E1 - Use bitcore.Errors
+#### E1 - Use dashcore.Errors
 
 We've designed a structure for Errors to follow and are slowly migrating to it.
 
 Usage:
-* Errors are generated in the file `lib/errors/index.js` by invoking `gulp errors`.
 * The specification for errors is written in the `lib/errors/spec.js` file.
 * Whenever a new class is created, add a generic error for that class in `lib/errors/spec.js`.
 * Specific errors for that class should subclass that error. Take a look at the structure in `lib/errors/spec.js`, it should be clear how subclasses are generated from that file.
@@ -206,14 +203,14 @@ Don't write long tests, write helper functions to make them be as short and conc
 
 Inputs for tests should not be generated randomly. Also, the type and structure of outputs should be checked.
 
-#### T3 - Require 'bitcore' and Look up Classes from There
+#### T3 - Require 'dashcore' and Look up Classes from There
 
-This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all submodules in the bitcore object.
+This helps to make tests more useful as examples, and more independent of where they are placed. This also helps prevent forgetting to include all submodules in the dashcore object.
 
 DO:
 ```javascript
-var bitcore = require('../');
-var PublicKey = bitcore.PublicKey;
+var dashcore = require('../');
+var PublicKey = dashcore.PublicKey;
 ```
 DON'T:
 ```javascript
@@ -246,8 +243,8 @@ git checkout -b remove/some-file
 
 We expect pull requests to be rebased to the master branch before merging:
 ```sh
-git remote add bitpay git@github.com:bitpay/bitcore.git
-git pull --rebase bitpay master
+git remote add dashevo git@github.com:dashevo/dashcore-lib.git
+git pull --rebase dashevo master
 ```
 
 Note that we require rebasing your branch instead of merging it, for commit readability reasons.
@@ -258,11 +255,11 @@ git push origin your_branch_name
 git push origin feature/some-new-stuff
 git push origin fix/some-bug
 ```
-Finally go to [github.com/bitpay/bitcore](https://github.com/bitpay/bitcore) in your web browser and issue a new pull request.
+Finally go to [github.com/dashevo/dashcore-lib](https://github.com/dashevo/dashcore-lib) in your web browser and issue a new pull request.
 
-Main contributors will review your code and possibly ask for changes before your code is pulled in to the main repository.  We'll check that all tests pass, review the coding style, and check for general code correctness. If everything is OK, we'll merge your pull request and your code will be part of bitcore.
+Main contributors will review your code and possibly ask for changes before your code is pulled in to the main repository.  We'll check that all tests pass, review the coding style, and check for general code correctness. If everything is OK, we'll merge your pull request and your code will be part of dashcore-lib.
 
 If you have any questions feel free to post them to
-[github.com/bitpay/bitcore/issues](https://github.com/bitpay/bitcore/issues).
+[github.com/dashevo/dashcore-lib/issues](https://github.com/dashevo/dashcore-lib/issues).
 
 Thanks for your time and code!

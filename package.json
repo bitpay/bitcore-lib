@@ -2,7 +2,7 @@
   "name": "@dashevo/dashcore-lib",
   "version": "1.0.0-alpha.19",
   "description": "A pure and powerful JavaScript Dash library.",
-  "author": "BitPay <dev@bitpay.com>",
+  "author": "Dash Core Group, Inc. <dev@dash.org>",
   "main": "index.js",
   "scripts": {
     "lint": "jshint . || true",
@@ -111,24 +111,22 @@
   },
   "devDependencies": {
     "brfs": "^2.0.1",
-    "chai": "^1.10.0",
-    "gulp": "^4.0.0",
-    "jshint": "^2.9.6",
-    "karma": "^3.0.0",
+    "chai": "^4.2.0",
+    "karma": "^3.1.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-detect-browsers": "^2.2.6",
+    "karma-detect-browsers": "^2.3.3",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^3.0.5",
-    "mocha": "^5.0.4",
+    "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "raw-loader": "^0.5.1",
-    "sinon": "^4.2.2",
+    "sinon": "^4.5.0",
     "transform-loader": "^0.2.4",
-    "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^3.10.0"
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^3.12.0"
   },
   "license": "MIT"
 }
