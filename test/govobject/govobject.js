@@ -253,7 +253,7 @@ describe('GovObject', function(){
     });
     it('should output null data-hex value by default', function(){
       var govObject = new GovObject;
-      expect(govObject.dataHex()).to.be.null();
+      expect(govObject.dataHex()).to.be.null;
     })
 
     it('should throw error when creating a bad new GovObject', function(){
