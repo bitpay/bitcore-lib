@@ -8,15 +8,16 @@ var ProUpRegTxPayload = Payload.ProUpRegTxPayload;
 
 var validProUpRegTxPayloadJSON = {
   version: 1,
-  proTXHash: '01040eb32f760490054543356cff463865633439dd073cffa570305eb086f70e',
-  keyIdOperator: 'e72ec3cdd5a87c47db3dd983f0329abe34b92908',
-  keyIdVoting: 'c2ae01fb4084cbc3bc31e7f59b36be228a320404',
-  scriptPayout: 'ac88c21664f1db4d073f45fd45d762b37417c885da4f14a976',
-  inputsHash: '0e47b3e02ffe6316db51d30e598b8cb671c50713511427f32ed78aeb8215d024',
-  payloadSig: '1ca150395389416102887e0a5dd609a3d477edf1f79faaf61603e4dc2564a4b31b603671cdd719e617f0588bd541568131f0d9444e0b5e2deba9dd16e927f48911',
+  proTXHash: '62330c04f20acc541c8d4f3022ba2b032ea5530c476e61dc9c4235ac20d10f4f',
+  mode: 0,
+  pubKeyOperator: '18ece819b998a36a185e323a8749e55fd3dc2e259b741f8580fbd68cbd9f51d30f4d4da34fd5afc71859dca3cf10fbda',
+  keyIdVoting: '3c05fb32367a25d8dedc16f741b8492006fb948a',
+  scriptPayout: 'ac88506c1d9f6540f456cf3e73d34f1cee48be595cf214a976',
+  inputsHash: 'ab6d7e9bb4e3cacd56dbd88f4e28a0e952a91a39f29ee7527f1a456712a509b3',
+  payloadSig: '20c838c08b9492c5039444cac11e466df3609c585010fab636de75c687bab9f6154d9a7c26d7b5384a147fc67ddb2e66e5f773af73dbf818109aec692ed364eafd',
 }
 
-var validProUpRegTxPayloadHexString = '01000ef786b05e3070a5ff3c07dd393463653846ff6c354345059004762fb30e04010829b934be9a32f083d93ddb477ca8d5cdc32ee70404328a22be369bf5e731bcc3cb8440fb01aec21976a9144fda85c81774b362d745fd453f074ddbf16416c288ac24d01582eb8ad72ef32714511307c571b68c8b590ed351db1663fe2fe0b3470e411ca150395389416102887e0a5dd609a3d477edf1f79faaf61603e4dc2564a4b31b603671cdd719e617f0588bd541568131f0d9444e0b5e2deba9dd16e927f48911';
+var validProUpRegTxPayloadHexString = '01004f0fd120ac35429cdc616e470c53a52e032bba22304f8d1c54cc0af2040c3362000018ece819b998a36a185e323a8749e55fd3dc2e259b741f8580fbd68cbd9f51d30f4d4da34fd5afc71859dca3cf10fbda8a94fb062049b841f716dcded8257a3632fb053c1976a914f25c59be48ee1c4fd3733ecf56f440659f1d6c5088acb309a51267451a7f52e79ef2391aa952e9a0284e8fd8db56cdcae3b49b7e6dab4120c838c08b9492c5039444cac11e466df3609c585010fab636de75c687bab9f6154d9a7c26d7b5384a147fc67ddb2e66e5f773af73dbf818109aec692ed364eafd';
 var validProUpRegTxPayloadBuffer = Buffer.from(validProUpRegTxPayloadHexString, 'hex');
 var validProUpRegTxPayload = ProUpRegTxPayload.fromBuffer(validProUpRegTxPayloadBuffer);
 var validProUpRegTxHash = 'a64e3e06c71873aff149c446d76618efad9a5908007886f6024e9fddb3e6aa13';
@@ -39,7 +40,8 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
+      expect(payload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
+      expect(payload.pubKeyOperator).to.be.equal(validProUpRegTxPayloadJSON.pubKeyOperator);
       expect(payload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
       expect(payload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
@@ -65,7 +67,8 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
+      expect(payload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
+      expect(payload.pubKeyOperator).to.be.equal(validProUpRegTxPayloadJSON.pubKeyOperator);
       expect(payload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
       expect(payload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
@@ -93,7 +96,8 @@ describe('ProUpRegTxPayload', function () {
 
       expect(payloadJSON.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(payloadJSON.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(payloadJSON.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
+      expect(payloadJSON.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
+      expect(payloadJSON.pubKeyOperator).to.be.equal(validProUpRegTxPayloadJSON.pubKeyOperator);
       expect(payloadJSON.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(payloadJSON.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
       expect(payloadJSON.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
@@ -114,12 +118,13 @@ describe('ProUpRegTxPayload', function () {
       var payload = validProUpRegTxPayload.copy();
 
       var serializedPayload = payload.toBuffer();
-      expect(serializedPayload.byteLength).to.be.equal(198);
+      expect(serializedPayload.byteLength).to.be.equal(228);
 
       var restoredPayload = ProUpRegTxPayload.fromBuffer(serializedPayload);
       expect(restoredPayload.version).to.be.equal(validProUpRegTxPayloadJSON.version);
       expect(restoredPayload.proTXHash).to.be.equal(validProUpRegTxPayloadJSON.proTXHash);
-      expect(restoredPayload.keyIdOperator).to.be.equal(validProUpRegTxPayloadJSON.keyIdOperator);
+      expect(restoredPayload.mode).to.be.equal(validProUpRegTxPayloadJSON.mode);
+      expect(restoredPayload.pubKeyOperator).to.be.equal(validProUpRegTxPayloadJSON.pubKeyOperator);
       expect(restoredPayload.keyIdVoting).to.be.equal(validProUpRegTxPayloadJSON.keyIdVoting);
       expect(restoredPayload.scriptPayout).to.be.equal(validProUpRegTxPayloadJSON.scriptPayout);
       expect(restoredPayload.inputsHash).to.be.equal(validProUpRegTxPayloadJSON.inputsHash);
