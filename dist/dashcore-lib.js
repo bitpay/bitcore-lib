@@ -55372,32 +55372,38 @@ var CURRENT_PAYLOAD_VERSION = 1;
 /**
  * @typedef {Object} ProRegTxPayloadJSON
  * @property {number} version	uint_16	2	Provider transaction version number. Currently set to 1.
- * @property {number} protocolVersion
+ * @property {number} type
+ * @property {number} mode
+ * @property {string} collateralHash
  * @property {number} collateralIndex	uint_32	4	The collateral index.
  * @property {string} ipAddress	byte[]	16	IPv6 address in network byte order. Only IPv4 mapped addresses are allowed (to be extended in the future)
  * @property {number} port uint_16	2	Port (network byte order)
  * @property {string} keyIdOwner	CKeyID	20	The public key hash used for owner related signing (ProTx updates, governance voting)
- * @property {string} keyIdOperator	CKeyID	20	The public key hash used for operational related signing (network messages, ProTx updates)
+ * @property {string} keyIdOperator	BLSPubKey	48	The public key used for operational related signing (network messages, ProTx updates)
  * @property {string} keyIdVoting	CKeyID	20	The public key hash used for voting.
  * @property {number} operatorReward	uint_16	2	A value from 0 to 10000.
  * @property {string} scriptPayout	Script	Variable	Payee script (p2pkh/p2sh)
  * @property {string} inputsHash	uint256	32	Hash of all the outpoints of the transaction inputs
+ * @property {number} [payloadSigSize] Size of the Signature
  * @property {string} [payloadSig] Signature of the hash of the ProTx fields. Signed with KeyIdOwner
  */
 
 /**
  * @class ProRegTxPayload
  * @property {number} version	uint_16	2	Provider transaction version number. Currently set to 1.
- * @property {number} protocolVersion
+ * @property {number} type
+ * @property {number} mode
+ * @property {string} collateralHash
  * @property {number} collateralIndex	uint_32	4	The collateral index.
  * @property {string} ipAddress	byte[]	16	IPv6 address in network byte order. Only IPv4 mapped addresses are allowed (to be extended in the future)
  * @property {number} port uint_16	2	Port (network byte order)
  * @property {string} keyIdOwner	CKeyID	20	The public key hash used for owner related signing (ProTx updates, governance voting)
- * @property {string} keyIdOperator	CKeyID	20	The public key hash used for operational related signing (network messages, ProTx updates)
+ * @property {string} keyIdOperator	BLSPubKey	48	The public key used for operational related signing (network messages, ProTx updates)
  * @property {string} keyIdVoting	CKeyID	20	The public key hash used for voting.
  * @property {number} operatorReward	uint_16	2	A value from 0 to 10000.
  * @property {string} scriptPayout	Script	Variable	Payee script (p2pkh/p2sh)
  * @property {string} inputsHash	uint256	32	Hash of all the outpoints of the transaction inputs
+ * @property {number} [payloadSigSize] Size of the Signature
  * @property {string} [payloadSig] Signature of the hash of the ProTx fields. Signed with KeyIdOwner
  */
 function ProRegTxPayload(options) {
@@ -55405,6 +55411,9 @@ function ProRegTxPayload(options) {
   this.version = CURRENT_PAYLOAD_VERSION;
 
   if (options) {
+    this.type = options.type;
+    this.mode = options.mode;
+    this.collateralHash = options.collateralHash;
     this.collateralIndex = options.collateralIndex;
     this.ipAddress = options.ipAddress;
     this.port = options.port;
@@ -55415,6 +55424,7 @@ function ProRegTxPayload(options) {
     this.scriptPayout = options.scriptPayout;
     this.inputsHash = options.inputsHash;
     this.payloadSig = options.payloadSig;
+    this.payloadSigSize = this.payloadSig.length * 2
     this.protocolVersion = options.protocolVersion;
   }
 }
@@ -55434,26 +55444,22 @@ ProRegTxPayload.fromBuffer = function fromBuffer(rawPayload) {
   var payload = new ProRegTxPayload();
 
   payload.version = payloadBufferReader.readUInt16LE();
-  payload.protocolVersion = payloadBufferReader.readInt32LE();
+  payload.type = payloadBufferReader.readUInt16LE();
+  payload.mode = payloadBufferReader.readUInt16LE();
+  payload.collateralHash = payloadBufferReader.read(constants.SHA256_HASH_SIZE).reverse().toString('hex');
   payload.collateralIndex = payloadBufferReader.readUInt32LE();
   payload.ipAddress = payloadBufferReader.read(16).toString('hex');
   payload.port = payloadBufferReader.readUInt16BE();
-
-  // TODO: not sure about a byte order
-  payload.keyIdOwner = payloadBufferReader.read(constants.PUBKEY_ID_SIZE).toString('hex');
-  payload.keyIdOperator = payloadBufferReader.read(constants.PUBKEY_ID_SIZE).toString('hex');
-  payload.keyIdVoting = payloadBufferReader.read(constants.PUBKEY_ID_SIZE).toString('hex');
-
+  payload.keyIdOwner = payloadBufferReader.read(constants.PUBKEY_ID_SIZE).reverse().toString('hex');
+  payload.keyIdOperator = payloadBufferReader.read(constants.BLS_PUBLIC_KEY_SIZE).toString('hex');
+  payload.keyIdVoting = payloadBufferReader.read(constants.PUBKEY_ID_SIZE).reverse().toString('hex');
+  payload.operatorReward = payloadBufferReader.readUInt16LE();
   var scriptPayoutSize = payloadBufferReader.readVarintNum();
   payload.scriptPayout = payloadBufferReader.read(scriptPayoutSize).toString('hex');
-
-  payload.operatorReward = payloadBufferReader.readUInt16LE();
   payload.inputsHash = payloadBufferReader.read(constants.SHA256_HASH_SIZE).toString('hex');
-
-  var payloadSigSize = payloadBufferReader.readVarintNum();
-
-  if (payloadSigSize > 0) {
-    payload.payloadSig = payloadBufferReader.read(payloadSigSize).toString('hex');
+  payload.payloadSigSize = payloadBufferReader.readVarintNum();
+  if (payload.payloadSigSize > 0) {
+    payload.payloadSig = payloadBufferReader.read(payload.payloadSigSize).toString('hex');
   }
 
   if (!payloadBufferReader.finished()) {
@@ -55482,24 +55488,20 @@ ProRegTxPayload.fromJSON = function fromJSON(payloadJson) {
  */
 ProRegTxPayload.prototype.validate = function () {
   Preconditions.checkArgument(utils.isUnsignedInteger(this.version), 'Expect version to be an unsigned integer');
-  Preconditions.checkArgument(utils.isUnsignedInteger(this.protocolVersion), 'Expect protocolVersion to be an unsigned integer');
+  Preconditions.checkArgumentType(this.collateralIndex, 'number', 'collateralIndex');
   Preconditions.checkArgument(utils.isUnsignedInteger(this.collateralIndex), 'Expect collateralIndex to be an unsigned integer');
-
+  Preconditions.checkArgument(utils.isSha256HexString(this.collateralHash), 'Expect collateralHash to be a hex string representing sha256 hash');
   Preconditions.checkArgument(this.ipAddress, 'string', 'Expect ipAddress to be a string');
   Preconditions.checkArgument(this.ipAddress.length === constants.IP_ADDRESS_SIZE * 2, 'Expect ipAddress to be a hex string representing an ipv6 address');
-
   Preconditions.checkArgument(utils.isUnsignedInteger(this.port), 'Expect port to be an unsigned integer');
-
   Preconditions.checkArgument(utils.isHexaString(this.keyIdOwner), 'Expect keyIdOwner to be a hex string');
   Preconditions.checkArgument(utils.isHexaString(this.keyIdOperator), 'Expect keyIdOperator to be a hex string');
   Preconditions.checkArgument(utils.isHexaString(this.keyIdVoting), 'Expect keyIdVoting to be a hex string');
   Preconditions.checkArgument(this.keyIdOwner.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
-  Preconditions.checkArgument(this.keyIdOperator.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
+  Preconditions.checkArgument(this.keyIdOperator.length === constants.BLS_PUBLIC_KEY_SIZE * 2, 'Expect keyIdOwner to be 48 bytes in size ');
   Preconditions.checkArgument(this.keyIdVoting.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
-
   Preconditions.checkArgument(utils.isUnsignedInteger(this.operatorReward), 'Expect operatorReward to be an unsigned integer');
   Preconditions.checkArgument(this.operatorReward < 10000, 'Expect operatorReward to be lesser than 10000');
-
   Preconditions.checkArgument(utils.isHexaString(this.inputsHash), 'Expect inputsHash to be a hex string');
 
   if (this.scriptPayout) {
@@ -55508,6 +55510,8 @@ ProRegTxPayload.prototype.validate = function () {
   }
 
   if (Boolean(this.payloadSig)) {
+    Preconditions.checkArgumentType(this.payloadSigSize, 'number', 'payloadSigSize');
+    Preconditions.checkArgument(utils.isUnsignedInteger(this.payloadSigSize), 'Expect payloadSigSize to be an unsigned integer');
     Preconditions.checkArgument(utils.isHexaString(this.payloadSig), 'Expect payload sig to be a hex string');
   }
 };
@@ -55524,7 +55528,9 @@ ProRegTxPayload.prototype.toJSON = function toJSON(options) {
   this.validate();
   var payloadJSON = {
     version : this.version,
-    protocolVersion: this.protocolVersion,
+    type : this.type,
+    mode : this.mode,
+    collateralHash: this.collateralHash,
     collateralIndex: this.collateralIndex,
     ipAddress: this.ipAddress,
     port: this.port,
@@ -55536,6 +55542,7 @@ ProRegTxPayload.prototype.toJSON = function toJSON(options) {
     inputsHash: this.inputsHash
   };
   if (!skipSignature) {
+    payloadJSON.payloadSigSize = this.payloadSigSize;
     payloadJSON.payloadSig = this.payloadSig;
   }
   return payloadJSON;
@@ -55556,16 +55563,18 @@ ProRegTxPayload.prototype.toBuffer = function toBuffer(options) {
 
   payloadBufferWriter
     .writeUInt16LE(this.version)
-    .writeUInt32LE(this.protocolVersion)
+    .writeUInt16LE(this.type)
+    .writeUInt16LE(this.mode)
+    .write(Buffer.from(this.collateralHash, 'hex').reverse())
     .writeInt32LE(this.collateralIndex)
     .write(Buffer.from(this.ipAddress, 'hex'))
     .writeUInt16BE(this.port)
-    .write(Buffer.from(this.keyIdOwner, 'hex'))
+    .write(Buffer.from(this.keyIdOwner, 'hex').reverse())
     .write(Buffer.from(this.keyIdOperator, 'hex'))
-    .write(Buffer.from(this.keyIdVoting, 'hex'))
+    .write(Buffer.from(this.keyIdVoting, 'hex').reverse())
+    .writeUInt16LE(this.operatorReward)
     .writeVarintNum(Buffer.from(this.scriptPayout, 'hex').length)
     .write(Buffer.from(this.scriptPayout, 'hex'))
-    .writeUInt16LE(this.operatorReward)
     .write(Buffer.from(this.inputsHash, 'hex'));
 
   if (!skipSignature) {
@@ -55583,6 +55592,7 @@ ProRegTxPayload.prototype.copy = function copy() {
 };
 
 module.exports = ProRegTxPayload;
+
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0).Buffer))
 
 /***/ }),
