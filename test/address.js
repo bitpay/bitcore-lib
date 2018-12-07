@@ -259,7 +259,7 @@ describe('Address', function() {
     it('should error because of unrecognized data format', function() {
       (function() {
         return new Address(new Error());
-      }).should.throw(bitcore.errors.InvalidArgument);
+      }).should.throw('Must provide a `hash` or `hashBuffer` property');
     });
 
     it('should error because of incorrect format for pubkey hash', function() {

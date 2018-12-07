@@ -4,7 +4,6 @@
 /* jshint latedef: false */
 var should = require('chai').should();
 var expect = require('chai').expect;
-var _ = require('lodash');
 var sinon = require('sinon');
 
 var bitcore = require('../..');
@@ -16,9 +15,9 @@ var PrivateKey = bitcore.PrivateKey;
 var Script = bitcore.Script;
 var Interpreter = bitcore.Script.Interpreter;
 var Address = bitcore.Address;
-var Networks = bitcore.Networks;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
+var JSUtil = require('../../lib/util/js');
 
 var transactionVector = require('../data/tx_creation');
 
@@ -371,11 +370,13 @@ describe('Transaction', function() {
       transaction.outputs[1].satoshis.should.equal(10000);
     });
     it('fee per kb can be set up manually', function() {
-      var inputs = _.map(_.range(10), function(i) {
-        var utxo = _.clone(simpleUtxoWith100000Satoshis);
+      var inputs = [];
+      for (var i = 0; i < 10; i++) {
+        var utxo = Object.assign({}, simpleUtxoWith100000Satoshis);
         utxo.outputIndex = i;
-        return utxo;
-      });
+        inputs.push(utxo);
+      }
+      
       var transaction = new Transaction()
         .from(inputs)
         .to(toAddress, 950000)
@@ -978,7 +979,7 @@ describe('Transaction', function() {
     });
 
     it('allows the user to randomize the output order', function() {
-      var shuffle = sinon.stub(_, 'shuffle');
+      var shuffle = sinon.stub(JSUtil, 'shuffle');
       shuffle.onFirstCall().returns([out2, out1, out4, out3]);
 
       transaction._changeIndex.should.equal(3);
@@ -989,7 +990,7 @@ describe('Transaction', function() {
       transaction.outputs[3].should.equal(out3);
       transaction._changeIndex.should.equal(2);
 
-      _.shuffle.restore();
+      JSUtil.shuffle.restore();
     });
 
     it('fails if the provided function does not work as expected', function() {
