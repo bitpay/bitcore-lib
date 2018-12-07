@@ -1573,15 +1573,15 @@ describe('Transaction', function() {
     describe('Provider Service Update Transaction ', function () {
 
       it('Should parse the payload', function () {
-        var transactionHex = '0300020001a45f4e6af45dfc15d44147ec6e5ab0d8d2048ea2e95e2820f7cdfd1c1b917509000000006b483045022100c78d22ea8df7a17d2491b6be545c577b0659b551e2e75de42ee31cd396e46745022035e6bfa933a5c4d35cd13dc764572f886a9f1139aae61d54881fe3be6407b74c0121022bf34ca08d39eb045fbfda9d5aaedef1f1e16801fe0cfe8375b054e0810f50defeffffff01b30f6eb7060000001976a914e0cd9defb139b9433d481b20dd15bbbb94a1aa0c88ac00000000b40100a45f4e6af45dfc15d44147ec6e5ab0d8d2048ea2e95e2820f7cdfd1c1b9175094312010000000000000000000000ffff0102030604d41976a9148603df234fe8f26064439de60ed13eb92d76cc5588ac8c62104a85a6efb165315d61e1660ee7e25c1831d240c35878053929ba377c88411fdaf84b78552f91c99eb267efec1be0e63b7459e66f142daabb0345477842592b68ce0f59b163657c480061fe834a888f9a9697e7635b36b4ede84a2374ad9831';
+        var transactionHex = '03000200017b1100a3e33b86b1e9948a1091648b44ac2e819850e321bbbbd9a7825cf173c8000000006a473044022028f2ca816270068494686ed25ff64590c3a04f0b730d7e52e751adf640a9e4de02200379a4757738e83c24d25988c6cb4aed39120c985347a13e35401da41458ee0e012103a306d65010b0cb287de227a22b978973a0902174fe8bec61519d91183c97d9a1feffffff01e5f5b47f000000001976a914b45868066caf1c974bd7d0fb42c896cecdeccc9588ac00000000ce01007b1100a3e33b86b1e9948a1091648b44ac2e819850e321bbbbd9a7825cf173c800000000000000000000ffffc38d8f314e1f1976a9143e1f214c329557ae3711cb173bcf04d00762f3ff88ac3f7685789f3e6480ba6ed402285da0ed9cd0558265603fa8bad0eec0572cf1eb1746f9c46d654879d9afd67a439d4bc2ef7c1b26de2e59897fa83242d9bd819ff46c71d9e3d7aa1772f4003349b777140bedebded0a42efd64baf34f59c4a79c128df711c10a45505a0c2a94a5908f1642cbb56730f16b2cc2419a45890fb8ff';
 
         var tx = new Transaction(transactionHex);
         expect(tx.extraPayload.version).to.be.equal(1);
-        expect(tx.extraPayload.proTXHash).to.be.equal('0975911b1cfdcdf720285ee9a28e04d2d8b05a6eec4741d415fc5df46a4e5fa4');
+        expect(tx.extraPayload.proTXHash).to.be.equal('c873f15c82a7d9bbbb21e35098812eac448b6491108a94e9b1863be3a300117b');
         // 1.2.3.6 mapped to IPv6
-        expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffff01020306');
-        expect(tx.extraPayload.port).to.be.equal(1236);
-        expect(new Script(tx.extraPayload.scriptOperatorPayout).toAddress('testnet').toString()).to.be.equal('yYY42uyDZk8Rp32SSyjAAy2pUtzkAT2WDb');
+        expect(tx.extraPayload.ipAddress).to.be.equal('00000000000000000000ffffc38d8f31');
+        expect(tx.extraPayload.port).to.be.equal(19999);
+        expect(new Script(tx.extraPayload.scriptOperatorPayout).toAddress('testnet').toString()).to.be.equal('yRyv33x1PzwSTW3B2DV3XXRyr7Z5M2P4V7');
         // TODO: Add signature verification
       });
 
