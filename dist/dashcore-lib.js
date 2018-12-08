@@ -55500,7 +55500,7 @@ ProRegTxPayload.prototype.validate = function () {
   Preconditions.checkArgument(this.keyIdOwner.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
   Preconditions.checkArgument(this.keyIdOperator.length === constants.BLS_PUBLIC_KEY_SIZE * 2, 'Expect keyIdOwner to be 48 bytes in size ');
   Preconditions.checkArgument(this.keyIdVoting.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
-  Preconditions.checkArgument(utils.isUnsignedInteger(this.operatorReward), 'Expect operatorReward to be an unsigned integer');
+  Preconditions.checkArgumentType(this.operatorReward, 'number', 'operatorReward');
   Preconditions.checkArgument(this.operatorReward < 10000, 'Expect operatorReward to be lesser than 10000');
   Preconditions.checkArgument(utils.isHexaString(this.inputsHash), 'Expect inputsHash to be a hex string');
 
@@ -55674,17 +55674,13 @@ ProUpServTxPayload.fromBuffer = function (rawPayload) {
 
   payload.version = payloadBufferReader.readUInt16LE();
   payload.proTXHash = payloadBufferReader.read(HASH_SIZE).reverse().toString('hex');
-  /* As for now, we decided to keep an ip address.
-  It looks like no one at the moment is using it except block explorers.
-   */
   payload.ipAddress = payloadBufferReader.read(IP_ADDRESS_SIZE).toString('hex');
-// var ipv6 = payload.ipAddress.match(/.{1,4}/g).join(':');
+  // var ipv6 = payload.ipAddress.match(/.{1,4}/g).join(':');
   payload.port = payloadBufferReader.readUInt16BE();
   var port = payload.port;
-// Note: can be 0 if not updated!
+  // Note: can be 0 if not updated!
   var scriptOperatorPayoutSize = payloadBufferReader.readVarintNum();
   payload.scriptOperatorPayout = payloadBufferReader.read(scriptOperatorPayoutSize).toString('hex');
-
   payload.inputsHash = payloadBufferReader.read(HASH_SIZE).reverse().toString('hex');
   payload.payloadSig = payloadBufferReader.read(BLSSIG_SIZE).toString('hex');
 
@@ -56066,6 +56062,7 @@ var isHexString = utils.isHexaString;
 var CURRENT_PAYLOAD_VERSION = 1;
 var HASH_SIZE = constants.SHA256_HASH_SIZE;
 
+
 /**
  * @typedef {Object} ProUpRevTransactionPayloadJSON
  * @property {number} version
@@ -56083,7 +56080,7 @@ var HASH_SIZE = constants.SHA256_HASH_SIZE;
  * @property {number} reason uint_16	2	The reason for revoking the key.
  * @property {string} inputsHash uint256	32	Hash of all the outpoints of the transaction inputs
  * @property {number} payloadSigSize compactSize uint	1-9	Size of the Signature
- * @property {string} payloadSig vector	Variable	Signature of the hash of the ProTx fields. Signed by the Operator.
+ * @property {string} payloadSig BLSSig Signature of the hash of the ProTx fields. Signed by the Operator.
  */
 function ProUpRevTxPayload(payloadJSON) {
   AbstractPayload.call(this);
@@ -56204,7 +56201,7 @@ ProUpRevTxPayload.validatePayloadJSON = function (payload) {
 
   // if (payload.payloadSig) {
   //   Preconditions.checkArgument(isHexString(payload.payloadSig), 'expected payloadSig to be a hex string but got ' + typeof payload.payloadSig);
-  //   Preconditions.checkArgument(payload.payloadSig.length === constants.COMPACT_SIGNATURE_SIZE * 2, 'Invalid payloadSig size');
+  //   Preconditions.checkArgument(payload.payloadSig.length === constants.BLS_SIGNATURE_SIZE * 2, 'Invalid payloadSig size');
   // }
 };
 
