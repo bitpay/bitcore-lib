@@ -55489,7 +55489,6 @@ ProRegTxPayload.fromJSON = function fromJSON(payloadJson) {
 ProRegTxPayload.prototype.validate = function () {
   Preconditions.checkArgument(utils.isUnsignedInteger(this.version), 'Expect version to be an unsigned integer');
   Preconditions.checkArgumentType(this.collateralIndex, 'number', 'collateralIndex');
-  Preconditions.checkArgument(utils.isUnsignedInteger(this.collateralIndex), 'Expect collateralIndex to be an unsigned integer');
   Preconditions.checkArgument(utils.isSha256HexString(this.collateralHash), 'Expect collateralHash to be a hex string representing sha256 hash');
   Preconditions.checkArgument(this.ipAddress, 'string', 'Expect ipAddress to be a string');
   Preconditions.checkArgument(this.ipAddress.length === constants.IP_ADDRESS_SIZE * 2, 'Expect ipAddress to be a hex string representing an ipv6 address');
@@ -55501,7 +55500,7 @@ ProRegTxPayload.prototype.validate = function () {
   Preconditions.checkArgument(this.keyIdOperator.length === constants.BLS_PUBLIC_KEY_SIZE * 2, 'Expect keyIdOwner to be 48 bytes in size ');
   Preconditions.checkArgument(this.keyIdVoting.length === constants.PUBKEY_ID_SIZE * 2, 'Expect keyIdOwner to be 20 bytes in size ');
   Preconditions.checkArgumentType(this.operatorReward, 'number', 'operatorReward');
-  Preconditions.checkArgument(this.operatorReward < 10000, 'Expect operatorReward to be lesser than 10000');
+  Preconditions.checkArgument(this.operatorReward <= 10000, 'Expect operatorReward to be lesser than or equal 10000');
   Preconditions.checkArgument(utils.isHexaString(this.inputsHash), 'Expect inputsHash to be a hex string');
 
   if (this.scriptPayout) {
