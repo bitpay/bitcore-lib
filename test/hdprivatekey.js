@@ -1,6 +1,5 @@
 'use strict';
 /* jshint unused: false */
-var _ = require('lodash');
 var assert = require('assert');
 var should = require('chai').should();
 var expect = require('chai').expect;
@@ -73,10 +72,9 @@ describe('HDPrivate key interface', function() {
   });
 
   it('builds a json keeping the structure and same members', function() {
-    assert(_.isEqual(
-      new HDPrivateKey(json).toJSON(),
-      new HDPrivateKey(xprivkey).toJSON()
-    ));
+    var a = new HDPrivateKey(json).toJSON();
+    var b = new HDPrivateKey(xprivkey).toJSON();
+    a.should.deep.equal(b);
   });
 
   describe('instantiation', function() {
@@ -290,9 +288,9 @@ describe('HDPrivate key interface', function() {
     it('toObject leaves no Buffer instances', function() {
       var privKey = new HDPrivateKey(xprivkey);
       var object = privKey.toObject();
-      _.each(_.values(object), function(value) {
+      for (const [key, value] of Object.entries(object)) {
         expect(BufferUtil.isBuffer(value)).to.equal(false);
-      });
+      }
     });
     it('roundtrips toObject', function() {
       expect(HDPrivateKey.fromObject(new HDPrivateKey(xprivkey).toObject()).xprivkey).to.equal(xprivkey);
