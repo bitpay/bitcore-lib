@@ -310,7 +310,7 @@ describe('Transaction', function() {
         .change(changeAddress)
         .sign(privateKey);
       transaction.outputs.length.should.equal(2);
-      transaction.outputs[1].satoshis.should.equal(400000);
+      transaction.outputs[1].satoshis.should.equal(477636);
       transaction.outputs[1].script.toString()
         .should.equal(Script.fromAddress(changeAddress).toString());
       var actual = transaction.getChangeOutput().script.toString();
@@ -384,7 +384,7 @@ describe('Transaction', function() {
         .sign(privateKey);
       transaction._estimateSize().should.be.within(1000, 1999);
       transaction.outputs.length.should.equal(2);
-      transaction.outputs[1].satoshis.should.equal(34000);
+      transaction.outputs[1].satoshis.should.equal(40687);
     });
     it('if satoshis are invalid', function() {
       var transaction = new Transaction()
@@ -935,7 +935,7 @@ describe('Transaction', function() {
         .change(changeAddress)
         .to(toAddress, 1000);
       transaction.inputAmount.should.equal(100000000);
-      transaction.outputAmount.should.equal(99900000);
+      transaction.outputAmount.should.equal(99977636);
     });
     it('returns correct values for coinjoin transaction', function() {
       // see livenet tx c16467eea05f1f30d50ed6dbc06a38539d9bb15110e4b7dc6653046a3678a718
@@ -1007,7 +1007,7 @@ describe('Transaction', function() {
       expect(function() {
         tx.shuffleOutputs();
       }).to.not.throw(errors.Transaction.InvalidSorting);
-    })
+    });
   });
 
   describe('clearOutputs', function() {
@@ -1027,7 +1027,7 @@ describe('Transaction', function() {
       tx.outputs.length.should.equal(2);
       tx.outputs[0].satoshis.should.equal(10000000);
       tx.outputs[0].script.toAddress().toString().should.equal(toAddress);
-      tx.outputs[1].satoshis.should.equal(89900000);
+      tx.outputs[1].satoshis.should.equal(89977636);
       tx.outputs[1].script.toAddress().toString().should.equal(changeAddress);
     });
 
