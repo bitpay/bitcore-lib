@@ -15,13 +15,13 @@ var MultiSigInput = bitcore.Transaction.Input.MultiSig;
 
 describe('MultiSigInput', function() {
 
-  var privateKey1 = new PrivateKey('KwF9LjRraetZuEjR8VqEq539z137LW5anYDUnVK11vM3mNMHTWb4');
-  var privateKey2 = new PrivateKey('L4PqnaPTCkYhAqH3YQmefjxQP6zRcF4EJbdGqR8v6adtG9XSsadY');
-  var privateKey3 = new PrivateKey('L4CTX79zFeksZTyyoFuPQAySfmP7fL3R41gWKTuepuN7hxuNuJwV');
+  var privateKey1 = new PrivateKey('H3FzwCx4EB3V2EnexVteMqYzK1SziECVZowbJnD5BEXDw8aVB5Fh');
+  var privateKey2 = new PrivateKey('H2A111ExtrxFkja7S54wzAHZ5BxSVn9EbR6ZyfG72GnkzDgwH2Lm');
+  var privateKey3 = new PrivateKey('H2rTERGvHxwQqbodT4vy6QYeX3GRXG6QYHddqPPs6hiBdxWvbDFZ');
   var public1 = privateKey1.publicKey;
   var public2 = privateKey2.publicKey;
   var public3 = privateKey3.publicKey;
-  var address = new Address('33zbk2aSZYdNbRsMPPt6jgy6Kq1kQreqeb');
+  var address = new Address('PaYRw2bPirMHMTKRhZ1WrudKaMEaWHZCKz');
 
   var output = {
     txId: '66e64ef8a3b384164b78453fa8c8194de9a473ba14f89485a0e433699daec140',
@@ -71,14 +71,14 @@ describe('MultiSigInput', function() {
       .to(address, 1000000);
     var input = transaction.inputs[0];
 
-    _.all(input.publicKeysWithoutSignature(), function(publicKeyMissing) {
+    _.every(input.publicKeysWithoutSignature(), function(publicKeyMissing) {
       var serialized = publicKeyMissing.toString();
       return serialized === public1.toString() ||
               serialized === public2.toString() ||
               serialized === public3.toString();
     }).should.equal(true);
     transaction.sign(privateKey1);
-    _.all(input.publicKeysWithoutSignature(), function(publicKeyMissing) {
+    _.every(input.publicKeysWithoutSignature(), function(publicKeyMissing) {
       var serialized = publicKeyMissing.toString();
       return serialized === public2.toString() ||
               serialized === public3.toString();

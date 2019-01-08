@@ -15,8 +15,8 @@ var errors = bitcore.errors;
 
 describe('TransactionSignature', function() {
 
-  var fromAddress = 'mszYqVnqKoQx4jcTdJXxwKAissE3Jbrrc1';
-  var privateKey = 'cSBnVM4xvxarwGQuAfQFwqDg9k5tErHUHzgWsEfD4zdwUasvqRVY';
+  var fromAddress = 'PnQrZdpaU6iLg6RuKnKP3D6h4XEQstYryw';
+  var privateKey = 'fcaf3e008bcaa953cad5c5a7b5e79d0d9204e9e39d52625de6171fcd4c979fff';
   var simpleUtxoWith100000Satoshis = {
     address: fromAddress,
     txId: 'a477af6b2667c29670467e4e0728b685ee07b240235771862318e29ddbe58458',

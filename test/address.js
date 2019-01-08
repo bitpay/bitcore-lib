@@ -250,6 +250,12 @@ describe('Address', function() {
       Address.fromString(str, Networks.livenet).toString().should.equal(str);
     });
 
+    it('should throw with bad network param', function() {
+      (function(){
+        Address.fromString(str, 'somenet');
+      }).should.throw('Unknown network');
+    });
+
     it('should error because of unrecognized data format', function() {
       (function() {
         return new Address(new Error());
@@ -543,6 +549,11 @@ describe('Address', function() {
     it('works on testnet also', function() {
       var address = Address.createMultisig(publics, 2, Networks.testnet);
       address.toString().should.equal('2N7T3TAetJrSCruQ39aNrJvYLhG1LJosujf');
+    });
+
+    it('can create an address from a set of public keys with a nested witness program', function() {
+      var address = Address.createMultisig(publics, 2, Networks.livenet, true);
+      address.toString().should.equal('3PpK1bBqUmPK3Q6QPSUK7BQSZ1DMWL6aes');
     });
 
     it('can also be created by Address.createMultisig', function() {
